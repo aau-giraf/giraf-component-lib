@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger>
+
+    <dataSet config="GirafStart2014OasisLibUnspecified.aar" >
+        <source path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\build\exploded-bundles\GirafStart2014OasisLibUnspecified.aar\res" >
+            <file
+                name="ic_launcher"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\build\exploded-bundles\GirafStart2014OasisLibUnspecified.aar\res\drawable-hdpi\ic_launcher.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\build\exploded-bundles\GirafStart2014OasisLibUnspecified.aar\res\drawable-ldpi\ic_launcher.png"
+                qualifiers="ldpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\build\exploded-bundles\GirafStart2014OasisLibUnspecified.aar\res\drawable-mdpi\ic_launcher.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="main"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\build\exploded-bundles\GirafStart2014OasisLibUnspecified.aar\res\layout\main.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\build\exploded-bundles\GirafStart2014OasisLibUnspecified.aar\res\values\values.xml"
+                qualifiers="" >
+                <string name="app_name" >OasisLib
+                </string>
+                <string name="hello" >Hello World!
+                </string>
+            </file>
+        </source>
+    </dataSet>
+    <dataSet config="main" >
+        <source path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res" >
+            <file
+                name="cancel_icon"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable\cancel_icon.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="colorborder"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable\colorborder.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="gbackground"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable\gbackground.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="gbackgroundlight"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable\gbackgroundlight.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="gbutton"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable\gbutton.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="gcal_icon"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable\gcal_icon.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="gdialog_background"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable\gdialog_background.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="ggiraficon_offline"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable\ggiraficon_offline.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="ggiraficon_online"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable\ggiraficon_online.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="ggiraficon_syncing"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable\ggiraficon_syncing.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="glistitem"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable\glistitem.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="glogout_icon"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable\glogout_icon.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="gprofileselecter_background"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable\gprofileselecter_background.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="gprofile_pic_box"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable\gprofile_pic_box.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="grow"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable\grow.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="gtooltip"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable\gtooltip.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="gtooltip_arrow"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable\gtooltip_arrow.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="gverifybutton"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable\gverifybutton.xml"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="no_profile_pic"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable\no_profile_pic.png"
+                qualifiers=""
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable-hdpi\ic_launcher.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ok_icon"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable-hdpi\ok_icon.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable-ldpi\ic_launcher.png"
+                qualifiers="ldpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable-mdpi\ic_launcher.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\drawable-xhdpi\ic_launcher.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="colorpicker"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\layout\colorpicker.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="gdialog_layout"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\layout\gdialog_layout.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="gprofile_row"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\layout\gprofile_row.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="gtooltip_layout"
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\layout\gtooltip_layout.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\values\integers.xml"
+                qualifiers="" >
+                <integer-array name="appcolors" >
+                    <item>
+0xFFFFDC4A
+                    </item>
+                    <item>
+0xFFA47AE2
+                    </item>
+                    <item>
+0xFF4986E7
+                    </item>
+                    <item>
+0xFF16A765
+                    </item>
+                    <item>
+0xFFFA573C
+                    </item>
+                    <item>
+0xFFAC725E
+                    </item>
+                    <item>
+0xFFFF99BE
+                    </item>
+                    <item>
+0xFFFF7F4D
+                    </item>
+                    <item>
+0xFFB3DC6C
+                    </item>
+                    <item>
+0xFF9FC6E7
+                    </item>
+                </integer-array>
+            </file>
+            <file
+                path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\res\values\strings.xml"
+                qualifiers="" >
+                <string name="mOfflineString" >ikke i forbindelse med Savannah-serveren, indholdet i GIRAF er derfor muligvis ikke det nyeste.
+                </string>
+                <string name="mPreString" >GIRAF er 
+                </string>
+
+                <string-array name="week_days" >
+                    <item>
+Søndag
+                    </item>
+                    <item>
+Mandag
+                    </item>
+                    <item>
+Tirsdag
+                    </item>
+                    <item>
+Onsdag
+                    </item>
+                    <item>
+Torsdag
+                    </item>
+                    <item>
+Fredag
+                    </item>
+                    <item>
+Lørdag
+                    </item>
+                </string-array>
+
+                <string name="mOnlineString" >fuldt opdateret med det nyeste indhold.
+                </string>
+                <string name="mSyncingString" >i ved at synkronisere indhold med Savannah-serveren.
+                </string>
+
+                <string-array name="months" >
+                    <item>
+Januar
+                    </item>
+                    <item>
+Februar
+                    </item>
+                    <item>
+Marts
+                    </item>
+                    <item>
+April
+                    </item>
+                    <item>
+Maj
+                    </item>
+                    <item>
+Juni
+                    </item>
+                    <item>
+Juli
+                    </item>
+                    <item>
+August
+                    </item>
+                    <item>
+September
+                    </item>
+                    <item>
+Oktober
+                    </item>
+                    <item>
+November
+                    </item>
+                    <item>
+December
+                    </item>
+                </string-array>
+
+                <color name="gBrowncolor" >#FF9E6435
+                </color>
+            </file>
+        </source>
+        <source path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\build\res\rs\release" />
+        <source path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\build\res\generated\release" />
+    </dataSet>
+    <dataSet config="release" >
+        <source path="D:\Windows 7\Dokumenter\SVN\P6 - SW615F14\Temp Workspace\GirafStart2014\GIRAF_Components\build-types\release\res" />
+    </dataSet>
+
+</merger>

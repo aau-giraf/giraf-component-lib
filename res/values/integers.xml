@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+     <integer-array name="appcolors">
+        <item>0xFFFFDC4A</item>
+        <item>0xFFA47AE2</item>
+    	<item>0xFF4986E7</item>
+    	<item>0xFF16A765</item>
+    	<item>0xFFFA573C</item>
+    	<item>0xFFAC725E</item>
+    	<item>0xFFFF99BE</item>
+    	<item>0xFFFF7F4D</item>
+    	<item>0xFFB3DC6C</item>
+    	<item>0xFF9FC6E7</item>   
+    </integer-array>
+</resources>
