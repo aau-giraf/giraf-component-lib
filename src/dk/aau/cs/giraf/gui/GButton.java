@@ -56,17 +56,24 @@ public class GButton extends Button {
      * Theme support pending.
      */
     private void setStyle() {
-        this.setBackgroundResource(R.drawable.gbutton);
+        //this.setBackgroundResource(R.drawable.gbutton);
 
         //default colors
         this.setTextColor(Color.parseColor("#9E6435"));
-        int colorStart = Color.parseColor("#FFFFD96E");
+        //int colorStart = Color.parseColor("#FFFFD96E");
+        int colorStart = Color.parseColor("#FFFFFFFF");
 
         int[] colors = new int[2];
         colors[0] = colorStart;
         colors[1] = GStyler.calculateGradientColor(colorStart);
 
         GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors);
+
+        gd.setCornerRadius(10);
+        gd.setStroke(3, GStyler.calculateGradientColor(colorStart, 0.75f));
+
+        this.setPadding(20,10,20,10);
+
         this.setBackgroundDrawable(gd);
     }
     

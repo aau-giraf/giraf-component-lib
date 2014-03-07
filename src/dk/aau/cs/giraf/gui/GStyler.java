@@ -8,8 +8,6 @@ import android.graphics.drawable.Drawable;
  * Created by Malakahh on 3/7/14.
  */
 class GStyler {
-    private static final float shadingMultiplier = 1.2f;
-
     /**
      * Scales the drawable to match a certain height.
      * @param drawable Drawable to scale.
@@ -30,15 +28,20 @@ class GStyler {
 
     public static int calculateGradientColor(int color)
     {
+        return calculateGradientColor(color, 0.8f);
+    }
+
+    public static int calculateGradientColor(int color, float shadingMultiplier)
+    {
         //collect the RGB values from the hex color code via bit-shifting
         int red = color & 0xFF0000;
         int green = color & 0xFF00;
         int blue = color & 0xFF;
 
         //darken the color by the shadingMultiplier coefficient
-        red = (int)(red/shadingMultiplier);
-        green = (int)(green/shadingMultiplier);
-        blue = (int)(blue/shadingMultiplier);
+        red = (int)(red*shadingMultiplier);
+        green = (int)(green*shadingMultiplier);
+        blue = (int)(blue*shadingMultiplier);
 
         //re-assemble into new color
         //bitwise AND is there to ensure that no data is spilling from red and green
