@@ -31,8 +31,8 @@ class GStyler {
     public static int calculateGradientColor(int color)
     {
         //collect the RGB values from the hex color code via bit-shifting
-        int red = color & (0xFF << 16);
-        int green = color & (0xFF << 8);
+        int red = color & 0xFF0000;
+        int green = color & 0xFF00;
         int blue = color & 0xFF;
 
         //darken the color by the shadingMultiplier coefficient
