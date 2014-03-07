@@ -24,6 +24,8 @@
         <item >November</item>
         <item >December</item>
     </string-array>
+    <string name="cancelButtonText"></string>
+    <string name="verifyButtonText"></string>
     <string name="mPreString">GIRAF er </string>
     <string name="mOnlineString">fuldt opdateret med det nyeste indhold.</string>
     <string name="mSyncingString">i ved at synkronisere indhold med Savannah-serveren.</string>
