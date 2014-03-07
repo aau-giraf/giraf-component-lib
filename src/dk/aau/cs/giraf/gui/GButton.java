@@ -60,8 +60,7 @@ public class GButton extends Button {
 
         //default colors
         this.setTextColor(Color.parseColor("#9E6435"));
-        //int colorStart = Color.parseColor("#FFFFD96E");
-        int colorStart = Color.parseColor("#FFFFFFFF");
+        int colorStart = Color.parseColor("#FFFFD96E");
 
         int[] colors = new int[2];
         colors[0] = colorStart;
