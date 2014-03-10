@@ -8,7 +8,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.util.AttributeSet;
+import android.util.StateSet;
 import android.widget.Button;
 
 public class GButton extends Button {
@@ -59,21 +61,39 @@ public class GButton extends Button {
         //this.setBackgroundResource(R.drawable.gbutton);
 
         //default colors
-        this.setTextColor(Color.parseColor("#9E6435"));
-        int colorStart = Color.parseColor("#FFFFD96E");
+        this.setTextColor(Color.BLACK);
+        int colorStart = Color.parseColor("#FFFFFFFF");
 
+        //this will be the backrounddrawable
+        StateListDrawable stateListDrawable = new StateListDrawable();
+
+        //default colors
         int[] colors = new int[2];
         colors[0] = colorStart;
         colors[1] = GStyler.calculateGradientColor(colorStart);
 
-        GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors);
+        //colors when pressed
+        int[] colorsPressed = new int[2];
+        colorsPressed[0] = colors[1];
+        colorsPressed[1] = GStyler.calculateGradientColor(colorsPressed[0]);
 
+        //make the two gradients
+        GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors);
+        GradientDrawable gdPressed = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colorsPressed);
+
+        //round cornors and give edges
         gd.setCornerRadius(10);
-        gd.setStroke(3, GStyler.calculateGradientColor(colorStart, 0.75f));
+        gd.setStroke(3, GStyler.calculateGradientColor(colors[0], 0.75f));
+        gdPressed.setCornerRadius(10);
+        gdPressed.setStroke(3, GStyler.calculateGradientColor(colorsPressed[0], 0.75f));
+
+        //set state_pressed to gdPressed and all others to gd
+        stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, gdPressed);
+        stateListDrawable.addState(StateSet.WILD_CARD, gd);
 
         this.setPadding(20,10,20,10);
 
-        this.setBackgroundDrawable(gd);
+        this.setBackgroundDrawable(stateListDrawable);
     }
     
     /**
