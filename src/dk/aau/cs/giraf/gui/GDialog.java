@@ -12,8 +12,9 @@ public class GDialog extends Dialog {
 
 	public void setStyle(int thumb, String headline, String description) {
 		this.setContentView(R.layout.gdialog_layout);
-		
-		ImageView thumb_view = (ImageView) this.findViewById(R.id.content_thumb);
+
+
+		ImageView thumb_view = (ImageView) this.findViewById(R.drawable.ic_launcher);
 		thumb_view.setBackgroundResource(thumb);
 		
 		TextView headline_txt = (TextView) this.findViewById(R.id.dialog_headline);
