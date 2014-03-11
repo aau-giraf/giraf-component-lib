@@ -1,11 +1,13 @@
 package dk.aau.cs.giraf.gui;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 /**
- * Created by Malakahh on 3/7/14.
+ * Contains helper functions which are used by the GComponent GUI Library.
+ * WOKA WOKA MOKA FON
  */
 class GStyler {
     /**
@@ -14,6 +16,20 @@ class GStyler {
      * @param height Height to scale the drawable to.
      * @return Scaled drawable.
      */
+
+    public static int buttonBaseColor = Color.parseColor("#FFFFD96E");
+    public static int dialogBoxBaseColor = Color.parseColor("#FFFEFEFE");
+
+    public static int[] getColors(int color)
+    {
+        int[] tmp = new int[2];
+
+        tmp[0] = color;
+        tmp[1] = calculateGradientColor(color);
+
+        return tmp;
+    }
+
     public static Drawable scaleDrawable(Drawable drawable, int height){
         Drawable result = drawable;
         Bitmap tempIcon = ((BitmapDrawable)result).getBitmap();
