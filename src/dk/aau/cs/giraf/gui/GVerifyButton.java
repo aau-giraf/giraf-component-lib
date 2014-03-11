@@ -42,7 +42,7 @@ public class GVerifyButton extends GButton {
     public void onFinishInflate() {
         if(this.getText() == "")
         {
-            this.setText(R.string.verify);
+            this.setText(R.string.verifyButtonString);
         }
     }
 }

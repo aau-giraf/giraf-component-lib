@@ -42,7 +42,7 @@ public final class GCancelButton extends GButton {
     public void onFinishInflate() {
         if(this.getText() == "")
         {
-            this.setText(R.string.cancel);
+            this.setText(R.string.cancelButtonText);
         }
     }
 }
