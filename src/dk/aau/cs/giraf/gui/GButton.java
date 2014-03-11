@@ -17,6 +17,40 @@ public class GButton extends Button {
 
     private Drawable buttonImage;
     private boolean isScaled = false;
+    private float dpScale;
+
+
+    /**
+     * @param context
+     */
+    public GButton(Context context) {
+        super(context);
+        // TODO Auto-generated constructor
+        this.setStyle();
+    }
+
+    /**
+     * @param context
+     * @param attrs
+     */
+    public GButton(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        // TODO Auto-generated constructor stub
+        this.setStyle();
+        //thatID = attrs.getAttributeIntValue("http://schemas.android.com/apk/res/android", "drawableLeft", 0);
+
+    }
+
+    /**
+     * @param context
+     * @param attrs
+     * @param defStyle
+     */
+    public GButton(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        // TODO Auto-generated constructor stub
+        this.setStyle();
+    }
 
     @Override
     public void setCompoundDrawablesWithIntrinsicBounds(Drawable left, Drawable top, Drawable right, Drawable bottom)
@@ -53,16 +87,27 @@ public class GButton extends Button {
             super.setCompoundDrawablesWithIntrinsicBounds(buttonImage, null, null, null);
         }
     }
+
+    /**
+     * Converts dp to pixels for device indepedency
+     * @param dpInput number of dp
+     * @return number of pixels
+     */
+    private int dpToPixel(int dpInput)
+    {
+        return (int) (dpInput * dpScale  + 0.5f);
+    }
+
     /**
      * Styles the button according to the giraf standards.
      * Theme support pending.
      */
     private void setStyle() {
-        //this.setBackgroundResource(R.drawable.gbutton);
+        dpScale = getContext().getResources().getDisplayMetrics().density;
 
         //default colors
         this.setTextColor(Color.BLACK);
-        int colorStart = Color.parseColor("#FFFFFFFF");
+        int colorStart = Color.parseColor("#FFFFD96E");
 
         //this will be the backrounddrawable
         StateListDrawable stateListDrawable = new StateListDrawable();
@@ -91,41 +136,11 @@ public class GButton extends Button {
         stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, gdPressed);
         stateListDrawable.addState(StateSet.WILD_CARD, gd);
 
-        this.setPadding(20,10,20,10);
+        this.setPadding(dpToPixel(20),dpToPixel(10),dpToPixel(20),dpToPixel(10));
+        this.setCompoundDrawablePadding(dpToPixel(5));
 
         this.setBackgroundDrawable(stateListDrawable);
     }
-    
-    /**
-     * @param context
-     */
-    public GButton(Context context) {
-        super(context);
-        // TODO Auto-generated constructor
-        this.setStyle();
-    }
 
-    /**
-     * @param context
-     * @param attrs
-     */
-    public GButton(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        // TODO Auto-generated constructor stub
-        this.setStyle();
-        //thatID = attrs.getAttributeIntValue("http://schemas.android.com/apk/res/android", "drawableLeft", 0);
-
-    }
-
-    /**
-     * @param context
-     * @param attrs
-     * @param defStyle
-     */
-    public GButton(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        // TODO Auto-generated constructor stub
-        this.setStyle();
-    }
 
 }
