@@ -66,6 +66,7 @@ public class GDialog extends Dialog {
         colors = GStyler.getColors(GStyler.dialogBoxBaseColor);
 
 
+        //Set the properties for the new drawable
         GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors);
         gd.setCornerRadius(10);
         gd.setStroke(2, GStyler.calculateGradientColor(colors[0], .46f), 0f, 0f);

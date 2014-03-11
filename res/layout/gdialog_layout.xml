@@ -22,7 +22,7 @@
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/gdialog_background"
+        android:background="#FFFEFEFE"
         android:padding="25dp"
 
         >
