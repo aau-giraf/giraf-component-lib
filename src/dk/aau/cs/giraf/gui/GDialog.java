@@ -15,9 +15,9 @@ import android.widget.TextView;
 public class GDialog extends Dialog {
 	
 	private final GDialog mDialog;
-    private final View.OnClickListener _task;
 	
 	public GDialog(Context context, int drawable, String headline, String text, android.view.View.OnClickListener task) {
+<<<<<<< HEAD
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
         this.setContent(drawable, headline, text);
 
@@ -77,6 +77,21 @@ public class GDialog extends Dialog {
         });
     }
 
+=======
+		super(context, android.R.style.Theme_Translucent_NoTitleBar);
+		this.setContent(drawable, headline, text);
+		
+		mDialog = this;
+		
+		this.findViewById(R.id.dialog_cancel).setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				mDialog.cancel();	
+			}
+		});
+		
+		this.findViewById(R.id.dialog_ok).setOnClickListener(task);
+	}
+>>>>>>> ce994b4b2c608c128c4ad2e757369c5f1a03842d
     /**
      * description: sets the contents of a dialog box
      * @param thumb - The icon shown in the dialog box

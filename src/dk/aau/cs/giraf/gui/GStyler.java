@@ -1,5 +1,6 @@
 package dk.aau.cs.giraf.gui;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -7,18 +8,15 @@ import android.graphics.drawable.Drawable;
 
 /**
  * Contains helper functions which are used by the GComponent GUI Library.
- * WOKA WOKA MOKA FON
  */
 class GStyler {
-    /**
-     * Scales the drawable to match a certain height.
-     * @param drawable Drawable to scale.
-     * @param height Height to scale the drawable to.
-     * @return Scaled drawable.
-     */
 
+    /**Colors is are currently static.
+     *Future sprint would involve making them dynamic from a database
+     **/
     public static int buttonBaseColor = Color.parseColor("#FFFFD96E");
     public static int dialogBoxBaseColor = Color.parseColor("#FFFFFCEA");
+    public static int listBaseColor = Color.parseColor("#FFEEC85D");
 
     public static int[] getColors(int color)
     {
@@ -30,6 +28,12 @@ class GStyler {
         return tmp;
     }
 
+    /**
+     * Scales the drawable to match a certain height.
+     * @param drawable Drawable to scale.
+     * @param height Height to scale the drawable to.
+     * @return Scaled drawable.
+     */
     public static Drawable scaleDrawable(Drawable drawable, int height){
         Drawable result = drawable;
         Bitmap tempIcon = ((BitmapDrawable)result).getBitmap();
@@ -68,4 +72,16 @@ class GStyler {
 
         return colorRes;
     }
+
+    /**
+     * Converts dp to pixels for device indepedency
+     * @param dpInput number of dp
+     * @param context the current context
+     * @return number of pixels
+     */
+    public static int dpToPixel(int dpInput, Context context)
+    {
+        return (int) (dpInput * context.getResources().getDisplayMetrics().density  + 0.5f);
+    }
+
 }
