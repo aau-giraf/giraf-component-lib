@@ -114,19 +114,15 @@ public class GButton extends Button {
             switch(buttonImageLocation){
                 case LEFT:
                     super.setCompoundDrawablesWithIntrinsicBounds(buttonImage, null, null, null);
-                    this.setText("Left");
                     break;
                 case TOP:
                     super.setCompoundDrawablesWithIntrinsicBounds(null, buttonImage, null, null);
-                    this.setText("Top");
                     break;
                 case RIGHT:
                     super.setCompoundDrawablesWithIntrinsicBounds(null, null, buttonImage, null);
-                    this.setText("Right");
                     break;
                 default: //BOTTOM
                     super.setCompoundDrawablesWithIntrinsicBounds(null, null, null, buttonImage);
-                    this.setText("Bot");
                     break;
             }
         }
