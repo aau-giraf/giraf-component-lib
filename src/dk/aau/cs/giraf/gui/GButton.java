@@ -17,7 +17,6 @@ public class GButton extends Button {
 
     private Drawable buttonImage;
     private boolean isScaled = false;
-    private float dpScale;
 
 
     /**
@@ -89,33 +88,19 @@ public class GButton extends Button {
     }
 
     /**
-     * Converts dp to pixels for device indepedency
-     * @param dpInput number of dp
-     * @return number of pixels
-     */
-    private int dpToPixel(int dpInput)
-    {
-        return (int) (dpInput * dpScale  + 0.5f);
-    }
-
-    /**
      * Styles the button according to the giraf standards.
      * Theme support pending.
      */
     private void setStyle() {
-        dpScale = getContext().getResources().getDisplayMetrics().density;
 
         //default colors
         this.setTextColor(Color.BLACK);
-        int colorStart = Color.parseColor("#FFFFD96E");
 
         //this will be the backrounddrawable
         StateListDrawable stateListDrawable = new StateListDrawable();
 
         //default colors
-        int[] colors = new int[2];
-        colors[0] = colorStart;
-        colors[1] = GStyler.calculateGradientColor(colorStart);
+        int[] colors = GStyler.getColors(GStyler.buttonBaseColor);
 
         //colors when pressed
         int[] colorsPressed = new int[2];
@@ -126,7 +111,7 @@ public class GButton extends Button {
         GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors);
         GradientDrawable gdPressed = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colorsPressed);
 
-        //round cornors and give edges
+        //round corners and give edges
         gd.setCornerRadius(10);
         gd.setStroke(3, GStyler.calculateGradientColor(colors[0], 0.75f));
         gdPressed.setCornerRadius(10);
@@ -136,8 +121,12 @@ public class GButton extends Button {
         stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, gdPressed);
         stateListDrawable.addState(StateSet.WILD_CARD, gd);
 
-        this.setPadding(dpToPixel(20),dpToPixel(10),dpToPixel(20),dpToPixel(10));
-        this.setCompoundDrawablePadding(dpToPixel(5));
+        this.setPadding(GStyler.dpToPixel(20, this.getContext())
+                ,GStyler.dpToPixel(10, this.getContext())
+                ,GStyler.dpToPixel(20, this.getContext())
+                ,GStyler.dpToPixel(10, this.getContext()));
+
+        this.setCompoundDrawablePadding(GStyler.dpToPixel(5, this.getContext()));
 
         this.setBackgroundDrawable(stateListDrawable);
     }
