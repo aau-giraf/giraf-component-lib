@@ -19,6 +19,7 @@ public class GButton extends Button {
     private boolean isScaled = false;
 
 
+
     /**
      * @param context
      */
@@ -50,6 +51,7 @@ public class GButton extends Button {
         // TODO Auto-generated constructor stub
         this.setStyle();
     }
+
 
     @Override
     public void setCompoundDrawablesWithIntrinsicBounds(Drawable left, Drawable top, Drawable right, Drawable bottom)
@@ -92,7 +94,6 @@ public class GButton extends Button {
      * Theme support pending.
      */
     private void setStyle() {
-
         //default colors
         this.setTextColor(Color.BLACK);
 
@@ -131,5 +132,12 @@ public class GButton extends Button {
         this.setBackgroundDrawable(stateListDrawable);
     }
 
-
-}
+    /**
+	 * Sets the image of on the button.
+	 * @param image The new image to use.
+	 */
+    public void SetImage(Drawable image)
+    {
+    	this.buttonImage = image;
+    }
+  }
