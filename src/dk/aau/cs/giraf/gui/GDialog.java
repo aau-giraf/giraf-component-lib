@@ -15,12 +15,14 @@ import android.widget.TextView;
 public class GDialog extends Dialog {
 	
 	private final GDialog mDialog;
+    private final View.OnClickListener _task;
 	
 	public GDialog(Context context, int drawable, String headline, String text, android.view.View.OnClickListener task) {
 		super(context, android.R.style.Theme_Translucent_NoTitleBar);
 		this.setContent(drawable, headline, text);
 		
 		mDialog = this;
+        _task = task;
 		
 		this.findViewById(R.id.dialog_cancel).setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -28,7 +30,13 @@ public class GDialog extends Dialog {
 			}
 		});
 		
-		this.findViewById(R.id.dialog_ok).setOnClickListener(task);
+		this.findViewById(R.id.dialog_ok).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _task.onClick(v);
+                mDialog.hide();
+            }
+        });
 	}
     /**
      * description: sets the contents of a dialog box
