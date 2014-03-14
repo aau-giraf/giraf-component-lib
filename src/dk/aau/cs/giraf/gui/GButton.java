@@ -15,6 +15,11 @@ import android.widget.Button;
 
 public class GButton extends Button {
 
+    private enum Location{
+        LEFT, TOP, RIGHT, BOTTOM
+    }
+
+    private Location buttonImageLocation;
     private Drawable buttonImage;
     private boolean isScaled = false;
 
@@ -63,10 +68,26 @@ public class GButton extends Button {
         //          scaling when sat to wrap-content.
 
         //Save drawable for future use
-        if (left != null) buttonImage = left;
-        else if (top != null) buttonImage = top;
-        else if (right != null) buttonImage = right;
-        else if (bottom != null) buttonImage = bottom;
+        if (left != null)
+        {
+            buttonImage = left;
+            buttonImageLocation = Location.LEFT;
+        }
+        else if (top != null)
+        {
+            buttonImage = top;
+            buttonImageLocation = Location.TOP;
+        }
+        else if (right != null)
+        {
+            buttonImage = right;
+            buttonImageLocation = Location.RIGHT;
+        }
+        else if (bottom != null)
+        {
+            buttonImage = bottom;
+            buttonImageLocation = Location.BOTTOM;
+        }
 
         isScaled = false;
     }
@@ -81,11 +102,29 @@ public class GButton extends Button {
             //Scales drawable to match size of button
             if (!isScaled)
             {
-                buttonImage = GStyler.scaleDrawable(buttonImage, this.getHeight() - this.getPaddingBottom() - this.getPaddingTop());
+                if (buttonImageLocation == Location.LEFT || buttonImageLocation == Location.RIGHT)
+                {
+                    buttonImage = GStyler.scaleDrawable(buttonImage, this.getHeight() - this.getPaddingBottom() - this.getPaddingTop());
+                }
+                else //top or bottom
+                    buttonImage = GStyler.scaleDrawable(buttonImage, this.getWidth() - this.getPaddingLeft() - this.getPaddingRight());
                 isScaled = true;
             }
 
-            super.setCompoundDrawablesWithIntrinsicBounds(buttonImage, null, null, null);
+            switch(buttonImageLocation){
+                case LEFT:
+                    super.setCompoundDrawablesWithIntrinsicBounds(buttonImage, null, null, null);
+                    break;
+                case TOP:
+                    super.setCompoundDrawablesWithIntrinsicBounds(null, buttonImage, null, null);
+                    break;
+                case RIGHT:
+                    super.setCompoundDrawablesWithIntrinsicBounds(null, null, buttonImage, null);
+                    break;
+                default: //BOTTOM
+                    super.setCompoundDrawablesWithIntrinsicBounds(null, null, null, buttonImage);
+                    break;
+            }
         }
     }
 

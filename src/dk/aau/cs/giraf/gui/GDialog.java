@@ -15,21 +15,68 @@ import android.widget.TextView;
 public class GDialog extends Dialog {
 	
 	private final GDialog mDialog;
+    private final View.OnClickListener _task;
 	
 	public GDialog(Context context, int drawable, String headline, String text, android.view.View.OnClickListener task) {
-		super(context, android.R.style.Theme_Translucent_NoTitleBar);
-		this.setContent(drawable, headline, text);
-		
-		mDialog = this;
-		
-		this.findViewById(R.id.dialog_cancel).setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				mDialog.cancel();	
-			}
-		});
-		
-		this.findViewById(R.id.dialog_ok).setOnClickListener(task);
+        super(context, android.R.style.Theme_Translucent_NoTitleBar);
+        this.setContent(drawable, headline, text);
+
+        mDialog = this;
+        _task = task;
+
+        setListeners();
 	}
+
+    public GDialog(Context context, String headline, String text, View.OnClickListener task)
+    {
+        super(context, android.R.style.Theme_Translucent_NoTitleBar);
+        this.setContent(-1, headline, text);
+
+        mDialog = this;
+        _task = task;
+
+        setListeners();
+    }
+
+    public GDialog(Context context, int drawable, String headline, View.OnClickListener task)
+    {
+        super(context, android.R.style.Theme_Translucent_NoTitleBar);
+        this.setContent(drawable, headline, "");
+
+        mDialog = this;
+        _task = task;
+
+        setListeners();
+    }
+
+    public GDialog(Context context, String headline, View.OnClickListener task)
+    {
+        super(context, android.R.style.Theme_Translucent_NoTitleBar);
+        this.setContent(-1, headline, "");
+
+        mDialog = this;
+        _task = task;
+
+        setListeners();
+    }
+
+    private void setListeners()
+    {
+        this.findViewById(R.id.dialog_cancel).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mDialog.cancel();
+            }
+        });
+
+        this.findViewById(R.id.dialog_ok).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _task.onClick(v);
+                mDialog.dismiss();
+            }
+        });
+    }
+
     /**
      * description: sets the contents of a dialog box
      * @param thumb - The icon shown in the dialog box
@@ -40,17 +87,20 @@ public class GDialog extends Dialog {
         this.setContentView(R.layout.gdialog_layout);
 
         //Set the icon
-        ImageView thumb_view = (ImageView) this.findViewById(R.id.content_thumb);
-        thumb_view.setBackgroundResource(thumb);
-
-        //Set the header text
-        TextView headline_txt = (TextView) this.findViewById(R.id.dialog_headline);
-        headline_txt.setText(headline);
+        if (thumb >= 0)
+        {
+            ImageView thumb_view = (ImageView) this.findViewById(R.id.content_thumb);
+            thumb_view.setBackgroundResource(thumb);
+        }
 
         //set the descriptive text
         TextView description_txt = (TextView) this.findViewById(R.id.dialog_description);
         description_txt.setText(description);
         this.setStyle();
+
+        //Set the header text
+        TextView headline_txt = (TextView) this.findViewById(R.id.dialog_headline);
+        headline_txt.setText(headline);
     }
 
     /*
