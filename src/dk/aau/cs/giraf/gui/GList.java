@@ -16,20 +16,21 @@ import android.widget.ListView;
 public class GList extends ListView {
 
 	private void setStyle() {
-        /*WORK IN PROGRESS (Should not use grow anymore, since we want int dynamic)*/
-		//this.setBackgroundResource(R.drawable.grow);
-        /*New Code*/
         int baseColor = GStyler.listBaseColor;
+
+        //this removes the blue selection background color when an item is selected
         this.setSelector(android.R.color.transparent);
+        this.setDivider(null);
+        //only GradientDrawable has both setCornerRadius() and setStroke() so thus it is used
         GradientDrawable listBackground = new GradientDrawable(GradientDrawable.Orientation.BL_TR, new int[] { baseColor, baseColor});
         listBackground.setCornerRadius(GStyler.dpToPixel(10, this.getContext()));
         listBackground.setStroke(GStyler.dpToPixel(4,this.getContext()), GStyler.calculateGradientColor(baseColor));
+
         this.setPadding(GStyler.dpToPixel(8, this.getContext()),
                 GStyler.dpToPixel(5,this.getContext()),
                 GStyler.dpToPixel(8,this.getContext()),
                 GStyler.dpToPixel(5,this.getContext()));
 
-        PaintDrawable listEdge = new PaintDrawable(baseColor);
         this.setBackgroundDrawable(listBackground);
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 	}
