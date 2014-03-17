@@ -99,14 +99,7 @@ public class GWidgetConnectivity extends ImageView implements IGWidget {
 	}
 	
 	private void showTooltip(){
-		GTooltip g = new GTooltip(mContext);
-		TextView tv = new TextView(mContext);
-		tv.setText(generateTooltipString());
-		tv.setTextColor(Color.WHITE);
-		tv.setWidth(200);
-		mTooltipTextview = tv;
-		
-		g.setView(tv);
+		GTooltip g = new GTooltip(mContext, generateTooltipString(), Color.WHITE);
 		g.setRightOf(this);
 		g.show();
 		

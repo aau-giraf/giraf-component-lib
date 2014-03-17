@@ -14,9 +14,9 @@ class GStyler {
     /**Colors is are currently static.
      *Future sprint would involve making them dynamic from a database
      **/
-    public static int buttonBaseColor = Color.parseColor("#FFFFD96E");
-    public static int dialogBoxBaseColor = Color.parseColor("#FFFFFCEA");
-    public static int listBaseColor = Color.parseColor("#FFEEC85D");
+    public static int buttonBaseColor = Color.parseColor("#FFEEEEEE");
+    public static int dialogBoxBaseColor = Color.parseColor("#FFEEEEEE");
+    public static int listBaseColor = Color.parseColor("#FFEEEEEE");
     public static int baseAlphaBackground = Color.parseColor("#80000000");
     public static int listItemBaseColor = Color.parseColor("#FFEEEEEE");
 

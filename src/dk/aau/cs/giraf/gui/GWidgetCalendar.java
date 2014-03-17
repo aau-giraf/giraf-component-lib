@@ -51,12 +51,7 @@ public class GWidgetCalendar extends TextView implements IGWidget {
 	}
 	
 	public final void showTooltip(){
-		GTip = new GTooltip(mContext);
-		mTooltipTextview = new TextView(mContext);
-		mTooltipTextview.setText(generateTooltipString());
-		mTooltipTextview.setTextColor(Color.WHITE);
-		
-		GTip.setView(mTooltipTextview);
+		GTip = new GTooltip(mContext, generateTooltipString(), Color.WHITE);
 		GTip.setRightOf(this);
 		GTip.show();
 	}
