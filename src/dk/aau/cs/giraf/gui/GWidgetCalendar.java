@@ -20,7 +20,7 @@ public class GWidgetCalendar extends TextView implements IGWidget {
 	private String month;
 	private final Context mContext;
 	private TextView mTooltipTextview;
-	private GTooltip GTip;
+	private _GTooltip GTip;
 	
 	private void setStyle(){
 		this.setBackgroundDrawable(getResources().getDrawable(R.drawable.gcal_icon));
@@ -51,7 +51,7 @@ public class GWidgetCalendar extends TextView implements IGWidget {
 	}
 	
 	public final void showTooltip(){
-		GTip = new GTooltip(mContext, generateTooltipString(), Color.WHITE);
+		GTip = new _GTooltip(mContext, generateTooltipString(), Color.WHITE);
 		GTip.setRightOf(this);
 		GTip.show();
 	}
