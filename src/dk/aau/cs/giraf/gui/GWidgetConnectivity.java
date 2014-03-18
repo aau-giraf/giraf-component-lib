@@ -18,7 +18,7 @@ public class GWidgetConnectivity extends ImageView implements IGWidget {
 	private final String mSyncingString;
 	private final String mOfflineString;
 	private TextView mTooltipTextview;
-	private GTooltip GTip;
+	private _GTooltip GTip;
 	
 	private void setStyle(int d) {
 		this.setBackgroundDrawable(getResources().getDrawable(d));
@@ -99,7 +99,7 @@ public class GWidgetConnectivity extends ImageView implements IGWidget {
 	}
 	
 	private void showTooltip(){
-		GTooltip g = new GTooltip(mContext, generateTooltipString(), Color.WHITE);
+		_GTooltip g = new _GTooltip(mContext, generateTooltipString(), Color.WHITE);
 		g.setRightOf(this);
 		g.show();
 		
