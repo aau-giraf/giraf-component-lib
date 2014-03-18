@@ -1,12 +1,10 @@
 package dk.aau.cs.giraf.gui;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,12 +20,13 @@ public class GToast
         View layout = inflater.inflate(R.layout.gtoast_layout, null);
 
         //Set background color
-        ColorDrawable cd = new ColorDrawable(GStyler.baseAlphaBackground);
+        ColorDrawable cd = new ColorDrawable(GStyler.toastBaseColor);
         layout.setBackgroundDrawable(cd);
 
         //Set text
         TextView textView = (TextView) layout.findViewById(R.id.GToast_text);
         textView.setText(text);
+        textView.setTextColor(GStyler.toastBaseTextColor);
 
         _toast.setView(layout);
     }
