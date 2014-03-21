@@ -47,7 +47,7 @@ public class GProfileAdapter extends BaseAdapter {
         Profile profile = data.get(position);
  
         // Setting all values in listview
-        name.setText(profile.getFirstname()+" "+profile.getSurname());
+        name.setText(profile.getName());
         //imageLoader.DisplayImage(song.get(CustomizedListView.KEY_THUMB_URL), thumb_image);
         return vi;
     }

@@ -80,7 +80,7 @@ public class GWidgetConnectivity extends ImageView implements IGWidget {
 
 	@Override
 	public void updateDisplay() {
-		switch (helper.serverHelper.getStatus()) {
+		/*switch (helper.serverHelper.getStatus()) {
 		case 0:
 			setStyleOffline();
 			break;
@@ -90,7 +90,9 @@ public class GWidgetConnectivity extends ImageView implements IGWidget {
 		case 2:
 			setStyleSyncing();
 			break;
-		}
+		}*/
+
+        setStyleOffline();
 		
 		if (mTooltipTextview != null) {
 			mTooltipTextview.setText(generateTooltipString());
