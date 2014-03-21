@@ -48,21 +48,24 @@ public class GIconButton extends GButton {
 	  
 	 }
 	
-	public GIconButton(Context context) {
+	public GIconButton(Context context) throws Exception {
 		super(context);
-		this.setStyle();
+        throw new Exception("This class is no longer supported by GIRAF-Components. Use GButton instead (see wiki).");
+		//this.setStyle();
 		// TODO Auto-generated constructor stub
 	}
 
-	public GIconButton(Context context, AttributeSet attrs) {
+	public GIconButton(Context context, AttributeSet attrs) throws Exception {
 		super(context, attrs);
-		this.setStyle();
+        throw new Exception("This class is no longer supported by GIRAF-Components. Use GButton instead (see wiki).");
+        //this.setStyle();
 		// TODO Auto-generated constructor stub
 	}
 
-	public GIconButton(Context context, AttributeSet attrs, int defStyle) {
+	public GIconButton(Context context, AttributeSet attrs, int defStyle) throws Exception {
 		super(context, attrs, defStyle);
-		this.setStyle();
+        throw new Exception("This class is no longer supported by GIRAF-Components. Use GButton instead (see wiki).");
+        //this.setStyle();
 		// TODO Auto-generated constructor stub
 	}
 	
