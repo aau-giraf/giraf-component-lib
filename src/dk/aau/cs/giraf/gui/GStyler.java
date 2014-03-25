@@ -14,12 +14,13 @@ class GStyler {
     /**Colors is are currently static.
      *Future sprint would involve making them dynamic from a database
      **/
-    public static int buttonBaseColor = Color.parseColor("#FFEEEEEE");
-    public static int dialogBoxBaseColor = Color.parseColor("#FFEEEEEE");
-    public static int listBaseColor = Color.parseColor("#FFEEEEEE");
+    public static int buttonBaseColor = Color.WHITE;
+    public static int dialogBoxBaseColor = Color.WHITE;
+    public static int listBaseColor = Color.WHITE;
+    public static int gridBaseColor = Color.WHITE;
     public static int toastBaseColor = Color.parseColor("#80000000");
     public static int toastBaseTextColor = Color.WHITE;
-    public static int listItemBaseColor = Color.parseColor("#FFEEEEEE");
+    public static int listItemBaseColor = Color.WHITE;
 
     public static int[] getColors(int color)
     {

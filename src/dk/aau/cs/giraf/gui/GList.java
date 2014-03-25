@@ -18,20 +18,22 @@ public class GList extends ListView {
 	private void setStyle() {
         int baseColor = GStyler.listBaseColor;
         int dHeight = this.getDividerHeight();
+
         //this removes the blue selection background color when an item is selected
         this.setSelector(android.R.color.transparent);
         ColorDrawable cd = new ColorDrawable(android.R.color.transparent);
         this.setDivider(cd);
         this.setDividerHeight(dHeight);
+
         //only GradientDrawable has both setCornerRadius() and setStroke() so thus it is used
         GradientDrawable listBackground = new GradientDrawable(GradientDrawable.Orientation.BL_TR, new int[] { baseColor, baseColor});
         listBackground.setCornerRadius(GStyler.dpToPixel(10, this.getContext()));
         listBackground.setStroke(GStyler.dpToPixel(4,this.getContext()), GStyler.calculateGradientColor(baseColor));
 
         this.setPadding(GStyler.dpToPixel(8, this.getContext()),
-                GStyler.dpToPixel(5,this.getContext()),
+                GStyler.dpToPixel(4,this.getContext()),
                 GStyler.dpToPixel(8,this.getContext()),
-                GStyler.dpToPixel(5,this.getContext()));
+                GStyler.dpToPixel(4,this.getContext()));
 
         this.setBackgroundDrawable(listBackground);
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
@@ -64,12 +66,4 @@ public class GList extends ListView {
 		this.setStyle();
 		// TODO Auto-generated constructor stub
 	}
-
- /*   @Override
-    public void onFinishInflate() {
-        if(this.getDividerHeight())
-        {
-            this.setText(R.string.cancelButtonString);
-        }
-    }*/
 }
