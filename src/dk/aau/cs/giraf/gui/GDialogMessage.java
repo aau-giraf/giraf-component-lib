@@ -96,32 +96,11 @@ public class GDialogMessage extends GDialog
         //set the descriptive text
         TextView description_txt = (TextView) layout.findViewById(R.id.GDialogMessage_description);
         description_txt.setText(description);
-        this.setStyle(layout);
 
         //Set the header text
         TextView headline_txt = (TextView) layout.findViewById(R.id.GDialogMessage_headline);
         headline_txt.setText(headline);
 
         this.SetView(layout);
-    }
-
-    /*
-     * Description: Sets the style of a dialog box. The dialog view is retrieved from the ID in XML.
-     * The style is set using a new drawable (gradient) which replaces the old dialog window. This allows for
-     * dynamic setting of colors, borders and what not.
-     */
-    public void setStyle(View v)
-    {
-        /*
-        //default colors
-        int[] colors = GStyler.getColors(GStyler.dialogBackgroundColor);
-
-        //Set the properties for the new drawable
-        GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors);
-        gd.setCornerRadius(10);
-        gd.setStroke(2, GStyler.calculateGradientColor(colors[0], .46f), 0f, 0f);
-
-        v.setBackgroundDrawable(gd);
-        */
     }
 }
