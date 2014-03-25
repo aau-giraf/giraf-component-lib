@@ -30,18 +30,21 @@ public class GToggleButton extends GButton {
         Setup(null);
     }
 
+    @Override
+    public void setOnClickListener(OnClickListener task) { }
+
     private void Setup(final OnClickListener task)
     {
-        this.setOnClickListener(new OnClickListener() {
+        super.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 state = !state;
-                ((GButton)v).setText(String.valueOf(state));
+                ((GButton) v).setText(String.valueOf(state));
                 if (task != null) task.onClick(v);
                 if (state)
-                    v.setBackgroundDrawable(((GButton)v).stylePressed);
+                    v.setBackgroundDrawable(((GButton) v).stylePressed);
                 else
-                    v.setBackgroundDrawable(((GButton)v).styleUnPressed);
+                    v.setBackgroundDrawable(((GButton) v).styleUnPressed);
             }
         });
 
