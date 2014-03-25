@@ -7,79 +7,26 @@
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
-	<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#FF000000"
-    android:alpha="0.5" >
-    </RelativeLayout>
     <RelativeLayout
-        android:id="@+id/GDialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:alpha="0.5"
+        android:id="@+id/GDialog_Shade"/>
+    <RelativeLayout
+        android:id="@+id/GDialog_Background"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#FFFEFEFE"
-        android:padding="25dp"
+        android:padding="25dp">
 
-        >
         <RelativeLayout
-            android:id="@+id/top_wrapper"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView android:id="@+id/content_thumb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="25dp"
-                android:layout_marginBottom="25dp"
-                />
-
-            <TextView android:text="HELLO!"
-                android:id="@+id/dialog_headline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FF596A79"
-                android:textSize="30dp"
-                android:layout_toRightOf="@id/content_thumb"
-                android:layout_marginBottom="10dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/dialog_description"
-                android:text="Logout text here..."
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FF596A79"
-                android:textSize="20dp"
-                android:textStyle="italic"
-                android:layout_toRightOf="@id/content_thumb"
-                android:layout_below="@id/dialog_headline" />
-        </RelativeLayout>
-        <LinearLayout
-            android:layout_below="@id/top_wrapper"
-            android:layout_width="350dp"
-            android:paddingTop="10dp"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true">
+            android:id="@+id/GDialog_ViewWrapper"/>
 
-            <dk.aau.cs.giraf.gui.GVerifyButton
-                android:id="@+id/dialog_ok"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginRight="25dp"
-                android:textSize="20dp"
-                android:layout_weight="1"/>
-            <dk.aau.cs.giraf.gui.GCancelButton
-                android:id="@+id/dialog_cancel"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:textSize="20dp"
-                android:layout_weight="1"/>
-        </LinearLayout>
     </RelativeLayout>
-    
-   </RelativeLayout>
+</RelativeLayout>
 

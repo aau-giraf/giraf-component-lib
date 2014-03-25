@@ -2,9 +2,7 @@ package dk.aau.cs.giraf.gui;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 public class GTooltip extends RelativeLayout {
 
