@@ -22,6 +22,8 @@ public class GButton extends Button {
     private Location buttonImageLocation;
     private Drawable buttonImage;
     private boolean isScaled = false;
+    protected GradientDrawable stylePressed;
+    protected GradientDrawable styleUnPressed;
 
 
 
@@ -148,18 +150,18 @@ public class GButton extends Button {
         colorsPressed[1] = GStyler.calculateGradientColor(colorsPressed[0]);
 
         //make the two gradients
-        GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors);
-        GradientDrawable gdPressed = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colorsPressed);
+        styleUnPressed = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors);
+        stylePressed = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colorsPressed);
 
         //round corners and give edges
-        gd.setCornerRadius(10);
-        gd.setStroke(3, GStyler.calculateGradientColor(colors[0], 0.75f));
-        gdPressed.setCornerRadius(10);
-        gdPressed.setStroke(3, GStyler.calculateGradientColor(colorsPressed[0], 0.75f));
+        styleUnPressed.setCornerRadius(10);
+        styleUnPressed.setStroke(3, GStyler.calculateGradientColor(colors[0], 0.75f));
+        stylePressed.setCornerRadius(10);
+        stylePressed.setStroke(3, GStyler.calculateGradientColor(colorsPressed[0], 0.75f));
 
         //set state_pressed to gdPressed and all others to gd
-        stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, gdPressed);
-        stateListDrawable.addState(StateSet.WILD_CARD, gd);
+        stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, stylePressed);
+        stateListDrawable.addState(StateSet.WILD_CARD, styleUnPressed);
 
         this.setPadding(GStyler.dpToPixel(20, this.getContext())
                 ,GStyler.dpToPixel(10, this.getContext())
