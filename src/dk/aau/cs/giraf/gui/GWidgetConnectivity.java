@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import dk.aau.cs.giraf.oasis.lib.Helper;
 
 public class GWidgetConnectivity extends ImageView implements IGWidget {

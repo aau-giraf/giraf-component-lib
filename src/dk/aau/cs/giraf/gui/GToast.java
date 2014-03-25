@@ -1,7 +1,6 @@
 package dk.aau.cs.giraf.gui;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;

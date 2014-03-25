@@ -1,15 +1,15 @@
 package dk.aau.cs.giraf.gui;
 
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.Timer;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
+
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.Timer;
 
 public class GWidgetCalendar extends TextView implements IGWidget {
 
