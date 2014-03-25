@@ -1,10 +1,10 @@
 package dk.aau.cs.giraf.gui;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-
 import android.os.Handler;
 import android.os.Message;
+
+import java.util.ArrayList;
+import java.util.Calendar;
 
 public class GWidgetUpdater extends Handler
 {
