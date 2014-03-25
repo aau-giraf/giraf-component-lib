@@ -28,5 +28,6 @@
             android:id="@+id/GDialog_ViewWrapper"/>
 
     </RelativeLayout>
+
 </RelativeLayout>
 

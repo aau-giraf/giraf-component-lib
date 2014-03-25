@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/GDialogAlert_frame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/GDialogAlert_topWrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/GDialogAlert_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="25dp" />
+
+        <TextView
+            android:id="@+id/GDialogAlert_headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/GDialogAlert_image"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:id="@+id/GDialogAlert_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/GDialogAlert_image"
+            android:layout_below="@id/GDialogAlert_headline" />
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:layout_below="@id/GDialogAlert_topWrapper"
+        android:layout_centerHorizontal="true" >
+
+        <dk.aau.cs.giraf.gui.GVerifyButton
+            android:id="@+id/GDialogAlert_okBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
