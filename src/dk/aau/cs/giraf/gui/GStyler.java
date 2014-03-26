@@ -14,6 +14,8 @@ class GStyler {
     /**Colors is are currently static.
      *Future sprint would involve making them dynamic from a database
      **/
+    private static int baseColor = Color.WHITE;
+
     public static int buttonBaseColor = Color.WHITE;
     public static int dialogBoxBaseColor = Color.WHITE;
     public static int listBaseColor = Color.WHITE;
@@ -34,6 +36,16 @@ class GStyler {
         tmp[1] = calculateGradientColor(color);
 
         return tmp;
+    }
+
+    public static int GetBaseColor()
+    {
+        return baseColor;
+    }
+
+    public static void SetBaseColor(int color)
+    {
+        baseColor = color;
     }
 
     /**
