@@ -3,6 +3,7 @@
  */
 package dk.aau.cs.giraf.gui;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,9 +12,18 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.util.AttributeSet;
 import android.util.StateSet;
+import android.view.Gravity;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class GButton extends Button {
+
+    ImageView imgView;
+    RelativeLayout rltvLayout;
 
     private enum Location{
         LEFT, TOP, RIGHT, BOTTOM
@@ -59,7 +69,6 @@ public class GButton extends Button {
         this.setStyle();
     }
 
-
     @Override
     public void setCompoundDrawablesWithIntrinsicBounds(Drawable left, Drawable top, Drawable right, Drawable bottom)
     {
@@ -94,6 +103,17 @@ public class GButton extends Button {
         isScaled = false;
     }
 
+    public void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter)
+    {
+        if (buttonImage != null)
+        {
+            if (lengthAfter == 0 && lengthBefore != 0)
+                isScaled = false;
+            else if (lengthBefore == 0)
+                isScaled = false;
+        }
+    }
+
     public void onDraw(Canvas c)
     {
         super.onDraw(c);
@@ -104,29 +124,50 @@ public class GButton extends Button {
             //Scales drawable to match size of button
             if (!isScaled)
             {
-                if (buttonImageLocation == Location.LEFT || buttonImageLocation == Location.RIGHT)
+                int scaleWidth = this.getWidth() - this.getPaddingLeft() - this.getPaddingRight();
+                int scaleHeight = this.getHeight() - this.getPaddingBottom() - this.getPaddingTop();
+
+                if (this.getText().length() > 0) //in this case, scale on the logical axis
                 {
-                    buttonImage = GStyler.scaleDrawable(buttonImage, this.getHeight() - this.getPaddingBottom() - this.getPaddingTop());
+                    if (buttonImageLocation == Location.LEFT || buttonImageLocation == Location.RIGHT)
+                    {
+                        buttonImage = GStyler.scaleDrawable(buttonImage, scaleHeight);
+                    }
+                    else //top or bottom
+                        buttonImage = GStyler.scaleDrawable(buttonImage, scaleWidth);
+
+                    switch(buttonImageLocation){
+                        case LEFT:
+                            super.setCompoundDrawablesWithIntrinsicBounds(buttonImage, null, null, null);
+                            break;
+                        case TOP:
+                            super.setCompoundDrawablesWithIntrinsicBounds(null, buttonImage, null, null);
+                            break;
+                        case RIGHT:
+                            super.setCompoundDrawablesWithIntrinsicBounds(null, null, buttonImage, null);
+                            break;
+                        default: //BOTTOM
+                            super.setCompoundDrawablesWithIntrinsicBounds(null, null, null, buttonImage);
+                            break;
+                    }
                 }
-                else //top or bottom
-                    buttonImage = GStyler.scaleDrawable(buttonImage, this.getWidth() - this.getPaddingLeft() - this.getPaddingRight());
+                else //no text, they want to center the image, simply scale to the shortest axis
+                {
+                    if (scaleHeight < scaleWidth)
+                    {
+                        buttonImage = GStyler.scaleDrawable(buttonImage, scaleHeight);
+                        super.setCompoundDrawablesWithIntrinsicBounds(null, buttonImage, null, null);
+                    }
+                    else
+                    {
+                        buttonImage = GStyler.scaleDrawable(buttonImage, scaleWidth);
+                        super.setCompoundDrawablesWithIntrinsicBounds(buttonImage, null, null, null);
+                    }
+                }
                 isScaled = true;
             }
 
-            switch(buttonImageLocation){
-                case LEFT:
-                    super.setCompoundDrawablesWithIntrinsicBounds(buttonImage, null, null, null);
-                    break;
-                case TOP:
-                    super.setCompoundDrawablesWithIntrinsicBounds(null, buttonImage, null, null);
-                    break;
-                case RIGHT:
-                    super.setCompoundDrawablesWithIntrinsicBounds(null, null, buttonImage, null);
-                    break;
-                default: //BOTTOM
-                    super.setCompoundDrawablesWithIntrinsicBounds(null, null, null, buttonImage);
-                    break;
-            }
+
         }
     }
 
