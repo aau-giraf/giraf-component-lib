@@ -26,6 +26,7 @@ public class GToggleButton extends GButton {
 
     public GToggleButton(Context context, AttributeSet attrs, int defStyle)
     {
+
         super(context, attrs, defStyle);
         setOnClickListener(null);
     }
@@ -46,7 +47,8 @@ public class GToggleButton extends GButton {
         });
     }
 
-    public boolean IsPressed()
+    @Override
+    public boolean isPressed()
     {
         return state;
     }
