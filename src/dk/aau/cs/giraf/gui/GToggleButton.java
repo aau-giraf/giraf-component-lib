@@ -21,14 +21,15 @@ public class GToggleButton extends GButton {
     public GToggleButton(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        setOnClickListener(null);
+        if (attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "onClick") == null)
+            setOnClickListener(null);
     }
 
     public GToggleButton(Context context, AttributeSet attrs, int defStyle)
     {
-
         super(context, attrs, defStyle);
-        setOnClickListener(null);
+        if (attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "onClick") == null)
+            setOnClickListener(null);
     }
 
     @Override
