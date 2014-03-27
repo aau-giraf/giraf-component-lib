@@ -14,6 +14,7 @@ class GStyler {
     /**Colors is are currently static.
      *Future sprint would involve making them dynamic from a database
      **/
+    public static int textBaseColor = Color.BLACK;
     public static int buttonBaseColor = Color.WHITE;
     public static int dialogBoxBaseColor = Color.WHITE;
     public static int listBaseColor = Color.WHITE;
