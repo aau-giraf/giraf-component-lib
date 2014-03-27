@@ -127,10 +127,10 @@ public class GButton extends Button {
                 {
                     if (buttonImageLocation == Location.LEFT || buttonImageLocation == Location.RIGHT)
                     {
-                        buttonImage = GStyler.scaleDrawable(buttonImage, scaleHeight, false);
+                        buttonImage = GStyler.scaleDrawable(buttonImage, scaleHeight, true);
                     }
                     else //top or bottom
-                        buttonImage = GStyler.scaleDrawable(buttonImage, scaleWidth, true);
+                        buttonImage = GStyler.scaleDrawable(buttonImage, scaleWidth, false);
 
                     switch(buttonImageLocation){
                         case LEFT:
@@ -149,14 +149,14 @@ public class GButton extends Button {
                 }
                 else //no text, they want to center the image, simply scale to the shortest axis
                 {
-                    if (scaleHeight < scaleWidth)
+                    if (scaleWidth < scaleHeight)
                     {
-                        buttonImage = GStyler.scaleDrawable(buttonImage, scaleHeight, false);
+                        buttonImage = GStyler.scaleDrawable(buttonImage, scaleHeight, true);
                         super.setCompoundDrawablesWithIntrinsicBounds(null, buttonImage, null, null);
                     }
                     else
                     {
-                        buttonImage = GStyler.scaleDrawable(buttonImage, scaleWidth, true);
+                        buttonImage = GStyler.scaleDrawable(buttonImage, scaleWidth, false);
                         super.setCompoundDrawablesWithIntrinsicBounds(buttonImage, null, null, null);
                     }
                 }
