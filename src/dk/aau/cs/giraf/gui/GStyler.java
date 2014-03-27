@@ -45,6 +45,9 @@ class GStyler {
     public static Drawable scaleDrawable(Drawable drawable, int height){
         Drawable result = drawable;
         Bitmap tempIcon = ((BitmapDrawable)result).getBitmap();
+        
+        if (tempIcon.getHeight() == 0)
+            return result;
 
         float scale = ((float) height) / ((float)tempIcon.getHeight());
 
