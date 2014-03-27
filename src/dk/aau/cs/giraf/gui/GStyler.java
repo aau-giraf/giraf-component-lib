@@ -39,17 +39,19 @@ class GStyler {
     /**
      * Scales the drawable to match a certain height.
      * @param drawable Drawable to scale.
-     * @param height Height to scale the drawable to.
+     * @param length Longest axis to scale the drawable to.
      * @return Scaled drawable.
      */
-    public static Drawable scaleDrawable(Drawable drawable, int height){
+    public static Drawable scaleDrawable(Drawable drawable, int length, boolean vertical){
         Drawable result = drawable;
         Bitmap tempIcon = ((BitmapDrawable)result).getBitmap();
-        
-        if (tempIcon.getHeight() == 0)
+
+        int maxLength = vertical ? tempIcon.getHeight() : tempIcon.getWidth();
+
+        if (maxLength == 0 || length == 0)
             return result;
 
-        float scale = ((float) height) / ((float)tempIcon.getHeight());
+        float scale = ((float) length) / ((float)maxLength);
 
         tempIcon = Bitmap.createScaledBitmap(tempIcon, (int)(tempIcon.getWidth()*scale), (int)(tempIcon.getHeight()*scale), true);
         result = new BitmapDrawable(tempIcon);

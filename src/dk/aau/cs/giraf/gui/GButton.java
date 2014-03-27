@@ -21,10 +21,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class GButton extends Button {
-
-    ImageView imgView;
-    RelativeLayout rltvLayout;
-
     private enum Location{
         LEFT, TOP, RIGHT, BOTTOM
     }
@@ -131,10 +127,10 @@ public class GButton extends Button {
                 {
                     if (buttonImageLocation == Location.LEFT || buttonImageLocation == Location.RIGHT)
                     {
-                        buttonImage = GStyler.scaleDrawable(buttonImage, scaleHeight);
+                        buttonImage = GStyler.scaleDrawable(buttonImage, scaleHeight, false);
                     }
                     else //top or bottom
-                        buttonImage = GStyler.scaleDrawable(buttonImage, scaleWidth);
+                        buttonImage = GStyler.scaleDrawable(buttonImage, scaleWidth, true);
 
                     switch(buttonImageLocation){
                         case LEFT:
@@ -155,12 +151,12 @@ public class GButton extends Button {
                 {
                     if (scaleHeight < scaleWidth)
                     {
-                        buttonImage = GStyler.scaleDrawable(buttonImage, scaleHeight);
+                        buttonImage = GStyler.scaleDrawable(buttonImage, scaleHeight, false);
                         super.setCompoundDrawablesWithIntrinsicBounds(null, buttonImage, null, null);
                     }
                     else
                     {
-                        buttonImage = GStyler.scaleDrawable(buttonImage, scaleWidth);
+                        buttonImage = GStyler.scaleDrawable(buttonImage, scaleWidth, true);
                         super.setCompoundDrawablesWithIntrinsicBounds(buttonImage, null, null, null);
                     }
                 }
