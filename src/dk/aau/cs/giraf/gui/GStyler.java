@@ -19,6 +19,7 @@ class GStyler {
     public static int dialogBoxBaseColor = Color.WHITE;
     public static int listBaseColor = Color.WHITE;
     public static int gridBaseColor = Color.WHITE;
+    public static int spinnerBaseColor = Color.WHITE;
     public static int toastBaseColor = Color.parseColor("#80000000");
     public static int toastBaseTextColor = Color.WHITE;
     public static int listItemBaseColor = Color.WHITE;
