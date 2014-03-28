@@ -16,14 +16,14 @@ public class GSpinnerAdapter extends ArrayAdapter {
         super(context, R.layout.gspinner_item, objects);
     }
 
-    public GSpinnerAdapter(Context context, String[] objects)
+    public GSpinnerAdapter(Context context, CharSequence[] objects)
     {
         super(context, R.layout.gspinner_item, objects);
     }
 
-    public static GSpinnerAdapter createFromResource(Context context, int textArrayResId)
+    public GSpinnerAdapter(Context context, int textArrayResId)
     {
-        return (GSpinnerAdapter)ArrayAdapter.createFromResource(context, textArrayResId, R.layout.gspinner_item);
+        this(context, context.getResources().getTextArray(textArrayResId));
     }
 
 }
