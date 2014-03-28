@@ -22,6 +22,7 @@ class GStyler {
     public static int toastBaseColor = Color.parseColor("#80000000");
     public static int toastBaseTextColor = Color.WHITE;
     public static int listItemBaseColor = Color.WHITE;
+    public static int tooltipBaseColor = Color.parseColor("#80000000");
 
     //Dialog base colors
     public static int dialogBackgroundColor = Color.WHITE;
