@@ -2,7 +2,12 @@ package dk.aau.cs.giraf.gui;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.text.Spannable;
+import android.text.method.MovementMethod;
+import android.text.method.ScrollingMovementMethod;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.widget.TextView;
 
 /**
@@ -29,5 +34,6 @@ public class GTextView extends TextView{
     private void setStyle()
     {
         this.setTypeface(Typeface.SANS_SERIF);
+        this.setMovementMethod(new ScrollingMovementMethod());
     }
 }
