@@ -222,12 +222,12 @@ public class GButton extends Button {
         stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, stylePressed);
         stateListDrawable.addState(StateSet.WILD_CARD, styleUnPressed);
 
-        this.setPadding(GStyler.dpToPixel(20, this.getContext())
+        this.setPadding(GStyler.dpToPixel(10, this.getContext())
+                ,GStyler.dpToPixel(5, this.getContext())
                 ,GStyler.dpToPixel(10, this.getContext())
-                ,GStyler.dpToPixel(20, this.getContext())
-                ,GStyler.dpToPixel(10, this.getContext()));
+                ,GStyler.dpToPixel(5, this.getContext()));
 
-        this.setCompoundDrawablePadding(GStyler.dpToPixel(5, this.getContext()));
+        this.setCompoundDrawablePadding(GStyler.dpToPixel(3, this.getContext()));
 
         this.setBackgroundDrawable(stateListDrawable);
     }
