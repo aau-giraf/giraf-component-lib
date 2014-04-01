@@ -15,15 +15,14 @@ public class GGridView extends GridView {
 
         //this removes the blue selection background color when an item is selected
         this.setSelector(android.R.color.transparent);
-
         //only GradientDrawable has both setCornerRadius() and setStroke() so thus it is used
         GradientDrawable gridBackground = new GradientDrawable(GradientDrawable.Orientation.BL_TR, new int[] { baseColor, baseColor});
         gridBackground.setCornerRadius(GStyler.dpToPixel(10, this.getContext()));
         gridBackground.setStroke(GStyler.dpToPixel(4, this.getContext()), GStyler.calculateGradientColor(baseColor));
-        this.setPadding(GStyler.dpToPixel(7, this.getContext()),
-                GStyler.dpToPixel(7,this.getContext()),
-                GStyler.dpToPixel(7,this.getContext()),
-                GStyler.dpToPixel(7,this.getContext()));
+        this.setPadding(GStyler.dpToPixel(4, this.getContext()),
+                GStyler.dpToPixel(4,this.getContext()),
+                GStyler.dpToPixel(4,this.getContext()),
+                GStyler.dpToPixel(4,this.getContext()));
 
 
         this.setBackgroundDrawable(gridBackground);
