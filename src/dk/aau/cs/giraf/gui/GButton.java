@@ -160,9 +160,12 @@ public class GButton extends Button {
                     {
                         //no text but wrap size to icon
                         //this is bad because the icon will scale to fit nothing basically
-                        //resulting in the whole button behaving oddly
-                        //just use original image size and let button scale to that
-                        super.setCompoundDrawablesWithIntrinsicBounds(buttonImage, null, null, null);
+                        //instead scale to size, had there been text
+                        buttonImageTemp = GStyler.scaleDrawable(buttonImage.mutate().getConstantState().newDrawable(),
+                                (int)(this.getTextSize() * 2 + 0.5f) + this.getPaddingBottom() + this.getPaddingTop() + this.getCompoundDrawablePadding(), true);
+                        //I have literally no idea why I have to multiply getTextSize() by 2, but the numbers apparently add up
+
+                        super.setCompoundDrawablesWithIntrinsicBounds(buttonImageTemp, null, null, null);
                     }
                     else
                     {
