@@ -25,7 +25,7 @@ public class GVerifyButton extends GButton {
 	}
 
     /**
-     * Sets the icon of the button to be cancel_icon from the resources
+     * Sets the icon of the button to be gcancel_icon from the resources
      */
     private void setVerifyIcon()
     {
