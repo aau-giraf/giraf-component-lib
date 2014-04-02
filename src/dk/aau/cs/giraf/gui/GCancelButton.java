@@ -25,11 +25,11 @@ public final class GCancelButton extends GButton {
 
 
     /**
-     * Sets the icon of the button to be cancel_icon from the resources
+     * Sets the icon of the button to be gcancel_icon from the resources
      */
     private void setCancelIcon()
     {
-        cancelIcon = this.getResources().getDrawable(R.drawable.cancel_icon);
+        cancelIcon = this.getResources().getDrawable(R.drawable.gcancel_icon);
         this.setCompoundDrawablesWithIntrinsicBounds(cancelIcon, null, null, null);
     }
 
