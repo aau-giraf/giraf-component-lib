@@ -14,15 +14,19 @@ class GStyler {
     /**Colors is are currently static.
      *Future sprint would involve making them dynamic from a database
      **/
+
     private static int baseColor = Color.WHITE;
 
+    public static int textBaseColor = Color.BLACK;
     public static int buttonBaseColor = Color.WHITE;
     public static int dialogBoxBaseColor = Color.WHITE;
     public static int listBaseColor = Color.WHITE;
     public static int gridBaseColor = Color.WHITE;
+    public static int spinnerBaseColor = Color.WHITE;
     public static int toastBaseColor = Color.parseColor("#80000000");
     public static int toastBaseTextColor = Color.WHITE;
     public static int listItemBaseColor = Color.WHITE;
+    public static int tooltipBaseColor = Color.parseColor("#80000000");
 
     //Dialog base colors
     public static int dialogBackgroundColor = Color.WHITE;
@@ -56,14 +60,19 @@ class GStyler {
     /**
      * Scales the drawable to match a certain height.
      * @param drawable Drawable to scale.
-     * @param height Height to scale the drawable to.
+     * @param length Longest axis to scale the drawable to.
      * @return Scaled drawable.
      */
-    public static Drawable scaleDrawable(Drawable drawable, int height){
+    public static Drawable scaleDrawable(Drawable drawable, int length, boolean vertical){
         Drawable result = drawable;
         Bitmap tempIcon = ((BitmapDrawable)result).getBitmap();
 
-        float scale = ((float) height) / ((float)tempIcon.getHeight());
+        int maxLength = vertical ? tempIcon.getHeight() : tempIcon.getWidth();
+
+        if (maxLength == 0 || length == 0)
+            return result;
+
+        float scale = ((float) length) / ((float)maxLength);
 
         tempIcon = Bitmap.createScaledBitmap(tempIcon, (int)(tempIcon.getWidth()*scale), (int)(tempIcon.getHeight()*scale), true);
         result = new BitmapDrawable(tempIcon);

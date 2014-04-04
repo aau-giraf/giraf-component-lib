@@ -10,8 +10,7 @@ import android.widget.TextView;
 import dk.aau.cs.giraf.oasis.lib.Helper;
 
 public class GWidgetConnectivity extends ImageView implements IGWidget {
-	
-	private Helper helper;
+
 	private final String mPreString;
 	private String mPostString = "";
 	private final Context mContext;
@@ -54,13 +53,12 @@ public class GWidgetConnectivity extends ImageView implements IGWidget {
 		mOnlineString = mContext.getResources().getString(R.string.mOnlineString);
 		mOfflineString = mContext.getResources().getString(R.string.mOfflineString);
 		mSyncingString = mContext.getResources().getString(R.string.mSyncingString);
-		helper = new Helper(context);
 	}
 
 	public GWidgetConnectivity(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		this.setInitialStyle();
-		helper = new Helper(context);
+
 		mContext = context;
 		mPreString = mContext.getResources().getString(R.string.mPreString);
 		mOnlineString = mContext.getResources().getString(R.string.mOnlineString);
@@ -71,7 +69,7 @@ public class GWidgetConnectivity extends ImageView implements IGWidget {
 	public GWidgetConnectivity(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		this.setInitialStyle();
-		helper = new Helper(context);
+
 		mContext = context;
 		mPreString = mContext.getResources().getString(R.string.mPreString);
 		mOnlineString = mContext.getResources().getString(R.string.mOnlineString);

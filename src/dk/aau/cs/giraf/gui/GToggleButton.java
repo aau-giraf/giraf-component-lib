@@ -15,25 +15,25 @@ public class GToggleButton extends GButton {
     public GToggleButton(Context context)
     {
         super(context);
-        Setup(null);
+        setOnClickListener(null);
     }
 
     public GToggleButton(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        Setup(null);
+        if (attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "onClick") == null)
+            setOnClickListener(null);
     }
 
     public GToggleButton(Context context, AttributeSet attrs, int defStyle)
     {
         super(context, attrs, defStyle);
-        Setup(null);
+        if (attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "onClick") == null)
+            setOnClickListener(null);
     }
 
     @Override
-    public void setOnClickListener(OnClickListener task) { }
-
-    private void Setup(final OnClickListener task)
+    public void setOnClickListener(final OnClickListener task)
     {
         super.setOnClickListener(new OnClickListener() {
             @Override
@@ -46,15 +46,10 @@ public class GToggleButton extends GButton {
                     v.setBackgroundDrawable(((GButton) v).styleUnPressed);
             }
         });
-
     }
 
-    public void SetOnClickListener(OnClickListener task)
-    {
-        Setup(task);
-    }
-
-    public boolean IsPressed()
+    @Override
+    public boolean isPressed()
     {
         return state;
     }

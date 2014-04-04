@@ -3,6 +3,7 @@
  */
 package dk.aau.cs.giraf.gui;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -10,11 +11,17 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.StateSet;
+import android.view.Gravity;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class GButton extends Button {
-
     private enum Location{
         LEFT, TOP, RIGHT, BOTTOM
     }
@@ -59,7 +66,6 @@ public class GButton extends Button {
         this.setStyle();
     }
 
-
     @Override
     public void setCompoundDrawablesWithIntrinsicBounds(Drawable left, Drawable top, Drawable right, Drawable bottom)
     {
@@ -94,6 +100,17 @@ public class GButton extends Button {
         isScaled = false;
     }
 
+    public void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter)
+    {
+        if (buttonImage != null)
+        {
+            if (lengthAfter == 0 && lengthBefore != 0)
+                isScaled = false;
+            else if (lengthAfter != 0 && lengthBefore == 0)
+                isScaled = false;
+        }
+    }
+
     public void onDraw(Canvas c)
     {
         super.onDraw(c);
@@ -101,32 +118,76 @@ public class GButton extends Button {
         //Sets the button image.
         if (buttonImage != null)
         {
+
             //Scales drawable to match size of button
             if (!isScaled)
             {
-                if (buttonImageLocation == Location.LEFT || buttonImageLocation == Location.RIGHT)
+                Drawable buttonImageTemp;
+                int scaleWidth = this.getWidth() - this.getPaddingLeft() - this.getPaddingRight();
+                int scaleHeight = this.getHeight() - this.getPaddingBottom() - this.getPaddingTop();
+
+                if (this.getText().length() > 0) //in this case, scale on the logical axis
                 {
-                    buttonImage = GStyler.scaleDrawable(buttonImage, this.getHeight() - this.getPaddingBottom() - this.getPaddingTop());
+
+                    if (buttonImageLocation == Location.LEFT || buttonImageLocation == Location.RIGHT)
+                    {
+                        buttonImageTemp = GStyler.scaleDrawable(buttonImage.mutate().getConstantState().newDrawable(),
+                                                                        scaleHeight, true);
+                    }
+                    else //top or bottom
+                        buttonImageTemp = GStyler.scaleDrawable(buttonImage.mutate().getConstantState().newDrawable(), scaleWidth, false);
+
+                    switch(buttonImageLocation){
+                        case LEFT:
+                            super.setCompoundDrawablesWithIntrinsicBounds(buttonImageTemp, null, null, null);
+                            break;
+                        case TOP:
+                            super.setCompoundDrawablesWithIntrinsicBounds(null, buttonImageTemp, null, null);
+                            break;
+                        case RIGHT:
+                            super.setCompoundDrawablesWithIntrinsicBounds(null, null, buttonImageTemp, null);
+                            break;
+                        default: //BOTTOM
+                            super.setCompoundDrawablesWithIntrinsicBounds(null, null, null, buttonImageTemp);
+                            break;
+                    }
                 }
-                else //top or bottom
-                    buttonImage = GStyler.scaleDrawable(buttonImage, this.getWidth() - this.getPaddingLeft() - this.getPaddingRight());
+                else //no text, they want to center the image, simply scale to the shortest axis
+                {
+                    ViewGroup.LayoutParams layoutParams = this.getLayoutParams();
+
+                    if (layoutParams.height == layoutParams.WRAP_CONTENT && layoutParams.width == layoutParams.WRAP_CONTENT)
+                    {
+                        //no text but wrap size to icon
+                        //this is bad because the icon will scale to fit nothing basically
+                        //instead scale to size, had there been text
+                        buttonImageTemp = GStyler.scaleDrawable(buttonImage.mutate().getConstantState().newDrawable(),
+                                (int)(this.getTextSize() * 2 + 0.5f) + this.getPaddingBottom() + this.getPaddingTop() + this.getCompoundDrawablePadding(), true);
+                        //I have literally no idea why I have to multiply getTextSize() by 2, but the numbers apparently add up
+
+                        super.setCompoundDrawablesWithIntrinsicBounds(buttonImageTemp, null, null, null);
+                    }
+                    else
+                    {
+                        if (scaleWidth < scaleHeight)
+                        {
+                            buttonImageTemp = GStyler.scaleDrawable(buttonImage.mutate().getConstantState().newDrawable(),
+                                                        scaleHeight, true);
+                            super.setCompoundDrawablesWithIntrinsicBounds(null, buttonImageTemp, null, null);
+                        }
+                        else
+                        {
+                            buttonImageTemp = GStyler.scaleDrawable(buttonImage.mutate().getConstantState().newDrawable(),
+                                                        scaleWidth, false);
+                            super.setCompoundDrawablesWithIntrinsicBounds(buttonImageTemp, null, null, null);
+                        }
+                    }
+
+                }
                 isScaled = true;
             }
 
-            switch(buttonImageLocation){
-                case LEFT:
-                    super.setCompoundDrawablesWithIntrinsicBounds(buttonImage, null, null, null);
-                    break;
-                case TOP:
-                    super.setCompoundDrawablesWithIntrinsicBounds(null, buttonImage, null, null);
-                    break;
-                case RIGHT:
-                    super.setCompoundDrawablesWithIntrinsicBounds(null, null, buttonImage, null);
-                    break;
-                default: //BOTTOM
-                    super.setCompoundDrawablesWithIntrinsicBounds(null, null, null, buttonImage);
-                    break;
-            }
+
         }
     }
 
@@ -135,6 +196,7 @@ public class GButton extends Button {
      * Theme support pending.
      */
     private void setStyle() {
+
         //default colors
         this.setTextColor(Color.BLACK);
 
@@ -163,12 +225,12 @@ public class GButton extends Button {
         stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, stylePressed);
         stateListDrawable.addState(StateSet.WILD_CARD, styleUnPressed);
 
-        this.setPadding(GStyler.dpToPixel(20, this.getContext())
+        this.setPadding(GStyler.dpToPixel(10, this.getContext())
+                ,GStyler.dpToPixel(5, this.getContext())
                 ,GStyler.dpToPixel(10, this.getContext())
-                ,GStyler.dpToPixel(20, this.getContext())
-                ,GStyler.dpToPixel(10, this.getContext()));
+                ,GStyler.dpToPixel(5, this.getContext()));
 
-        this.setCompoundDrawablePadding(GStyler.dpToPixel(5, this.getContext()));
+        this.setCompoundDrawablePadding(GStyler.dpToPixel(3, this.getContext()));
 
         this.setBackgroundDrawable(stateListDrawable);
     }
