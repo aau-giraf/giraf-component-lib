@@ -28,6 +28,16 @@ class GStyler {
     public static int dialogBackgroundColor = Color.WHITE;
     public static int dialogShadeColor = Color.parseColor("#FF000000");
 
+    public static void SetColors(int color)
+    {
+        baseColor = color;
+        buttonBaseColor = color;
+        listBaseColor = color;
+        gridBaseColor = color;
+        listItemBaseColor = color;
+        dialogBackgroundColor = color;
+    }
+
     public static int[] getColors(int color)
     {
         int[] tmp = new int[2];
@@ -41,11 +51,6 @@ class GStyler {
     public static int GetBaseColor()
     {
         return baseColor;
-    }
-
-    public static void SetBaseColor(int color)
-    {
-        baseColor = color;
     }
 
     /**
