@@ -14,6 +14,9 @@ class GStyler {
     /**Colors is are currently static.
      *Future sprint would involve making them dynamic from a database
      **/
+
+    private static int baseColor = Color.WHITE;
+
     public static int textBaseColor = Color.BLACK;
     public static int buttonBaseColor = Color.WHITE;
     public static int dialogBoxBaseColor = Color.WHITE;
@@ -29,6 +32,16 @@ class GStyler {
     public static int dialogBackgroundColor = Color.WHITE;
     public static int dialogShadeColor = Color.parseColor("#FF000000");
 
+    public static void SetColors(int color)
+    {
+        baseColor = color;
+        buttonBaseColor = color;
+        listBaseColor = color;
+        gridBaseColor = color;
+        listItemBaseColor = color;
+        dialogBackgroundColor = color;
+    }
+
     public static int[] getColors(int color)
     {
         int[] tmp = new int[2];
@@ -37,6 +50,11 @@ class GStyler {
         tmp[1] = calculateGradientColor(color);
 
         return tmp;
+    }
+
+    public static int GetBaseColor()
+    {
+        return baseColor;
     }
 
     /**

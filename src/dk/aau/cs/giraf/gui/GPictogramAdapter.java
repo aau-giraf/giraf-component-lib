@@ -3,11 +3,7 @@ package dk.aau.cs.giraf.gui;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.shapes.Shape;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,13 +11,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import java.io.InputStream;
 import java.util.List;
 
 import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
-import dk.aau.cs.giraf.oasis.lib.models.Profile;
 
 /**
  * Created by AndersBender on 28-03-14.
@@ -55,7 +48,7 @@ private static LayoutInflater inflater=null;
             if(convertView==null)
                     vi = inflater.inflate(R.layout.gpictogram_box, null);
 
-            //Find TextView and ImageView
+            //Find TextView and Ima geView
             TextView name = (TextView)vi.findViewById(R.id.pictogram_name); // title
             ImageView thumb_image=(ImageView)vi.findViewById(R.id.pictogram_picture); // thumb image
 
@@ -70,8 +63,15 @@ private static LayoutInflater inflater=null;
             // Setting all values
             name.setText(pictogram.getName());
 
-            //Attach the Listener to the pictogramlayout
+            //Attach listener to the pictogramlayout to handle dragging of the pictogram
             pictogramlayout.setOnTouchListener(new ImageDragger(pictogram));
+            //THis should set the picture of the ImageView to the Pictogram picture
+            //Function is not implemented yet, so a placeholder is used instead
+            if(pictogram.getImage() != null)
+            {
+                  thumb_image.setImageBitmap(pictogram.getImage());
+            }
+
             return vi;
         }
 
