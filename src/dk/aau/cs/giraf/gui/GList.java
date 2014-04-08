@@ -22,6 +22,7 @@ public class GList extends ListView {
         this.setDivider(cd);
         this.setDividerHeight(dHeight);
 
+
         //only GradientDrawable has both setCornerRadius() and setStroke() so thus it is used
         GradientDrawable listBackground = new GradientDrawable(GradientDrawable.Orientation.BL_TR, new int[] { baseColor, baseColor});
         listBackground.setCornerRadius(GStyler.dpToPixel(10, this.getContext()));

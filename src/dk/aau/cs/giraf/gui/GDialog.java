@@ -12,37 +12,37 @@ import android.widget.RelativeLayout;
  */
 public class GDialog extends Dialog {
 
+    GDialog thisDialog;
+
     public GDialog(Context context, View content)
     {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
-
         SetView(content);
+        thisDialog = this;
     }
 
     public GDialog(Context context)
     {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
+        thisDialog = this;
     }
 
     public void SetView(View content)
     {
         View layout = LayoutInflater.from(this.getContext()).inflate(R.layout.gdialog_layout, null);
-
-        //Styling
-        SetSyle(layout);
-
         //Add content
         RelativeLayout wrapper = (RelativeLayout) layout.findViewById(R.id.GDialog_ViewWrapper);
         wrapper.addView(content);
+        RelativeLayout shadedBackground = (RelativeLayout) layout.findViewById(R.id.GDialog_Shade);
+
+        //Styling
+        SetSyle(layout);
 
         this.setContentView(layout);
     }
 
     private void SetSyle(View layout)
     {
-        //Shade
-        RelativeLayout shade = (RelativeLayout) layout.findViewById(R.id.GDialog_Shade);
-        shade.setBackgroundColor(GStyler.dialogShadeColor);
 
         //Background of dialog
         RelativeLayout background = (RelativeLayout) layout.findViewById(R.id.GDialog_Background);
@@ -53,5 +53,20 @@ public class GDialog extends Dialog {
         d.setStroke(5, GStyler.calculateGradientColor(GStyler.dialogBackgroundColor));
 
         background.setBackgroundDrawable(d);
+        background.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        //Shade
+        RelativeLayout shade = (RelativeLayout) layout.findViewById(R.id.GDialog_Shade);
+        shade.setBackgroundColor(GStyler.dialogShadeColor);
+        shade.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                thisDialog.cancel();
+            }
+        });
     }
 }

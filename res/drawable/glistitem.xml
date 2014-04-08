@@ -3,7 +3,7 @@
     <item
      android:state_selected="false"
         android:state_pressed="false">
-        <shape>
+        <shape android:id="@+id/testShape">
             <gradient 
     		android:startColor="#FFF3F5F8"
     		android:endColor="#FFE9EDF2"
