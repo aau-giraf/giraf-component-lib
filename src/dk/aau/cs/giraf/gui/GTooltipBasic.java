@@ -46,6 +46,11 @@ public class GTooltipBasic extends GTooltip {
         SetDrawable(img);
     }
 
+    public GTooltipBasic(View anchorTo, String text, int imgResID)
+    {
+        this(anchorTo, text, anchorTo.getContext().getResources().getDrawable(imgResID));
+    }
+
     public void SetText(String text) {
         GTextView textView = (GTextView) content.findViewById(R.id.GTooltip_Text);
         if (!hasImage)
@@ -58,7 +63,7 @@ public class GTooltipBasic extends GTooltip {
             //Set a leading span to the text,
             //resulting in an area to place the image
             SpannableString str = new SpannableString(text);
-            str.setSpan(new LeadingMarginBox(imageLines-1, imageMargin), 0, str.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            str.setSpan(new LeadingMarginBox(imageLines, imageMargin), 0, str.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             textView.setText(str);
 
             //Calculate text width
