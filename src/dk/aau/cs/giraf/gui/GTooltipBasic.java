@@ -25,6 +25,7 @@ public class GTooltipBasic extends GTooltip {
     {
         super(anchorTo);
 
+        //Inflate the gtooltipbasic layout
         content = LayoutInflater.from(GetContext()).inflate(R.layout.gtooltipbasic_layout, null);
         SetView(content);
 
@@ -51,6 +52,10 @@ public class GTooltipBasic extends GTooltip {
         this(anchorTo, text, anchorTo.getContext().getResources().getDrawable(imgResID));
     }
 
+    /**
+     * Sets the text of the tooltip, and rescales the tooltip to fit.
+     * @param text
+     */
     public void SetText(String text) {
         GTextView textView = (GTextView) content.findViewById(R.id.GTooltip_Text);
         if (!hasImage)
@@ -75,6 +80,10 @@ public class GTooltipBasic extends GTooltip {
         }
     }
 
+    /**
+     * Sets the image of the tooltip, and rescales the tooltip to fit. Call this with parameter null to remove image.
+     * @param img
+     */
     public void SetDrawable(Drawable img)
     {
         ImageView imgView = (ImageView) content.findViewById(R.id.GTooltip_Image);
@@ -137,6 +146,9 @@ public class GTooltipBasic extends GTooltip {
         textView.setMaxHeight(300);
     }
 
+    /**
+     * Used for creating the inwards margin to account for the image. This enables the "wrapping around" the image.
+     */
     private class LeadingMarginBox implements LeadingMarginSpan.LeadingMarginSpan2
     {
         private int lines;

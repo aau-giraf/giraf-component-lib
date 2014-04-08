@@ -63,6 +63,10 @@ public class GTooltip {
         SetView(content);
     }
 
+    /**
+     * Sets the content View of the GTooltip.
+     * @param content
+     */
     public void SetView(View content)
     {
         RelativeLayout contentHolder = (RelativeLayout) layout.findViewById(R.id.GTooltip_ContentHolder);
@@ -72,11 +76,18 @@ public class GTooltip {
         SetListeners();
     }
 
+    /**
+     * Returns whether the tooltip is shown or not.
+     * @return
+     */
     public boolean IsShown()
     {
         return isShown;
     }
 
+    /**
+     * Displays the tooltip.
+     */
     public void Show()
     {
         if (!this.IsShown())
@@ -86,6 +97,9 @@ public class GTooltip {
         }
     }
 
+    /**
+     * Removes the tooltip from being displayed.
+     */
     public void Hide()
     {
         if (this.IsShown())
@@ -95,11 +109,19 @@ public class GTooltip {
         }
     }
 
+    /**
+     * Returns the Context of the tooltip.
+     * @return
+     */
     public Context GetContext()
     {
         return this.context;
     }
 
+    /**
+     * Sets the distance of the tooltip to the element to which it is attached. The point is interpreted as a vector. Defaults to (10, 10).
+     * @param p
+     */
     public void SetDistanceToAnchor(Point p)
     {
         this.tooltipDistanceVector = p;
@@ -117,12 +139,20 @@ public class GTooltip {
         });
     }
 
+    /**
+     * Stores the current size of the GTooltip_Frame
+     * @param width
+     * @param height
+     */
     private void SetSize(int width, int height)
     {
         this.width = width;
         this.height = height;
     }
 
+    /**
+     * Method to anchor the GTooltip_Frame to its anchorTo View, as well as point the arrow in the right direction.
+     */
     private void SmartAnchor()
     {
         RelativeLayout frame = (RelativeLayout) layout.findViewById(R.id.GTooltip_Frame);
@@ -139,6 +169,10 @@ public class GTooltip {
         PlaceArrow(region);
     }
 
+    /**
+     * Place arrow in its proper corner
+     * @param region
+     */
     private void PlaceArrow(ScreenRegion region)
     {
         //Create arrow if it doesn't exist
@@ -155,6 +189,10 @@ public class GTooltip {
         }
     }
 
+    /**
+     * When placing the arrow, removes stroke for the smooth transition to the arrow, from the ContentHolder
+     * @param PSStrokeRemover - A collection of points
+     */
     private void RemoveInsideStroke(PointSet PSStrokeRemover)
     {
         View contentHolder = layout.findViewById(R.id.GTooltip_ContentHolder);
@@ -187,6 +225,10 @@ public class GTooltip {
         contentHolder.setBackgroundDrawable(new BitmapDrawable(bm));
     }
 
+    /**
+     * Draws the arrow in its proper place
+     * @param PSArrow
+     */
     private void SetArrow(PointSet PSArrow)
     {
         Bitmap bitmap = Bitmap.createBitmap(layout.findViewById(R.id.GTooltip_Frame).getWidth(), layout.findViewById(R.id.GTooltip_Frame).getHeight(), Bitmap.Config.ARGB_8888);
@@ -222,6 +264,12 @@ public class GTooltip {
         layout.findViewById(R.id.GTooltip_Frame).setBackgroundDrawable(new BitmapDrawable(bitmap));
     }
 
+    /**
+     * Retrieves coordinates for the given region.
+     * @param region
+     * @param arrow
+     * @param strokeRemover
+     */
     private void GetPoints(ScreenRegion region, PointSet arrow, PointSet strokeRemover)
     {
         RelativeLayout frame = (RelativeLayout) layout.findViewById(R.id.GTooltip_Frame);
@@ -417,6 +465,9 @@ public class GTooltip {
 
     private enum ScreenRegion {TOP, BOTTOM, TOPLEFT, TOPRIGHT, BOTTOMLEFT, BOTTOMRIGHT}
 
+    /**
+     * A collection of Points
+     */
     private class PointSet
     {
         public Point A = new Point();
