@@ -25,6 +25,7 @@ public class GTooltipBasic extends GTooltip {
     {
         super(anchorTo);
 
+        //Inflate the gtooltipbasic layout
         content = LayoutInflater.from(GetContext()).inflate(R.layout.gtooltipbasic_layout, null);
         SetView(content);
 
@@ -46,6 +47,15 @@ public class GTooltipBasic extends GTooltip {
         SetDrawable(img);
     }
 
+    public GTooltipBasic(View anchorTo, String text, int imgResID)
+    {
+        this(anchorTo, text, anchorTo.getContext().getResources().getDrawable(imgResID));
+    }
+
+    /**
+     * Sets the text of the tooltip, and rescales the tooltip to fit.
+     * @param text
+     */
     public void SetText(String text) {
         GTextView textView = (GTextView) content.findViewById(R.id.GTooltip_Text);
         if (!hasImage)
@@ -58,7 +68,7 @@ public class GTooltipBasic extends GTooltip {
             //Set a leading span to the text,
             //resulting in an area to place the image
             SpannableString str = new SpannableString(text);
-            str.setSpan(new LeadingMarginBox(imageLines-1, imageMargin), 0, str.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            str.setSpan(new LeadingMarginBox(imageLines, imageMargin), 0, str.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             textView.setText(str);
 
             //Calculate text width
@@ -70,6 +80,10 @@ public class GTooltipBasic extends GTooltip {
         }
     }
 
+    /**
+     * Sets the image of the tooltip, and rescales the tooltip to fit. Call this with parameter null to remove image.
+     * @param img
+     */
     public void SetDrawable(Drawable img)
     {
         ImageView imgView = (ImageView) content.findViewById(R.id.GTooltip_Image);
@@ -132,6 +146,9 @@ public class GTooltipBasic extends GTooltip {
         textView.setMaxHeight(300);
     }
 
+    /**
+     * Used for creating the inwards margin to account for the image. This enables the "wrapping around" the image.
+     */
     private class LeadingMarginBox implements LeadingMarginSpan.LeadingMarginSpan2
     {
         private int lines;
