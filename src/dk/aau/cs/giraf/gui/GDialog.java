@@ -17,8 +17,8 @@ public class GDialog extends Dialog {
     public GDialog(Context context, View content)
     {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
-        SetView(content);
         thisDialog = this;
+        SetView(content);
     }
 
     public GDialog(Context context)
@@ -33,8 +33,6 @@ public class GDialog extends Dialog {
         //Add content
         RelativeLayout wrapper = (RelativeLayout) layout.findViewById(R.id.GDialog_ViewWrapper);
         wrapper.addView(content);
-        RelativeLayout shadedBackground = (RelativeLayout) layout.findViewById(R.id.GDialog_Shade);
-
         //Styling
         SetSyle(layout);
 
@@ -57,7 +55,7 @@ public class GDialog extends Dialog {
             @Override
             public void onClick(View v) {
 
-            }
+           }
         });
         //Shade
         RelativeLayout shade = (RelativeLayout) layout.findViewById(R.id.GDialog_Shade);
