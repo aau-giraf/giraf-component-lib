@@ -15,16 +15,19 @@
         android:orientation="vertical"
         android:alpha="0.5"
         android:id="@+id/GDialog_Shade"/>
+
     <RelativeLayout
         android:id="@+id/GDialog_Background"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:soundEffectsEnabled="false"
         android:padding="25dp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:id="@+id/GDialog_ViewWrapper"/>
 
     </RelativeLayout>

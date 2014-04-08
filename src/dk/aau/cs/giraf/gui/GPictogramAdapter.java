@@ -48,7 +48,7 @@ private static LayoutInflater inflater=null;
             if(convertView==null)
                     vi = inflater.inflate(R.layout.gpictogram_box, null);
 
-            //Find TextView and Ima geView
+            //Find TextView and ImageView
             TextView name = (TextView)vi.findViewById(R.id.pictogram_name); // title
             ImageView thumb_image=(ImageView)vi.findViewById(R.id.pictogram_picture); // thumb image
 

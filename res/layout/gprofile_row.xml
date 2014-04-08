@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/glistitem"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:padding="15dip"
+    android:layout_marginTop="50dp"
      >
     
      <!--  Profile pic -->
@@ -18,23 +17,22 @@
  
         <ImageView
             android:id="@+id/imageview_profilepic"
-            android:layout_width="100dip"
-            android:layout_height="130dip"
+            android:layout_width="75dip"
+            android:layout_height="100dip"
             android:src="@drawable/no_profile_pic"/>
  
     </LinearLayout>
 
-    <TextView
+    <dk.aau.cs.giraf.gui.GTextView
         android:id="@+id/profile_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="46dp"
+        android:layout_marginLeft="30dp"
         android:layout_toRightOf="@id/profile_pic"
-        android:text="Mr. Banjak"
-        android:textColor="#596A79"
+        android:textColor="#555"
+        android:text="En Person"
         android:textSize="60dp"
-        android:textStyle="bold"
-        android:typeface="sans" />
+        android:textStyle="bold" />
 
 </RelativeLayout>
