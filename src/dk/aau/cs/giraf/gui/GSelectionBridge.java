@@ -13,6 +13,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
@@ -43,12 +44,14 @@ public class GSelectionBridge extends RelativeLayout {
     {
         super(context,attrs);
         attributes = context.obtainStyledAttributes(attrs, R.styleable.GSelectionBridge, 0, 0);
+        this.setBackgroundColor(Color.GRAY);
     }
 
     public GSelectionBridge(Context context, AttributeSet attrs, int defStyle)
     {
         super(context,attrs,defStyle);
         attributes = context.obtainStyledAttributes(attrs, R.styleable.GSelectionBridge, 0, 0);
+        this.setBackgroundColor(Color.GRAY);
     }
 
     @Override
@@ -66,7 +69,6 @@ public class GSelectionBridge extends RelativeLayout {
 
     private void PositionBridge()
     {
-        Log.e("Method called: ", "PositionBridge()");
         if (targetList != null && targetView != null)
         {
             int listItemLocation[] = new int[2];
@@ -74,38 +76,17 @@ public class GSelectionBridge extends RelativeLayout {
             selectedView.getLocationOnScreen(listItemLocation);
             targetView.getLocationOnScreen(targetViewLocation);
 
-            float myHeight = selectedView.getHeight();
+            float myHeight = selectedView.getHeight()*0.8f;
             float myWidth;
             if (listItemLocation[0] < targetViewLocation[0])
                 myWidth = targetViewLocation[0] - listItemLocation[0] - selectedView.getWidth();
             else
                 myWidth = listItemLocation[0] - targetViewLocation[0] - selectedView.getWidth();
 
-            this.setLayoutParams(new LayoutParams((int) (myWidth + .5 + 8), (int) (myHeight + .5)));
-/*
-            Bitmap bm = Bitmap.createBitmap(this.getWidth(), this.getHeight(), Bitmap.Config.ARGB_8888);
-            ColorDrawable cd = new ColorDrawable(Color.WHITE);
-            Canvas c = new Canvas(bm);
-            cd.setBounds(0,0,this.getWidth(), this.getHeight());
-            cd.draw(c);
+            this.setLayoutParams(new LayoutParams((int) (myWidth + .5 + 3), (int) (myHeight + .8)));
 
-            Paint stroke = new Paint();
-            stroke.setColor(Color.GRAY);
-            stroke.setStrokeWidth(3);
-            stroke.setStyle(Paint.Style.STROKE);
-
-            Path strokePath = new Path();
-            strokePath.lineTo(this.getWidth(),0);
-            strokePath.moveTo(0,this.getHeight());
-            strokePath.lineTo(this.getWidth(), this.getHeight());
-            strokePath.close();
-
-            c.drawPath(strokePath, stroke);
-
-            this.setBackgroundDrawable(new BitmapDrawable(bm));*/
-
-            this.setX(listItemLocation[0] + selectedView.getWidth() - 4);
-            this.setY(selectedView.getY() + targetList.getY());
+            this.setX(listItemLocation[0] + selectedView.getWidth());
+            this.setY(selectedView.getY() + targetList.getY() + myHeight*0.1f);
         }
     }
 
@@ -117,12 +98,12 @@ public class GSelectionBridge extends RelativeLayout {
             this.setLayoutParams(new LayoutParams(this.getWidth(), 0));
             return;
         }
-        int svHeight = selectedView.getHeight();
-        float svY = selectedView.getY();
+        int svHeight = (int)(selectedView.getHeight() * 0.8f);
+        float svY = selectedView.getY() + svHeight/8;
         float tY = targetList.getY();
         int tBot = targetList.getBottom();
 
-        float vPos = svY + tY;// - targetList.getFirstVisiblePosition() * svHeight;
+        float vPos = svY + tY;
         float diff;
         if (vPos < tY)
         {
@@ -130,18 +111,21 @@ public class GSelectionBridge extends RelativeLayout {
             if (svHeight + diff > 0)
             {
                 this.setLayoutParams(new LayoutParams(this.getWidth(), (int)(svHeight + diff)));
-                vPos = vPos - diff;
+                this.setY(vPos - diff);
             }
         }
         else if (vPos + svHeight > tBot)
         {
             diff = vPos + svHeight - tBot;
             this.setLayoutParams(new LayoutParams(this.getWidth(), (int)(svHeight - diff)));
+            this.setY(vPos);
         }
         else
-            this.setLayoutParams(new LayoutParams(this.getWidth(), svHeight));
+        {
+            this.setLayoutParams(new LayoutParams(this.getWidth(), (int)(svHeight)));
+            this.setY(vPos);
+        }
 
-        this.setY(vPos);
 
     }
 
@@ -171,5 +155,13 @@ public class GSelectionBridge extends RelativeLayout {
                 return true;
             }
         });
+
+
+        this.setPadding(0,3,0,3);
+        RelativeLayout rl = new RelativeLayout(this.getContext());
+        rl.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        rl.setBackgroundColor(Color.WHITE);
+        this.addView(rl);
+        this.setLayoutParams(new LayoutParams(0,0));
     }
 }
