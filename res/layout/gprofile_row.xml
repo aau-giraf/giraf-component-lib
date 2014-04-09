@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:focusable="false"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:layout_marginTop="50dp"
-     >
+    android:descendantFocusability="blocksDescendants"
+    >
     
      <!--  Profile pic -->
     <LinearLayout android:id="@+id/profile_pic"
@@ -13,17 +14,19 @@
         android:padding="6dip"
         android:layout_alignParentLeft="true"
         android:background="@drawable/gprofile_pic_box"
-        android:layout_marginRight="5dip">
+        android:layout_marginRight="5dip"
+        android:focusable="false">
  
         <ImageView
             android:id="@+id/imageview_profilepic"
             android:layout_width="75dip"
             android:layout_height="100dip"
-            android:src="@drawable/no_profile_pic"/>
+            android:src="@drawable/no_profile_pic"
+            android:focusable="false"/>
  
     </LinearLayout>
 
-    <TextView
+    <dk.aau.cs.giraf.gui.GTextView
         android:id="@+id/profile_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,6 +36,7 @@
         android:textColor="#555"
         android:text="En Person"
         android:textSize="60dp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:focusable="false"/>
 
 </RelativeLayout>
