@@ -33,7 +33,14 @@ public class GTextView extends TextView{
     private void setStyle()
     {
         this.setTypeface(Typeface.SANS_SERIF);
-        this.setMovementMethod(new ScrollingMovementMethod());
+    }
+
+    public void SetScrollable(boolean scroll)
+    {
+        if (scroll)
+            this.setMovementMethod(new ScrollingMovementMethod());
+        else
+            this.setMovementMethod(null);
     }
 
     public void SetOnScrollListener(OnScrollListener l)

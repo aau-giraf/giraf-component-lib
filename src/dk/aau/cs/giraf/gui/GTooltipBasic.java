@@ -58,6 +58,7 @@ public class GTooltipBasic extends GTooltip {
      */
     public void SetText(String text) {
         GTextView textView = (GTextView) content.findViewById(R.id.GTooltip_Text);
+        textView.SetScrollable(true);
         if (!hasImage)
         {
             textView.setMinWidth(0);
