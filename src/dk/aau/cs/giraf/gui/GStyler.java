@@ -16,7 +16,8 @@ class GStyler {
      **/
 
     private static int baseColor = Color.parseColor("#FFFFD96E");
-
+    //FFFFF3D2
+    public static int backgroundColor = Color.parseColor("#FFFFF3D2");
     public static int textBaseColor = Color.BLACK;
     public static int buttonBaseColor = Color.parseColor("#FFFFD96E");
     public static int dialogBoxBaseColor = Color.parseColor("#FFFFD96E");
