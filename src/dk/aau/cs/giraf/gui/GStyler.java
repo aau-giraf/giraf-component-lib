@@ -16,7 +16,8 @@ class GStyler {
      **/
 
     private static int baseColor = Color.parseColor("#FFFFD96E");
-
+    //p
+    public static int backgroundColor = Color.parseColor("#FFfbfbfb");
     public static int textBaseColor = Color.BLACK;
     public static int buttonBaseColor = Color.parseColor("#FFFFD96E");
     public static int dialogBoxBaseColor = Color.parseColor("#FFFFD96E");
@@ -27,6 +28,7 @@ class GStyler {
     public static int toastBaseTextColor = Color.parseColor("#FFFFD96E");
     public static int listItemBaseColor = Color.parseColor("#FFFFD96E");
     public static int tooltipBaseColor = Color.parseColor("#FFFFD96E");
+    public static int[] dividerBaseColors = { Color.parseColor("#40000000"), Color.parseColor("#25999999") };
 
     public static int sliderThumbColor = Color.parseColor("#FFFFD96E");
     public static int sliderProgressColor = Color.parseColor("#FFFFD96E");
