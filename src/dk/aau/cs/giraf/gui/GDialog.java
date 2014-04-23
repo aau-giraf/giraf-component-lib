@@ -13,6 +13,8 @@ import android.widget.RelativeLayout;
 public class GDialog extends Dialog {
 
     GDialog thisDialog;
+    RelativeLayout shade;
+    boolean shadeIsReady = false; //check whether shade is instantiated to see if backgroundCancelDialog() can be called.
 
     public GDialog(Context context, View content)
     {
@@ -58,13 +60,36 @@ public class GDialog extends Dialog {
            }
         });
         //Shade
-        RelativeLayout shade = (RelativeLayout) layout.findViewById(R.id.GDialog_Shade);
+        shade = (RelativeLayout) layout.findViewById(R.id.GDialog_Shade);
+        shadeIsReady = true;
         shade.setBackgroundColor(GStyler.dialogShadeColor);
-        shade.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                thisDialog.cancel();
-            }
-        });
+    }
+
+
+    public void backgroundCancelDialog(Boolean flag) throws Exception
+    {
+        if(shadeIsReady == true)
+        {
+       if(flag == true)
+       {shade.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               thisDialog.cancel();
+           }
+       });}
+       else if(flag == false)
+       {
+           shade.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+               }
+           });
+       }
+        }
+        else
+        {
+            throw new Exception("You need to instantiate the dialog before using this function.");
+        }
     }
 }
+
