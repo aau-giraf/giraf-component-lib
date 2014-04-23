@@ -13,4 +13,8 @@ public class GComponent {
         GStyler.SetColors(color);
     }
 
+    public static int GetBackgroundColor(){
+        return GStyler.backgroundColor;
+    }
+
 }
