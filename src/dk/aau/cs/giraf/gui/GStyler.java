@@ -28,6 +28,10 @@ class GStyler {
     public static int listItemBaseColor = Color.parseColor("#FFFFD96E");
     public static int tooltipBaseColor = Color.parseColor("#FFFFD96E");
 
+    public static int sliderThumbColor = Color.parseColor("#FFFFD96E");
+    public static int sliderProgressColor = Color.parseColor("#FFFFD96E");
+    public static int sliderUnProgressColor = Color.parseColor("#FFC2C2C2");
+
     //Dialog base colors
     public static int dialogBackgroundColor = Color.parseColor("#FFFFD96E");
     public static int dialogShadeColor = Color.parseColor("#FF000000");
