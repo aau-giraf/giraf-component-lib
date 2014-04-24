@@ -24,14 +24,14 @@ import android.widget.RelativeLayout;
 /**
  * Largely based on http://code.google.com/p/android-color-picker/
  */
-public class GDialogColorSelect extends GDialog {
+public class GColorPicker extends GDialog {
     public interface OnOkListener
     {
-        void OnOkClick(GDialogColorSelect diag, int color);
+        void OnOkClick(GColorPicker diag, int color);
     }
     private final OnOkListener _task;
 
-    private final GDialogColorSelect _diag;
+    private final GColorPicker _diag;
     private final View layout;
     private final View _hue;
     private final View _prevColor;
@@ -43,14 +43,14 @@ public class GDialogColorSelect extends GDialog {
     private final RelativeLayout _hueContainer;
     private final RelativeLayout _prevColorContainer;
     private final RelativeLayout _newColorContainer;
-    private GDialogColorSelectTargetFrame _targetFrame;
+    private GColorPickerTargetFrame _targetFrame;
 
     private final float[] currentColorHsv = new float[3];
     private int colorCurr;
     private boolean colorCurrIsSet = false;
     private boolean isInit = false;
 
-    public GDialogColorSelect(Context context, OnOkListener task)
+    public GColorPicker(Context context, OnOkListener task)
     {
         super(context);
         _task = task;
@@ -69,7 +69,7 @@ public class GDialogColorSelect extends GDialog {
         _prevColorContainer = (RelativeLayout) v.findViewById(R.id.GDialogColorSelect_PrevColorContainer);
         _newColorContainer = (RelativeLayout) v.findViewById(R.id.GDialogColorSelect_NewColorContainer);
 
-        _targetFrame = new GDialogColorSelectTargetFrame(getContext());
+        _targetFrame = new GColorPickerTargetFrame(getContext());
         _targetFrameContainer.addView(_targetFrame);
 
         int color = GStyler.calculateGradientColor(GStyler.dialogBackgroundColor);
@@ -88,7 +88,7 @@ public class GDialogColorSelect extends GDialog {
         SetListeners();
     }
 
-    public GDialogColorSelect(Context context, int oldColor, OnOkListener task)
+    public GColorPicker(Context context, int oldColor, OnOkListener task)
     {
         this(context, task);
         SetCurrColor(oldColor);
@@ -121,12 +121,10 @@ public class GDialogColorSelect extends GDialog {
         });
         _hue.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
+            public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_MOVE
                         || event.getAction() == MotionEvent.ACTION_DOWN
-                        || event.getAction() == MotionEvent.ACTION_UP)
-                {
+                        || event.getAction() == MotionEvent.ACTION_UP) {
                     float y = event.getY();
                     if (y < 0.0f)
                         y = 0.0f;
@@ -151,12 +149,10 @@ public class GDialogColorSelect extends GDialog {
         });
         _targetFrame.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
+            public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_MOVE
                         || event.getAction() == MotionEvent.ACTION_DOWN
-                        || event.getAction() == MotionEvent.ACTION_UP)
-                {
+                        || event.getAction() == MotionEvent.ACTION_UP) {
                     float x = event.getX();
                     float y = event.getY();
 
@@ -199,7 +195,7 @@ public class GDialogColorSelect extends GDialog {
     {
         if (!Initialize())
         {
-            Log.e("GDialogColorSelect", "Cannot show, current color not set. Call SetCurrColor(int) to set current color.");
+            Log.e("GColorPicker", "Cannot show, current color not set. Call SetCurrColor(int) to set current color.");
             return;
         }
 
@@ -278,22 +274,22 @@ public class GDialogColorSelect extends GDialog {
         return Color.HSVToColor(currentColorHsv);
     }
 
-    public class GDialogColorSelectTargetFrame extends View {
+    public class GColorPickerTargetFrame extends View {
         final float[] color = { 1.0f, 1.0f, 1.0f };
         Paint paint;
         Shader verticalGradient;
 
-        public GDialogColorSelectTargetFrame(Context context)
+        public GColorPickerTargetFrame(Context context)
         {
             this(context, null);
         }
 
-        public GDialogColorSelectTargetFrame(Context context, AttributeSet attrs)
+        public GColorPickerTargetFrame(Context context, AttributeSet attrs)
         {
             this(context, attrs, 0);
         }
 
-        public GDialogColorSelectTargetFrame(Context context, AttributeSet attrs, int defStyle)
+        public GColorPickerTargetFrame(Context context, AttributeSet attrs, int defStyle)
         {
             super(context, attrs, defStyle);
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
