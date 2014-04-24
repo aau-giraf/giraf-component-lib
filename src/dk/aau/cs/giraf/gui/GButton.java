@@ -125,7 +125,6 @@ public class GButton extends Button {
                 Drawable buttonImageTemp;
                 int scaleWidth = this.getWidth() - this.getPaddingLeft() - this.getPaddingRight();
                 int scaleHeight = this.getHeight() - this.getPaddingBottom() - this.getPaddingTop();
-                Log.e("Image not scaled", "scaleWidth: " + scaleWidth + " - scaleHeight: " + scaleHeight);
 
                 if (this.getText().length() > 0) //in this case, scale on the logical axis
                 {
@@ -183,8 +182,6 @@ public class GButton extends Button {
                             super.setCompoundDrawablesWithIntrinsicBounds(null, buttonImageTemp, null, null);
                         }
                     }
-                    Log.e("buttonImageTemp size", "width: " + buttonImageTemp.getIntrinsicWidth() + " - height: " + buttonImageTemp.getIntrinsicHeight());
-
                 }
                 isScaled = true;
             }
