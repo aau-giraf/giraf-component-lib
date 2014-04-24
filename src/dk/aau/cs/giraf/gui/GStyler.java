@@ -1,6 +1,7 @@
 package dk.aau.cs.giraf.gui;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -69,7 +70,7 @@ class GStyler {
      * @param length Longest axis to scale the drawable to.
      * @return Scaled drawable.
      */
-    public static Drawable scaleDrawable(Drawable drawable, int length, boolean vertical){
+    public static Drawable scaleDrawable(Drawable drawable, int length, boolean vertical, Resources res){
         Drawable result = drawable;
         Bitmap tempIcon = ((BitmapDrawable)result).getBitmap();
 
@@ -81,7 +82,8 @@ class GStyler {
         float scale = ((float) length) / ((float)maxLength);
 
         tempIcon = Bitmap.createScaledBitmap(tempIcon, (int)(tempIcon.getWidth()*scale), (int)(tempIcon.getHeight()*scale), true);
-        result = new BitmapDrawable(tempIcon);
+        result = new BitmapDrawable(res, tempIcon);
+
 
         return result;
     }
