@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="GSelectionBridge">
-        <attr name="ParentID" format="reference"/>
-        <attr name="List" format="reference"/>
-        <attr name="TargetView" format="reference"/>
+    <declare-styleable name="GToggleButton">
+        <attr name="Toggled" format="boolean"/>
     </declare-styleable>
 </resources>
