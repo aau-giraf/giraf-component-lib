@@ -7,6 +7,7 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
@@ -14,6 +15,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.StateSet;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,7 +33,7 @@ public class GButton extends Button {
     private boolean isScaled = false;
     protected GradientDrawable stylePressed;
     protected GradientDrawable styleUnPressed;
-
+    private boolean hasDrawnStroke = false;
 
 
     /**
@@ -191,6 +193,29 @@ public class GButton extends Button {
 
 
         }
+
+    }
+
+    @Override
+    protected void onMeasure (int widthMeasureSpec, int heightMeasureSpec)
+    {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+        if (!hasDrawnStroke)
+        {
+            int myColor = GStyler.calculateGradientColor(GStyler.buttonBaseColor, 0.75f);
+            RelativeLayout r = new RelativeLayout(getContext());
+            GradientDrawable d = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {myColor, myColor});
+            d.setStroke(2, myColor);
+            d.setCornerRadius(10);
+            r.setBackgroundDrawable(d);
+
+            ViewGroup v =(ViewGroup)this.getParent();
+            v.removeView(this);
+            v.addView(r);
+            r.addView(this);
+            hasDrawnStroke = true;
+        }
     }
 
     /**
@@ -219,9 +244,9 @@ public class GButton extends Button {
 
         //round corners and give edges
         styleUnPressed.setCornerRadius(10);
-        styleUnPressed.setStroke(3, GStyler.calculateGradientColor(colors[0], 0.75f));
+        styleUnPressed.setStroke(1, GStyler.calculateGradientColor(colors[0], 1.25f));
         stylePressed.setCornerRadius(10);
-        stylePressed.setStroke(3, GStyler.calculateGradientColor(colorsPressed[0], 0.75f));
+        stylePressed.setStroke(1, GStyler.calculateGradientColor(colorsPressed[0], 0.75f));
 
         //set state_pressed to gdPressed and all others to gd
         stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, stylePressed);

@@ -96,6 +96,12 @@ class GStyler {
 
     public static int calculateGradientColor(int color, float shadingMultiplier)
     {
+        ColorificationBisimulationRelation HSV = new ColorificationBisimulationRelation(color);
+        HSV.SetVal(HSV.GetVal()*shadingMultiplier);
+        return HSV.GetColor();
+
+
+        /*
         //collect the RGB values from the hex color code via bit-shifting
         int red = color & 0xFF0000;
         int green = color & 0xFF00;
@@ -106,6 +112,10 @@ class GStyler {
         green = (int)(green*shadingMultiplier);
         blue = (int)(blue*shadingMultiplier);
 
+        if (red > 0xFF0000) red = 0xFF0000;
+        if (green > 0xFF00) green = 0xFF00;
+        if (blue > 0xFF)    blue = 0xFF;
+
         //re-assemble into new color
         //bitwise AND is there to ensure that no data is spilling from red and green
         int colorRes = 0xFF000000 |
@@ -113,7 +123,7 @@ class GStyler {
                 green & 0xFF00 |
                 blue;
 
-        return colorRes;
+        return colorRes;*/
     }
 
     /**
