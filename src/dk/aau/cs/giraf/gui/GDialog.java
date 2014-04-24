@@ -43,14 +43,13 @@ public class GDialog extends Dialog {
 
     private void SetSyle(View layout)
     {
-
         //Background of dialog
         RelativeLayout background = (RelativeLayout) layout.findViewById(R.id.GDialog_Background);
 
         GradientDrawable d = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {GStyler.dialogBackgroundColor, GStyler.dialogBackgroundColor});
         d.setCornerRadius(10);
 
-        d.setStroke(5, GStyler.calculateGradientColor(GStyler.dialogBackgroundColor));
+        d.setStroke(5, GStyler.calculateGradientColor(GStyler.dialogBorderColor));
 
         background.setBackgroundDrawable(d);
         background.setOnClickListener(new View.OnClickListener() {
