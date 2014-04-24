@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:id="@+id/GDialogColorSelect_ColorFrame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:id="@+id/GDialogColorSelect_SelectedColorFrame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="8dp"
+            >
+            <RelativeLayout
+                android:id="@+id/GDialogColorSelect_PrevColorContainer"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:padding="2dp">
+                <View
+                    android:id="@+id/GDialogColorSelect_PrevColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#FFFF00FF"/>
+            </RelativeLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/gdialogcolorselect_arrow_right"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingRight="8dp"
+                android:paddingLeft="8dp"
+                />
+            <RelativeLayout
+                android:id="@+id/GDialogColorSelect_NewColorContainer"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:padding="2dp">
+                <View
+                    android:id="@+id/GDialogColorSelect_NewColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#FFFF00FF"/>
+            </RelativeLayout>
+        </LinearLayout>
+        <View
+            android:id="@+id/GDialogColorSelect_Spacer"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            />
+        <RelativeLayout
+            android:id="@+id/GDialogColorSelect_TargetFrameContainer"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:padding="2dp"
+            android:layout_below="@id/GDialogColorSelect_SelectedColorFrame"
+            android:layout_toRightOf="@id/GDialogColorSelect_Spacer">
+        </RelativeLayout>
+        <View
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_below="@id/GDialogColorSelect_TargetFrameContainer"
+            />
+        <RelativeLayout
+            android:id="@+id/GDialogColorSelect_HueContainer"
+            android:layout_width="30dp"
+            android:layout_height="240dp"
+            android:layout_marginLeft="4dp"
+            android:layout_toRightOf="@id/GDialogColorSelect_TargetFrameContainer"
+            android:layout_below="@id/GDialogColorSelect_SelectedColorFrame"
+            android:padding="2dp">
+            <ImageView
+                android:id="@+id/GDialogColorSelect_Hue"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/gdialogcolorselect_hue"
+                android:scaleType="fitXY" />
+        </RelativeLayout>
+        <ImageView
+            android:id="@+id/GDialogColorSelect_Cursor"
+            android:layout_width="9dp"
+            android:layout_height="9dp"
+            android:src="@drawable/gdialogcolorselect_cursor"
+            android:scaleType="matrix"/>
+        <ImageView
+            android:id="@+id/GDialogColorSelect_Target"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/gdialogcolorselect_target"
+            android:scaleType="matrix"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:layout_below="@id/GDialogColorSelect_ColorFrame"
+        android:layout_centerHorizontal="true" >
+
+        <dk.aau.cs.giraf.gui.GVerifyButton
+            android:id="@+id/GDialogColorSelect_okBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="25dp" />
+        <dk.aau.cs.giraf.gui.GCancelButton
+            android:id="@+id/GDialogColorSelect_cancelBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</RelativeLayout>
