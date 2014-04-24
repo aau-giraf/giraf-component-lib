@@ -173,13 +173,13 @@ public class GButton extends Button {
                         if (scaleWidth < scaleHeight)
                         {
                             buttonImageTemp = GStyler.scaleDrawable(buttonImage.mutate().getConstantState().newDrawable(),
-                                    scaleWidth, true);
+                                    scaleWidth, false);
                             super.setCompoundDrawablesWithIntrinsicBounds(buttonImageTemp, null, null, null);
                         }
                         else
                         {
                             buttonImageTemp = GStyler.scaleDrawable(buttonImage.mutate().getConstantState().newDrawable(),
-                                    scaleHeight, false);
+                                    scaleHeight, true);
                             super.setCompoundDrawablesWithIntrinsicBounds(null, buttonImageTemp, null, null);
                         }
                     }
