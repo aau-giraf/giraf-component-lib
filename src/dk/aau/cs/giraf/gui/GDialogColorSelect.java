@@ -33,17 +33,17 @@ public class GDialogColorSelect extends GDialog {
 
     private final GDialogColorSelect _diag;
     private final View layout;
-    private final View _hue; //viewHue - color shit to the right
-    private final View _prevColor; //viewOldColor
-    private final View _newColor; //viewNewColor
-    private final ImageView _cursor; //viewCursor
-    private final ImageView _target; //viewTarget
-    private final ViewGroup _colorFrame; //viewContainer
+    private final View _hue;
+    private final View _prevColor;
+    private final View _newColor;
+    private final ImageView _cursor;
+    private final ImageView _target;
+    private final ViewGroup _colorFrame;
     private final RelativeLayout _targetFrameContainer;
     private final RelativeLayout _hueContainer;
     private final RelativeLayout _prevColorContainer;
     private final RelativeLayout _newColorContainer;
-    private GDialogColorSelectTargetFrame _targetFrame; //viewSatVal
+    private GDialogColorSelectTargetFrame _targetFrame;
 
     private final float[] currentColorHsv = new float[3];
     private int colorCurr;
