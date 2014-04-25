@@ -117,6 +117,38 @@ public class GButton extends Button {
     {
         super.onDraw(c);
 
+        if (!hasDrawnStroke)
+        {
+            int padding = 2;
+            //this.setWidth(this.getWidth()+padding*2);
+            ViewGroup.LayoutParams selfParams = this.getLayoutParams();
+
+            RelativeLayout r = new RelativeLayout(getContext());
+            ViewGroup v =(ViewGroup)this.getParent();
+            v.removeView(this);
+            v.addView(r);
+            r.addView(this);
+
+            int myColor = GStyler.InversePropoertionallyAlterVS(GStyler.buttonBaseColor, 0.75f);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(this.getWidth(), this.getHeight());
+            Log.e("Width", this.getWidth()+"");
+            Log.e("Height", this.getHeight()+"");
+
+            //r.setLayoutParams(params);
+            r.setPadding(padding, padding, padding, padding);
+            GradientDrawable d = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {myColor, myColor});
+            //d.setStroke(15, myColor);
+            d.setCornerRadius(10);
+            r.setBackgroundDrawable(d);
+
+            hasDrawnStroke = true;
+
+            /*
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)this.getLayoutParams();
+            params.setMargins(8,8,8,8);
+            this.setLayoutParams(params);*/
+        }
+
         //Sets the button image.
         if (buttonImage != null)
         {
@@ -198,21 +230,7 @@ public class GButton extends Button {
     {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        if (!hasDrawnStroke)
-        {
-            int myColor = GStyler.InversePropoertionallyAlterVS(GStyler.buttonBaseColor, 0.75f);
-            RelativeLayout r = new RelativeLayout(getContext());
-            GradientDrawable d = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {myColor, myColor});
-            d.setStroke(2, myColor);
-            d.setCornerRadius(10);
-            r.setBackgroundDrawable(d);
 
-            ViewGroup v =(ViewGroup)this.getParent();
-            v.removeView(this);
-            v.addView(r);
-            r.addView(this);
-            hasDrawnStroke = true;
-        }
     }
 
     /**
