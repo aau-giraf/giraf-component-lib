@@ -119,7 +119,7 @@ public class GButton extends Button {
 
         if (!hasDrawnStroke)
         {
-            int padding = 2;
+            int padding = 1;
 
             RelativeLayout r = new RelativeLayout(getContext());
 
