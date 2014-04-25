@@ -12,7 +12,7 @@ import android.widget.ListView;
 
 public class GList extends ListView {
 
-	private void setStyle() {
+	protected void setStyle() {
         int baseColor = GStyler.listBaseColor;
         int dHeight = this.getDividerHeight();
 
