@@ -25,7 +25,6 @@ public class GListSnapper extends ListView{
 		super(context, attrs);
         this.setStyle();
         this.setListeners();
-        this.setRotation(90);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -38,22 +37,28 @@ public class GListSnapper extends ListView{
 
     private void setListeners()
     {
+        //Add listener to handle right positioning of the Lists item after a scroll
         this.setOnScrollListener(new OnScrollListener() {
-            private float y = 0;
+            private float y = 0; //the offset of the y-axis, from the top of the list to the top of the first item which is shown in the list.
             private int currentItem = 0;
             private int itemHeight = 0;
             private Boolean lastItemShown = false;
             private Thread u;
+
             @Override
             public void onScrollStateChanged(final AbsListView view, int scrollState) {
+                //Test if the scrolling stopped
                 if(scrollState == 0)
                 {
+                    //Ensure that the lists first visable item is not null (otherwise the rest will crash)
                     View item = view.getChildAt(0);
                     if(item != null)
                     {
                         int l = - itemHeight/2;
+                        //Test if more than half of the first item is showed
                         if(y > l)
                         {
+                            //If more than  50% is shown push down to show the first item again
                             Runnable runDown = new Runnable(){
                                 @Override
                                 public void run()
@@ -82,6 +87,7 @@ public class GListSnapper extends ListView{
                         }
                         else if(y < l && lastItemShown == false)
                         {
+                            //If more than  50% is shown push up and display the "second item" shown as the first instead
                             Runnable runUp = new Runnable(){
                                 @Override
                                 public void run() {
