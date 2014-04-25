@@ -51,7 +51,7 @@ public class GToggleButton extends GButton {
         super.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                btn.setToggled(!btn.isToggled());
+                Toggle();
             }
         });
     }
@@ -68,6 +68,16 @@ public class GToggleButton extends GButton {
 
     }
 
+    public void Toggle()
+    {
+        toggled = !toggled;
+        if (task != null) task.onClick(this);
+
+        if (isToggled())
+            this.setBackgroundDrawable(stylePressed);
+        else
+            this.setBackgroundDrawable(styleUnPressed);
+    }
 
     public void setToggled(boolean state)
     {
@@ -77,7 +87,5 @@ public class GToggleButton extends GButton {
             this.setBackgroundDrawable(stylePressed);
         else
             this.setBackgroundDrawable(styleUnPressed);
-
-        if (task != null) task.onClick(this);
     }
 }

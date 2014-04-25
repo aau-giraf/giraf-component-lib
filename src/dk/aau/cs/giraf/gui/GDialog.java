@@ -65,25 +65,25 @@ public class GDialog extends Dialog {
     }
 
 
-    public void backgroundCancelDialog(Boolean flag) throws Exception
+    public void backgroundCancelsDialog(Boolean flag) throws Exception
     {
         if(shadeIsReady == true)
         {
-       if(flag == true)
-       {shade.setOnClickListener(new View.OnClickListener() {
+             if(flag == true)
+             {
+                 shade.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
                thisDialog.cancel();
            }
        });}
-       else if(flag == false)
-       {
-           shade.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-               }
-           });
-       }
+             else if(flag == false)
+             {
+                 shade.setOnClickListener(new View.OnClickListener() {
+                     @Override
+                     public void onClick(View v) {}
+                 });
+             }
         }
         else
         {
