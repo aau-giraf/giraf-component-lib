@@ -94,14 +94,24 @@ class GStyler {
         return calculateGradientColor(color, 0.8f);
     }
 
-    public static int calculateGradientColor(int color, float shadingMultiplier)
+    public static int ProportionallyAlterVS(int color, float multiplier)
     {
         ColorificationBisimulationRelation HSV = new ColorificationBisimulationRelation(color);
-        HSV.SetVal(HSV.GetVal()*shadingMultiplier);
+        HSV.SetVal(HSV.GetVal() * multiplier);
+        HSV.SetSat(HSV.GetSat() * multiplier);
         return HSV.GetColor();
+    }
 
+    public static int InversePropoertionallyAlterVS(int color, float multiplier)
+    {
+        ColorificationBisimulationRelation HSV = new ColorificationBisimulationRelation(color);
+        HSV.SetVal(HSV.GetVal() * multiplier);
+        HSV.SetSat(HSV.GetSat() * -multiplier);
+        return HSV.GetColor();
+    }
 
-        /*
+    public static int calculateGradientColor(int color, float shadingMultiplier)
+    {
         //collect the RGB values from the hex color code via bit-shifting
         int red = color & 0xFF0000;
         int green = color & 0xFF00;
@@ -123,7 +133,7 @@ class GStyler {
                 green & 0xFF00 |
                 blue;
 
-        return colorRes;*/
+        return colorRes;
     }
 
     /**

@@ -203,7 +203,7 @@ public class GButton extends Button {
 
         if (!hasDrawnStroke)
         {
-            int myColor = GStyler.calculateGradientColor(GStyler.buttonBaseColor, 0.75f);
+            int myColor = GStyler.InversePropoertionallyAlterVS(GStyler.buttonBaseColor, 0.75f);
             RelativeLayout r = new RelativeLayout(getContext());
             GradientDrawable d = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {myColor, myColor});
             d.setStroke(2, myColor);
@@ -244,7 +244,8 @@ public class GButton extends Button {
 
         //round corners and give edges
         styleUnPressed.setCornerRadius(10);
-        styleUnPressed.setStroke(1, GStyler.calculateGradientColor(colors[0], 1.25f));
+        //styleUnPressed.setStroke(1, GStyler.calculateGradientColor(colors[0], 0.75f));
+        styleUnPressed.setStroke(1, GStyler.ProportionallyAlterVS(colors[0], 1.5f));
         stylePressed.setCornerRadius(10);
         stylePressed.setStroke(1, GStyler.calculateGradientColor(colorsPressed[0], 0.75f));
 
