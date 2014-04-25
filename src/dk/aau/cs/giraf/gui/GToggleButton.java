@@ -1,6 +1,7 @@
 package dk.aau.cs.giraf.gui;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.ToggleButton;
 public class GToggleButton extends GButton {
 
     private boolean toggled = false;
+    private OnClickListener task;
     final GToggleButton btn;
 
     public GToggleButton(Context context)
@@ -26,29 +28,38 @@ public class GToggleButton extends GButton {
     {
         super(context, attrs);
         btn = this;
+        Setup();
         if (attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "onClick") == null)
             setOnClickListener(null);
+
+        this.setToggled(context.obtainStyledAttributes(attrs, R.styleable.GToggleButton).getBoolean(R.styleable.GToggleButton_Toggled, false));
     }
 
     public GToggleButton(Context context, AttributeSet attrs, int defStyle)
     {
         super(context, attrs, defStyle);
         btn = this;
+        Setup();
         if (attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "onClick") == null)
             setOnClickListener(null);
+
+        this.setToggled(context.obtainStyledAttributes(attrs, R.styleable.GToggleButton).getBoolean(R.styleable.GToggleButton_Toggled, false));
     }
 
-    @Override
-    public void setOnClickListener(final OnClickListener task)
+    private void Setup()
     {
         super.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                btn.setToggled(!btn.isToggled());
-                if (task != null)
-                    task.onClick(v);
+                Toggle();
             }
         });
+    }
+
+    @Override
+    public void setOnClickListener(OnClickListener task)
+    {
+        this.task = task;
     }
 
     public boolean isToggled()
@@ -57,6 +68,16 @@ public class GToggleButton extends GButton {
 
     }
 
+    public void Toggle()
+    {
+        toggled = !toggled;
+        if (task != null) task.onClick(this);
+
+        if (isToggled())
+            this.setBackgroundDrawable(stylePressed);
+        else
+            this.setBackgroundDrawable(styleUnPressed);
+    }
 
     public void setToggled(boolean state)
     {

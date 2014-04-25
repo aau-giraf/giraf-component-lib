@@ -1,6 +1,7 @@
 package dk.aau.cs.giraf.gui;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -30,8 +31,13 @@ class GStyler {
     public static int tooltipBaseColor = Color.parseColor("#FFFFD96E");
     public static int[] dividerBaseColors = { Color.parseColor("#40000000"), Color.parseColor("#25999999") };
 
+    public static int sliderThumbColor = Color.parseColor("#FFFFD96E");
+    public static int sliderProgressColor = Color.parseColor("#FFFFD96E");
+    public static int sliderUnProgressColor = Color.parseColor("#FFC2C2C2");
+
     //Dialog base colors
-    public static int dialogBackgroundColor = Color.parseColor("#FFFFD96E");
+    public static int dialogBackgroundColor = Color.parseColor("#FFfbfbfb");
+    public static int dialogBorderColor = calculateGradientColor(Color.parseColor("#FFFFD96E"));
     public static int dialogShadeColor = Color.parseColor("#FF000000");
 
     public static void SetColors(int color)
@@ -65,7 +71,7 @@ class GStyler {
      * @param length Longest axis to scale the drawable to.
      * @return Scaled drawable.
      */
-    public static Drawable scaleDrawable(Drawable drawable, int length, boolean vertical){
+    public static Drawable scaleDrawable(Drawable drawable, int length, boolean vertical, Resources res){
         Drawable result = drawable;
         Bitmap tempIcon = ((BitmapDrawable)result).getBitmap();
 
@@ -77,7 +83,8 @@ class GStyler {
         float scale = ((float) length) / ((float)maxLength);
 
         tempIcon = Bitmap.createScaledBitmap(tempIcon, (int)(tempIcon.getWidth()*scale), (int)(tempIcon.getHeight()*scale), true);
-        result = new BitmapDrawable(tempIcon);
+        result = new BitmapDrawable(res, tempIcon);
+
 
         return result;
     }
