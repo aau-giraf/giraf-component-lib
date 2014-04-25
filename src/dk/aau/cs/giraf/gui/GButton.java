@@ -120,26 +120,21 @@ public class GButton extends Button {
         if (!hasDrawnStroke)
         {
             int padding = 2;
-            //this.setWidth(this.getWidth()+padding*2);
-            ViewGroup.LayoutParams selfParams = this.getLayoutParams();
 
             RelativeLayout r = new RelativeLayout(getContext());
+
+
+            int myColor = GStyler.InversePropoertionallyAlterVS(GStyler.buttonBaseColor, 0.75f);
+
+            r.setPadding(padding, padding, padding, padding);
+            GradientDrawable d = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {myColor, myColor});
+            d.setCornerRadius(10);
+            r.setBackgroundDrawable(d);
+
             ViewGroup v =(ViewGroup)this.getParent();
             v.removeView(this);
             v.addView(r);
             r.addView(this);
-
-            int myColor = GStyler.InversePropoertionallyAlterVS(GStyler.buttonBaseColor, 0.75f);
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(this.getWidth(), this.getHeight());
-            Log.e("Width", this.getWidth()+"");
-            Log.e("Height", this.getHeight()+"");
-
-            //r.setLayoutParams(params);
-            r.setPadding(padding, padding, padding, padding);
-            GradientDrawable d = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {myColor, myColor});
-            //d.setStroke(15, myColor);
-            d.setCornerRadius(10);
-            r.setBackgroundDrawable(d);
 
             hasDrawnStroke = true;
 
