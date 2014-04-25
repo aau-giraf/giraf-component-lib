@@ -111,9 +111,10 @@ class GStyler {
 
     public static int InversePropoertionallyAlterVS(int color, float multiplier)
     {
+        float diff = multiplier - 1.f;
         ColorificationBisimulationRelation HSV = new ColorificationBisimulationRelation(color);
-        HSV.SetVal(HSV.GetVal() * multiplier);
-        HSV.SetSat(HSV.GetSat() * -multiplier);
+        HSV.SetVal(HSV.GetVal() * 1.f + diff);
+        HSV.SetSat(HSV.GetSat() * 1.f - diff);
         return HSV.GetColor();
     }
 
