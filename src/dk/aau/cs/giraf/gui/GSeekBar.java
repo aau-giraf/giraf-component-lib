@@ -29,7 +29,7 @@ import android.widget.SeekBar;
  */
 public class GSeekBar extends RelativeLayout {
 
-    SeekBar seeker;
+    protected SeekBar seeker;
 
     public GSeekBar (Context context)
     {
@@ -49,7 +49,7 @@ public class GSeekBar extends RelativeLayout {
         CreateSeekBar(context);
     }
 
-    private void CreateSeekBar(Context context)
+    protected void CreateSeekBar(Context context)
     {
         /***
          * The reason for containing a seekbar rather than deriving from a seekbar
@@ -77,11 +77,14 @@ public class GSeekBar extends RelativeLayout {
         progressDrawable.setCornerRadius(4);
         unProgressDrawable.setCornerRadius(4);
 
-        //The seeker
+        //Both progressbars are essentially rendered, the progress ontop of the unprogress
+        //This makes the progress clip-able
         ClipDrawable clip = new ClipDrawable(progressDrawable, Gravity.LEFT,ClipDrawable.HORIZONTAL);
 
+        //padding the whole thing for visual niceness
         InsetDrawable padding = new InsetDrawable(unProgressDrawable,0,3,0,3);
 
+        //combining into a single drawable
         LayerDrawable progressLayer = new LayerDrawable(new Drawable[]{padding,clip});
 
         seeker.setProgressDrawable(progressLayer);
@@ -104,5 +107,15 @@ public class GSeekBar extends RelativeLayout {
     public void setOnSeekBarChangeListener(SeekBar.OnSeekBarChangeListener listener)
     {
         seeker.setOnSeekBarChangeListener(listener);
+    }
+
+    public int getProgress()
+    {
+        return seeker.getProgress();
+    }
+
+    public void setProgress(int progress)
+    {
+        seeker.setProgress(progress);
     }
 }
