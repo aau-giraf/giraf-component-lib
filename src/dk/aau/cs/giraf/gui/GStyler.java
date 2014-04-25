@@ -16,7 +16,7 @@ class GStyler {
      *Future sprint would involve making them dynamic from a database
      **/
 
-    private static int baseColor = Color.parseColor("#FFFFD96E");
+    public static int baseColor = Color.parseColor("#FFFFD96E");
     //p
     public static int backgroundColor = Color.parseColor("#FFfbfbfb");
     public static int textBaseColor = Color.BLACK;
