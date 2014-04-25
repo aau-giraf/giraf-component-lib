@@ -5,11 +5,13 @@ package dk.aau.cs.giraf.gui;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -119,22 +121,37 @@ public class GButton extends Button {
 
         if (!hasDrawnStroke)
         {
+
             int padding = 1;
-
-            RelativeLayout r = new RelativeLayout(getContext());
-
-
             int myColor = GStyler.InversePropoertionallyAlterVS(GStyler.buttonBaseColor, 0.75f);
-
+/*
+            //Layouy container
+            RelativeLayout r = new RelativeLayout(getContext());
             r.setPadding(padding, padding, padding, padding);
+
+            //Alter positioning because of scope reasons
+            ViewGroup.LayoutParams selfParams = this.getLayoutParams();
+            RelativeLayout.LayoutParams rParams = (RelativeLayout.LayoutParams)this.getLayoutParams();
+
+            //background of container
             GradientDrawable d = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {myColor, myColor});
             d.setCornerRadius(10);
             r.setBackgroundDrawable(d);
 
+            //swap parent/child relationship
             ViewGroup v =(ViewGroup)this.getParent();
             v.removeView(this);
             v.addView(r);
             r.addView(this);
+            */
+
+            Bitmap bitmap = Bitmap.createBitmap(this.getWidth(), this.getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canviassjavicans = new Canvas(bitmap);
+
+            InsetDrawable iD = new InsetDrawable(this.getBackground(), padding);
+            iD.draw(canviassjavicans);
+            BitmapDrawable bD = new BitmapDrawable(getResources(), GStyler.getRoundedCornerBitmap(bitmap, myColor, 10, padding, getResources()));
+            this.setBackgroundDrawable(bD);
 
             hasDrawnStroke = true;
 
@@ -255,7 +272,7 @@ public class GButton extends Button {
         //round corners and give edges
         styleUnPressed.setCornerRadius(10);
         //styleUnPressed.setStroke(1, GStyler.calculateGradientColor(colors[0], 0.75f));
-        styleUnPressed.setStroke(1, GStyler.ProportionallyAlterVS(colors[0], 1.5f));
+        styleUnPressed.setStroke(2, GStyler.ProportionallyAlterVS(colors[0], 1.5f));
         stylePressed.setCornerRadius(10);
         stylePressed.setStroke(1, GStyler.calculateGradientColor(colorsPressed[0], 0.75f));
 
