@@ -7,12 +7,141 @@ import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
-public class GListSnapper extends ListView {
+public class GListSnapper extends ListView{
+    int paddingSize = 10;
 
-	private void setStyle() {
+	public GListSnapper(Context context) {
+		super(context);
+        this.setStyle();
+        this.setListeners();
+		// TODO Auto-generated constructor stub
+	}
+	public GListSnapper(Context context, AttributeSet attrs) {
+		super(context, attrs);
+        this.setStyle();
+        this.setListeners();
+        this.setRotation(90);
+		// TODO Auto-generated constructor stub
+	}
+
+	public GListSnapper(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+        this.setStyle();
+        this.setListeners();
+		// TODO Auto-generated constructor stub
+	}
+
+    private void setListeners()
+    {
+        this.setOnScrollListener(new OnScrollListener() {
+            private float y = 0;
+            private int currentItem = 0;
+            private int itemHeight = 0;
+            private Boolean lastItemShown = false;
+            private Thread u;
+            @Override
+            public void onScrollStateChanged(final AbsListView view, int scrollState) {
+                if(scrollState == 0)
+                {
+                    View item = view.getChildAt(0);
+                    if(item != null)
+                    {
+                        int l = - itemHeight/2;
+                        if(y > l)
+                        {
+                            Runnable runDown = new Runnable(){
+                                @Override
+                                public void run()
+                                {
+                                    view.smoothScrollBy((int)y- paddingSize, 300);
+                                }};
+                            if(u == null)
+                            {
+                                u = new Thread(runDown);
+                                u.start();
+                            }
+                            else if(u.getState() == Thread.State.RUNNABLE)
+                            {
+                              u.interrupt();
+                              if(u.isInterrupted() == true)
+                              {
+                                  u = new Thread(runDown);
+                                  u.start();
+                              }
+                            }
+                            else
+                            {
+                                u = new Thread(runDown);
+                                u.start();
+                            }
+                        }
+                        else if(y < l && lastItemShown == false)
+                        {
+                            Runnable runUp = new Runnable(){
+                                @Override
+                                public void run() {
+                                int j = itemHeight +(int) y;
+                                view.smoothScrollBy(j, 300);
+                            }};
+
+                            if(u == null)
+                            {
+                                u = new Thread(runUp);
+                                u.start();
+                            }
+                            else if(u.getState() == Thread.State.RUNNABLE)
+                            {
+                                u.interrupt();
+                                if(u.isInterrupted() == true)
+                                {
+                                    u = new Thread(runUp);
+                                    u.start();
+                                }
+                            }
+                            else
+                            {
+                                u = new Thread(runUp);
+                                u.start();
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                if(view != null)
+                {
+                    View w  = view.getChildAt(0);
+                    int i = getFirstVisiblePosition();
+                    if(w != null)
+                    {
+                        currentItem = firstVisibleItem;
+                        y = w.getTop();
+                        int z = w.getBottom();
+                        itemHeight = w.getHeight();
+                        if(firstVisibleItem == totalItemCount - visibleItemCount)
+                        {
+                            lastItemShown = true;
+                        }
+                        else
+                        {
+                            lastItemShown = false;
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    protected void setStyle() {
         int baseColor = GStyler.listBaseColor;
         int dHeight = this.getDividerHeight();
 
@@ -22,46 +151,9 @@ public class GListSnapper extends ListView {
         this.setDivider(cd);
         this.setDividerHeight(dHeight);
 
-
-        //only GradientDrawable has both setCornerRadius() and setStroke() so thus it is used
-        GradientDrawable listBackground = new GradientDrawable(GradientDrawable.Orientation.BL_TR, new int[] { baseColor, baseColor});
-        listBackground.setCornerRadius(GStyler.dpToPixel(10, this.getContext()));
-        listBackground.setStroke(GStyler.dpToPixel(4,this.getContext()), GStyler.calculateGradientColor(baseColor));
-
-        this.setPadding(GStyler.dpToPixel(8, this.getContext()),
-                GStyler.dpToPixel(4,this.getContext()),
-                GStyler.dpToPixel(8,this.getContext()),
-                GStyler.dpToPixel(4,this.getContext()));
-
-        this.setBackgroundDrawable(listBackground);
-        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-	}
-
-    @Override
-    public void draw(Canvas canvas) {
-        Path path = new Path();
-        RectF r = new RectF(0, 0, this.getWidth(), this.getHeight());
-        path.addRoundRect(r, 10, 10, Path.Direction.CW);
-        canvas.clipPath(path);
-        super.draw(canvas);
+        //Create fading effect
+        this.setPadding(0, paddingSize, 0, paddingSize);
+        this.setVerticalFadingEdgeEnabled(true);
+        this.setFadingEdgeLength(5);
     }
-
-	public GListSnapper(Context context) {
-		super(context);
-		this.setStyle();
-		// TODO Auto-generated constructor stub
-	}
-
-	public GListSnapper(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		this.setStyle();
-
-		// TODO Auto-generated constructor stub
-	}
-
-	public GListSnapper(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		this.setStyle();
-		// TODO Auto-generated constructor stub
-	}
 }
