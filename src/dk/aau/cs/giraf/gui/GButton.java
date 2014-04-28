@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.InsetDrawable;
@@ -264,6 +265,9 @@ public class GButton extends Button {
                 ,GStyler.dpToPixel(5, this.getContext())
                 ,GStyler.dpToPixel(10, this.getContext())
                 ,GStyler.dpToPixel(5, this.getContext()));
+
+        stylePressed = new ColorDrawable(Color.MAGENTA);
+        styleUnPressed = new ColorDrawable(Color.BLACK);
 
         this.setCompoundDrawablePadding(GStyler.dpToPixel(3, this.getContext()));
     }
