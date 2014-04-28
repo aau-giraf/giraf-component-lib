@@ -2,6 +2,7 @@ package dk.aau.cs.giraf.gui;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -66,6 +67,13 @@ public class GToggleButton extends GButton {
     {
         return toggled;
 
+    }
+
+    @Override
+    public void onDraw(Canvas c)
+    {
+        super.onDraw(c);
+        setToggled(toggled);
     }
 
     public void Toggle()
