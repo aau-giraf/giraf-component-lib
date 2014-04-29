@@ -47,16 +47,19 @@ public class GToggleButton extends GButton {
         toggled = context.obtainStyledAttributes(attrs, R.styleable.GToggleButton).getBoolean(R.styleable.GToggleButton_Toggled, false);
     }
 
+    protected void onSizeChanged (int w, int h, int oldw, int oldh)
+    {
+        super.onSizeChanged(w,h,oldw,oldh);
+        SetBackground();
+    }
+
     @Override
     public void onDraw(Canvas c)
     {
         super.onDraw(c);
         if (!isSetup)
         {
-            if (isToggled())
-                this.setBackgroundDrawable(stylePressed);
-            else
-                this.setBackgroundDrawable(styleUnPressed);
+            SetBackground();
 
             isSetup = true;
         }
@@ -70,7 +73,6 @@ public class GToggleButton extends GButton {
                 Toggle();
             }
         });
-        this.setBackgroundDrawable(null);
     }
 
     @Override
@@ -90,18 +92,18 @@ public class GToggleButton extends GButton {
         toggled = !toggled;
         if (task != null) task.onClick(this);
 
-        if (isToggled())
-            this.setBackgroundDrawable(stylePressed);
-        else
-            this.setBackgroundDrawable(styleUnPressed);
-
-
+        SetBackground();
     }
 
     public void setToggled(boolean state)
     {
         toggled = state;
 
+        SetBackground();
+    }
+
+    private void SetBackground()
+    {
         if (isToggled())
             this.setBackgroundDrawable(stylePressed);
         else
