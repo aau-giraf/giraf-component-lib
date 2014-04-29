@@ -60,7 +60,7 @@ public class GProfileSelector extends GDialog {
         }
         else
         {
-            Log.e("Error", "You must select a guardian profile!")
+            Log.e("Error", "You must select a guardian profile!");
         }
         //Set the completeview to the Dialog
         this.SetView(completeView);
