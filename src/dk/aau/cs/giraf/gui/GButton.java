@@ -135,7 +135,6 @@ public class GButton extends Button {
 
             ColorDrawable gd = new ColorDrawable(Color.MAGENTA);
             gd.draw(canviassjavicans);
-            canviassjavicans.save();
             stylePressed = new BitmapDrawable(getResources(), bitmap);//GStyler.getRoundedCornerBitmap(bitmap, myColor, 10, padding, getResources()));
 
             styleUnPressed.draw(c2);
