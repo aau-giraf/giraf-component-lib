@@ -1,12 +1,8 @@
 package dk.aau.cs.giraf.gui;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
-import android.widget.ToggleButton;
 
 /**
  * Created by Jelly on 25-03-14.
@@ -54,6 +50,7 @@ public class GToggleButton extends GButton {
                 Toggle();
             }
         });
+        this.setBackgroundDrawable(null);
     }
 
     @Override
@@ -74,9 +71,9 @@ public class GToggleButton extends GButton {
         if (task != null) task.onClick(this);
 
         if (isToggled())
-            this.setBackgroundDrawable(stylePressed);
+            this.setBackgroundDrawable(penisPressed);
         else
-            this.setBackgroundDrawable(styleUnPressed);
+            this.setBackgroundDrawable(penisUnPressed);
 
 
     }
@@ -86,8 +83,8 @@ public class GToggleButton extends GButton {
         toggled = state;
 
         if (isToggled())
-            this.setBackgroundDrawable(stylePressed);
+            this.setBackgroundDrawable(penisPressed);
         else
-            this.setBackgroundDrawable(styleUnPressed);
+            this.setBackgroundDrawable(penisUnPressed);
     }
 }

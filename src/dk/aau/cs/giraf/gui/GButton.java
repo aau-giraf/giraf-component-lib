@@ -3,7 +3,6 @@
  */
 package dk.aau.cs.giraf.gui;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -12,19 +11,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.StateSet;
-import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 public class GButton extends Button {
     private enum Location{
@@ -34,8 +26,8 @@ public class GButton extends Button {
     private Location buttonImageLocation;
     private Drawable buttonImage;
     private boolean isScaled = false;
-    protected Drawable stylePressed;
-    protected Drawable styleUnPressed;
+    protected Drawable penisPressed;
+    protected Drawable penisUnPressed;
     private boolean hasDrawnStroke = false;
 
 
@@ -122,33 +114,23 @@ public class GButton extends Button {
 
         if (!hasDrawnStroke)
         {
-
             int padding = 1;
             int myColor = GStyler.InversePropoertionallyAlterVS(GStyler.buttonBaseColor, 0.75f);
 
             Bitmap bitmap = Bitmap.createBitmap(this.getWidth(), this.getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas c1 = new Canvas(bitmap);
+
+            penisPressed.setBounds(0,0, c.getWidth(), c.getHeight());
+            penisPressed.draw(c1);
+            penisPressed = new BitmapDrawable(getResources(), GStyler.getRoundedCornerBitmap(bitmap, myColor, 10, padding, getResources()));
+
+
             Bitmap bitmap2 = Bitmap.createBitmap(this.getWidth(), this.getHeight(), Bitmap.Config.ARGB_8888);
-            Canvas canviassjavicans = new Canvas(bitmap);
             Canvas c2 = new Canvas(bitmap2);
 
-            //stylePressed.draw(canviassjavicans);
-
-            ColorDrawable gd = new ColorDrawable(Color.MAGENTA);
-            gd.draw(canviassjavicans);
-            stylePressed = new BitmapDrawable(getResources(), bitmap);//GStyler.getRoundedCornerBitmap(bitmap, myColor, 10, padding, getResources()));
-
-            styleUnPressed.draw(c2);
-            styleUnPressed = new BitmapDrawable(getResources(), GStyler.getRoundedCornerBitmap(bitmap2, myColor, 10, padding, getResources()));
-
-            Log.e("test", stylePressed.toString());
-
-/*
-            StateListDrawable stateListDrawable = new StateListDrawable();
-            stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, bD);
-            stateListDrawable.addState(StateSet.WILD_CARD, bDU);
-*/
-
-            //this.setBackgroundDrawable(stateListDrawable);
+            penisUnPressed.setBounds(0,0, c.getWidth(), c.getHeight());
+            penisUnPressed.draw(c2);
+            penisUnPressed = new BitmapDrawable(getResources(), GStyler.getRoundedCornerBitmap(bitmap2, myColor, 10, padding, getResources()));
 
             hasDrawnStroke = true;
         }
@@ -229,14 +211,6 @@ public class GButton extends Button {
 
     }
 
-    @Override
-    protected void onMeasure (int widthMeasureSpec, int heightMeasureSpec)
-    {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-
-    }
-
     /**
      * Styles the button according to the giraf standards.
      * Theme support pending.
@@ -264,17 +238,17 @@ public class GButton extends Button {
 
         //round corners and give edges
         gdU.setCornerRadius(10);
-        //styleUnPressed.setStroke(1, GStyler.calculateGradientColor(colors[0], 0.75f));
+        //penisUnPressed.setStroke(1, GStyler.calculateGradientColor(colors[0], 0.75f));
         gdU.setStroke(2, GStyler.ProportionallyAlterVS(colors[0], 1.5f));
         gdP.setCornerRadius(10);
         gdP.setStroke(2, GStyler.ProportionallyAlterVS(colors[0], 1.5f));
 
-        stylePressed = gdP;
-        styleUnPressed = gdU;
+        penisPressed = gdP;
+        penisUnPressed = gdU;
 
         //set state_pressed to gdPressed and all others to gd
-        stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, stylePressed);
-        stateListDrawable.addState(StateSet.WILD_CARD, styleUnPressed);
+        stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, penisPressed);
+        stateListDrawable.addState(StateSet.WILD_CARD, penisUnPressed);
 
         this.setPadding(GStyler.dpToPixel(10, this.getContext())
                 ,GStyler.dpToPixel(5, this.getContext())
