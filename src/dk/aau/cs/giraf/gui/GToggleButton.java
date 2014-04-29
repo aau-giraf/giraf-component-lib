@@ -33,7 +33,7 @@ public class GToggleButton extends GButton {
         if (attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "onClick") == null)
             setOnClickListener(null);
 
-        this.setToggled(context.obtainStyledAttributes(attrs, R.styleable.GToggleButton).getBoolean(R.styleable.GToggleButton_Toggled, false));
+        toggled = context.obtainStyledAttributes(attrs, R.styleable.GToggleButton).getBoolean(R.styleable.GToggleButton_Toggled, false);
     }
 
     public GToggleButton(Context context, AttributeSet attrs, int defStyle)
@@ -44,7 +44,8 @@ public class GToggleButton extends GButton {
         if (attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "onClick") == null)
             setOnClickListener(null);
 
-        this.setToggled(context.obtainStyledAttributes(attrs, R.styleable.GToggleButton).getBoolean(R.styleable.GToggleButton_Toggled, false));
+
+        toggled = context.obtainStyledAttributes(attrs, R.styleable.GToggleButton).getBoolean(R.styleable.GToggleButton_Toggled, false);
     }
 
     private void Setup()

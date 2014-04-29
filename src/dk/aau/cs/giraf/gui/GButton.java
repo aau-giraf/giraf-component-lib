@@ -34,8 +34,8 @@ public class GButton extends Button {
     private Location buttonImageLocation;
     private Drawable buttonImage;
     private boolean isScaled = false;
-    protected Drawable stylePressed;
-    protected Drawable styleUnPressed;
+    protected BitmapDrawable stylePressed;
+    protected BitmapDrawable styleUnPressed;
     private boolean hasDrawnStroke = false;
 
 
@@ -265,9 +265,6 @@ public class GButton extends Button {
                 ,GStyler.dpToPixel(5, this.getContext())
                 ,GStyler.dpToPixel(10, this.getContext())
                 ,GStyler.dpToPixel(5, this.getContext()));
-
-        stylePressed = new ColorDrawable(Color.parseColor("#FFFF00FF"));
-        styleUnPressed = new ColorDrawable(Color.BLACK);
 
         this.setCompoundDrawablePadding(GStyler.dpToPixel(3, this.getContext()));
     }
