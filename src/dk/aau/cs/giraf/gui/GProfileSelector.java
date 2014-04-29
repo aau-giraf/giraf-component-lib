@@ -3,6 +3,8 @@ package dk.aau.cs.giraf.gui;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -51,9 +53,15 @@ public class GProfileSelector extends GDialog {
 
         ProfileController profileController = new ProfileController(getContext());
        //create and set the adapter to the list
+        if(guardianProfile.getRole() == Profile.Roles.GUARDIAN)
+        {
         GProfileAdapter profileAdapter = new GProfileAdapter((Activity) context, profileController.getChildrenByGuardian(guardianProfile));
         theList.setAdapter(profileAdapter);
-
+        }
+        else
+        {
+            Log.e("Error", "You must select a guardian profile!")
+        }
         //Set the completeview to the Dialog
         this.SetView(completeView);
     }
