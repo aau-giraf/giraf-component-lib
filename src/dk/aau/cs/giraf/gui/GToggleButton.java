@@ -77,6 +77,8 @@ public class GToggleButton extends GButton {
             this.setBackgroundDrawable(stylePressed);
         else
             this.setBackgroundDrawable(styleUnPressed);
+
+
     }
 
     public void setToggled(boolean state)
