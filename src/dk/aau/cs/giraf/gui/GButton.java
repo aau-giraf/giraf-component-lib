@@ -3,7 +3,6 @@
  */
 package dk.aau.cs.giraf.gui;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -15,16 +14,9 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.StateSet;
-import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 public class GButton extends Button {
     private enum Location{
@@ -34,8 +26,8 @@ public class GButton extends Button {
     private Location buttonImageLocation;
     private Drawable buttonImage;
     private boolean isScaled = false;
-    protected BitmapDrawable stylePressed;
-    protected BitmapDrawable styleUnPressed;
+    protected Drawable stylePressed;
+    protected Drawable styleUnPressed;
     private boolean hasDrawnStroke = false;
 
 
@@ -69,6 +61,11 @@ public class GButton extends Button {
         super(context, attrs, defStyle);
         // TODO Auto-generated constructor stub
         this.setStyle();
+    }
+
+    protected void onSizeChanged (int w, int h, int oldw, int oldh)
+    {
+        CreateBackground(w,h);
     }
 
     @Override
@@ -116,55 +113,55 @@ public class GButton extends Button {
         }
     }
 
+    private void CreateBackground(int width, int height)
+    {
+        int strokeColorOuter = GStyler.InversePropoertionallyAlterVS(GStyler.buttonBaseColor, 0.75f);
+
+        //this will be the backrounddrawable
+        StateListDrawable stateListDrawable = new StateListDrawable();
+
+        //default colors
+        int[] colors = GStyler.getColors(GStyler.buttonBaseColor);
+
+        //colors when pressed
+        int[] colorsPressed = new int[2];
+        colorsPressed[0] = colors[1];
+        colorsPressed[1] = GStyler.calculateGradientColor(colorsPressed[0]);
+
+        //make the two gradients
+        GradientDrawable gdU = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors);
+        GradientDrawable gdP = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colorsPressed);
+
+        //round corners and give edges
+        gdU.setCornerRadius(10);
+        gdU.setStroke(2, GStyler.ProportionallyAlterVS(colors[0], 1.5f));
+        gdP.setCornerRadius(10);
+        gdP.setStroke(2, GStyler.ProportionallyAlterVS(colors[0], 1.5f));
+
+        Bitmap bitmap = Bitmap.createBitmap(this.getWidth(), this.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas c1 = new Canvas(bitmap);
+
+        gdP.setBounds(0, 0, width, height);
+        gdP.draw(c1);
+        stylePressed = new BitmapDrawable(getResources(), GStyler.getRoundedCornerBitmap(bitmap, strokeColorOuter, 10, 1, getResources()));
+
+        gdU.setBounds(0, 0, width, height);
+        gdU.draw(c1);
+        styleUnPressed = new BitmapDrawable(getResources(), GStyler.getRoundedCornerBitmap(bitmap, strokeColorOuter, 10, 1, getResources()));
+
+        stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, stylePressed);
+        stateListDrawable.addState(new int[] {android.R.attr.state_selected}, stylePressed);
+        stateListDrawable.addState(StateSet.WILD_CARD, styleUnPressed);
+        this.setBackgroundDrawable(stateListDrawable);
+    }
+
     public void onDraw(Canvas c)
     {
         super.onDraw(c);
 
         if (!hasDrawnStroke)
         {
-            int padding = 1;
-            int cornorRounding = 10;
-
-            //this will be the backrounddrawable
-            StateListDrawable stateListDrawable = new StateListDrawable();
-
-            //default colors
-            int[] colors = GStyler.getColors(GStyler.buttonBaseColor);
-
-            //colors when pressed
-            int[] colorsPressed = new int[2];
-            colorsPressed[0] = colors[1];
-            colorsPressed[1] = GStyler.calculateGradientColor(colorsPressed[0]);
-
-            //make the two gradients
-            GradientDrawable gdPressed = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors);
-            GradientDrawable gdUnPressed = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colorsPressed);
-
-            //round corners and give edges
-            gdUnPressed.setCornerRadius(cornorRounding);
-            //styleUnPressed.setStroke(1, GStyler.calculateGradientColor(colors[0], 0.75f));
-            gdUnPressed.setStroke(2, GStyler.ProportionallyAlterVS(colors[0], 1.5f));
-            gdPressed.setCornerRadius(cornorRounding);
-            gdPressed.setStroke(2, GStyler.ProportionallyAlterVS(colors[0], 1.5f));
-
-            int strokeColorOuter = GStyler.InversePropoertionallyAlterVS(GStyler.buttonBaseColor, 0.75f);
-
-            Bitmap bitmap = Bitmap.createBitmap(this.getWidth(), this.getHeight(), Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-
-            InsetDrawable iDPressed = new InsetDrawable(stylePressed, padding);
-            InsetDrawable iDUnPressed = new InsetDrawable(styleUnPressed, padding);
-            iDPressed.draw(canvas);
-            stylePressed = new BitmapDrawable(getResources(), GStyler.getRoundedCornerBitmap(bitmap, strokeColorOuter, cornorRounding, padding, getResources()));
-            iDUnPressed.draw(canvas);
-            styleUnPressed = new BitmapDrawable(getResources(), GStyler.getRoundedCornerBitmap(bitmap, strokeColorOuter, cornorRounding, padding, getResources()));
-
-            //set state_pressed to gdPressed and all others to gd
-            stateListDrawable.addState(new int[] {android.R.attr.state_pressed}, stylePressed);
-            stateListDrawable.addState(StateSet.WILD_CARD, styleUnPressed);
-
-            this.setBackgroundDrawable(stateListDrawable);
-
+            CreateBackground(c.getWidth(), c.getHeight());
             hasDrawnStroke = true;
         }
 
@@ -241,14 +238,6 @@ public class GButton extends Button {
 
 
         }
-
-    }
-
-    @Override
-    protected void onMeasure (int widthMeasureSpec, int heightMeasureSpec)
-    {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
 
     }
 
