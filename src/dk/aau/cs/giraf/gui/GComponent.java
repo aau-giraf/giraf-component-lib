@@ -9,8 +9,6 @@ import android.graphics.drawable.GradientDrawable;
 
 public class GComponent {
 
-    private ColorificationBisimulationRelation c = new ColorificationBisimulationRelation(GStyler.baseColor);
-
     public enum Background{
         SOLID,
         GRADIENT,
@@ -19,7 +17,22 @@ public class GComponent {
 
     public static void SetBaseColor(int color)
     {
-        GStyler.SetColors(color);
+        GStyler.baseColor                 =
+            GStyler.buttonBaseColor       =
+            GStyler.dialogBoxBaseColor    =
+            GStyler.listBaseColor         =
+            GStyler.toastBaseTextColor    =
+            GStyler.gridBaseColor         =
+            GStyler.listItemBaseColor     =
+            GStyler.tooltipBaseColor      =
+            GStyler.spinnerBaseColor      =
+            GStyler.sliderThumbColor      =
+            GStyler.sliderProgressColor   = color;
+
+        GStyler.dialogBorderColor = ColorificationBisimulationRelation.InversePropoertionallyAlterVS(0.8f);
+        GStyler.backgroundColor = ColorificationBisimulationRelation.InversePropoertionallyAlterVS(0.2f);
+        GStyler.dialogBackgroundColor = ColorificationBisimulationRelation.ProportionallyAlterVS(0.8f);
+
     }
 
     public static int GetBackgroundColor(){
@@ -48,7 +61,7 @@ public class GComponent {
 
     public static GradientDrawable GetBackgroundGradient()
     {
-        return new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[] { GStyler.baseColor, GStyler.InversePropoertionallyAlterVS(GStyler.baseColor, 0.75f) });
+        return new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[] { GStyler.baseColor, ColorificationBisimulationRelation.InversePropoertionallyAlterVS(0.75f) });
     }
 
 }

@@ -2,47 +2,57 @@ package dk.aau.cs.giraf.gui;
 
 import android.graphics.Color;
 
-/**
- * Created by Malakahh on 4/24/14.
- */
 public class ColorificationBisimulationRelation {
-    float[] HSV = new float[3];
-    public ColorificationBisimulationRelation(int color)
-    {
-        Color.colorToHSV(color, HSV);
-    }
+    private static float[] HSV = new float[3];
 
-    public int GetColor()
+    public static int ProportionallyAlterVS(float multiplier)
     {
+        ResetColor();
+        SetVal(GetVal() * multiplier);
+        SetSat(GetSat() * multiplier);
         return Color.HSVToColor(HSV);
     }
 
-    public float GetHue()
+    public static int InversePropoertionallyAlterVS(float multiplier)
+    {
+        ResetColor();
+        float diff = multiplier - 1.f;
+        SetVal(GetVal() * 1.f + diff);
+        SetSat(GetSat() * 1.f - diff);
+        return Color.HSVToColor(HSV);
+    }
+
+    private static void ResetColor()
+    {
+        Color.colorToHSV(GStyler.baseColor, HSV);
+    }
+
+    private static float GetHue()
     {
         return HSV[0];
     }
 
-    public void SetHue(float hue)
+    private static void SetHue(float hue)
     {
         HSV[0] = hue;
     }
 
-    public float GetSat()
+    private static float GetSat()
     {
         return HSV[1];
     }
 
-    public void SetSat(float sat)
+    private static void SetSat(float sat)
     {
         HSV[1] = sat;
     }
 
-    public float GetVal()
+    private static float GetVal()
     {
         return HSV[2];
     }
 
-    public void SetVal(float val)
+    private static void SetVal(float val)
     {
         HSV[2] = val;
     }

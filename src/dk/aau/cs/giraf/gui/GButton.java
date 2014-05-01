@@ -115,7 +115,7 @@ public class GButton extends Button {
 
     private void CreateBackground(int width, int height)
     {
-        int strokeColorOuter = GStyler.InversePropoertionallyAlterVS(GStyler.buttonBaseColor, 0.75f);
+        int strokeColorOuter = ColorificationBisimulationRelation.InversePropoertionallyAlterVS(0.75f);
 
         //this will be the backrounddrawable
         StateListDrawable stateListDrawable = new StateListDrawable();
@@ -134,9 +134,10 @@ public class GButton extends Button {
 
         //round corners and give edges
         gdU.setCornerRadius(10);
-        gdU.setStroke(2, GStyler.ProportionallyAlterVS(colors[0], 1.5f));
+        //MAY GIVE UNEXPECTED RESULTS!
+        gdU.setStroke(2, ColorificationBisimulationRelation.ProportionallyAlterVS(1.5f));
         gdP.setCornerRadius(10);
-        gdP.setStroke(2, GStyler.ProportionallyAlterVS(colors[0], 1.5f));
+        gdP.setStroke(2, ColorificationBisimulationRelation.ProportionallyAlterVS(1.5f));
 
         Bitmap bitmap = Bitmap.createBitmap(this.getWidth(), this.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas c1 = new Canvas(bitmap);

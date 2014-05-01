@@ -19,43 +19,36 @@ import android.util.TypedValue;
  */
 class GStyler {
 
-    /**Colors is are currently static.
-     *Future sprint would involve making them dynamic from a database
-     **/
+    /**
+     * Default colors
+     */
+    public static int baseColor             = 0xFFFFD96E;
+    public static int buttonBaseColor       = 0xFFFFD96E;
+    public static int dialogBoxBaseColor    = 0xFFFFD96E;
+    public static int listBaseColor         = 0xFFFFD96E;
+    public static int gridBaseColor         = 0xFFFFD96E;
+    public static int toastBaseTextColor    = 0xFFFFD96E;
+    public static int listItemBaseColor     = 0xFFFFD96E;
+    public static int tooltipBaseColor      = 0xFFFFD96E;
+    public static int spinnerBaseColor      = 0xFFFFD96E;
+    public static int sliderThumbColor      = 0xFFFFD96E;
+    public static int sliderProgressColor   = 0xFFFFD96E;
 
-    public static int baseColor = Color.parseColor("#FFFFD96E");
-    //p
-    public static int backgroundColor = Color.parseColor("#FFfbfbfb");
-    public static int textBaseColor = Color.BLACK;
-    public static int buttonBaseColor = Color.parseColor("#FFFFD96E");
-    public static int dialogBoxBaseColor = Color.parseColor("#FFFFD96E");
-    public static int listBaseColor = Color.parseColor("#FFFFD96E");
-    public static int gridBaseColor = Color.parseColor("#FFFFD96E");
-    public static int spinnerBaseColor = Color.parseColor("#FFFFD96E");
-    public static int toastBaseColor = Color.parseColor("#80000000");
-    public static int toastBaseTextColor = Color.parseColor("#FFFFD96E");
-    public static int listItemBaseColor = Color.parseColor("#FFFFD96E");
-    public static int tooltipBaseColor = Color.parseColor("#FFFFD96E");
-    public static int[] dividerBaseColors = { Color.parseColor("#40000000"), Color.parseColor("#25999999") };
+    public static int backgroundColor       = 0xFFFFEAA1;
+    public static int textBaseColor         = 0xFF000000; // Not changed
+    public static int toastBaseColor        = 0x80000000; // Not changed
+    public static int dialogBorderColor     = ColorificationBisimulationRelation.InversePropoertionallyAlterVS(0.8f);
+    public static int[] dividerBaseColors   = { 0x40000000, 0x25999999 }; // May need to be changed to be dynamic, currently is not
+    public static int sliderUnProgressColor = 0xFFC2C2C2; // Fixed
+    public static int dialogBackgroundColor = ColorificationBisimulationRelation.ProportionallyAlterVS(0.8f);
+    public static int dialogShadeColor = 0xFF000000;
 
-    public static int sliderThumbColor = Color.parseColor("#FFFFD96E");
-    public static int sliderProgressColor = Color.parseColor("#FFFFD96E");
-    public static int sliderUnProgressColor = Color.parseColor("#FFC2C2C2");
+
 
     //Dialog base colors
-    public static int dialogBackgroundColor = Color.parseColor("#FFfbfbfb");
-    public static int dialogBorderColor = calculateGradientColor(Color.parseColor("#FFFFD96E"));
-    public static int dialogShadeColor = Color.parseColor("#FF000000");
 
-    public static void SetColors(int color)
-    {
-        baseColor = color;
-        buttonBaseColor = color;
-        listBaseColor = color;
-        gridBaseColor = color;
-        listItemBaseColor = color;
-        dialogBackgroundColor = color;
-    }
+
+
 
     public static int[] getColors(int color)
     {
@@ -95,29 +88,13 @@ class GStyler {
 
         return result;
     }
-
+    @Deprecated
     public static int calculateGradientColor(int color)
     {
         return calculateGradientColor(color, 0.8f);
     }
 
-    public static int ProportionallyAlterVS(int color, float multiplier)
-    {
-        ColorificationBisimulationRelation HSV = new ColorificationBisimulationRelation(color);
-        HSV.SetVal(HSV.GetVal() * multiplier);
-        HSV.SetSat(HSV.GetSat() * multiplier);
-        return HSV.GetColor();
-    }
-
-    public static int InversePropoertionallyAlterVS(int color, float multiplier)
-    {
-        float diff = multiplier - 1.f;
-        ColorificationBisimulationRelation HSV = new ColorificationBisimulationRelation(color);
-        HSV.SetVal(HSV.GetVal() * 1.f + diff);
-        HSV.SetSat(HSV.GetSat() * 1.f - diff);
-        return HSV.GetColor();
-    }
-
+    @Deprecated
     public static int calculateGradientColor(int color, float shadingMultiplier)
     {
         //collect the RGB values from the hex color code via bit-shifting
