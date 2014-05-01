@@ -42,6 +42,8 @@ class GStyler {
     public static int sliderProgressColor = Color.parseColor("#FFFFD96E");
     public static int sliderUnProgressColor = Color.parseColor("#FFC2C2C2");
 
+    public static int selectColor = 0xFFa0660b;
+
     //Dialog base colors
     public static int dialogBackgroundColor = Color.parseColor("#FFfbfbfb");
     public static int dialogBorderColor = calculateGradientColor(Color.parseColor("#FFFFD96E"));
