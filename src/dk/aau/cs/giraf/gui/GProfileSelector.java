@@ -27,6 +27,7 @@ public class GProfileSelector extends GDialog {
     public GProfileSelector(Context context, Profile guardianProfile)
     {
         super(context);
+
             //Inflate Views
         View completeView = LayoutInflater.from(this.getContext()).inflate(R.layout.gprofile_selector, null);
         View currentProfileView = LayoutInflater.from(this.getContext()).inflate(R.layout.gprofile_row, null);
@@ -52,10 +53,11 @@ public class GProfileSelector extends GDialog {
         currentProfileLayer.addView(currentProfileView);
 
         ProfileController profileController = new ProfileController(getContext());
-       //create and set the adapter to the list
+        //Create and set the adapter to the list
         if(guardianProfile.getRole() == Profile.Roles.GUARDIAN)
         {
-        GProfileAdapter profileAdapter = new GProfileAdapter((Activity) context, profileController.getChildrenByGuardian(guardianProfile));
+            List<Profile> profileList = profileController.getChildrenByGuardian(guardianProfile);
+        GProfileAdapter profileAdapter = new GProfileAdapter((Activity) context, profileList);
         theList.setAdapter(profileAdapter);
         }
         else
@@ -64,6 +66,13 @@ public class GProfileSelector extends GDialog {
         }
         //Set the completeview to the Dialog
         this.SetView(completeView);
+
+        //Set the ability to close the dialog by clicking next to it
+        try
+        {
+            this.backgroundCancelsDialog(true);
+        }
+        catch(Exception e){}
     }
 
     /**

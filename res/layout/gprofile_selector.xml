@@ -2,37 +2,43 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-
-<dk.aau.cs.giraf.gui.GTextView
-    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="NUVÆRENDE PROFIL"
-    android:layout_centerHorizontal="true"
-    android:id="@+id/currentProfileText"/>
+    >
+
+    <dk.aau.cs.giraf.gui.GTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NUVÆRENDE PROFIL"
+        android:textColor="#FCCC"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/currentProfileText"
+    />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:focusable="false"
+        android:clickable="false"
         android:layout_centerHorizontal="true"
         android:id="@+id/currentProfileLayer"
         android:orientation="horizontal"
         android:layout_marginBottom="10dp"
         android:layout_below="@id/currentProfileText"
-        ></LinearLayout>
+        />
+
     <dk.aau.cs.giraf.gui.GTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="VALGBAR PROFILER"
         android:id="@+id/selectableProfileText"
         android:layout_below="@id/currentProfileLayer"
+        android:textColor="#FCCC"
         android:layout_marginTop="3dp"/>
-        <dk.aau.cs.giraf.gui.GList
 
-            android:layout_width="500dp"
-            android:layout_height="400dp"
-            android:id="@+id/profileSelectorList"
-            android:layout_below="@id/selectableProfileText"
-            android:dividerHeight="5dp"> </dk.aau.cs.giraf.gui.GList>
-
-
+    <dk.aau.cs.giraf.gui.GList
+        android:layout_width="500dp"
+        android:layout_height="400dp"
+        android:id="@+id/profileSelectorList"
+        android:layout_below="@id/selectableProfileText"
+        android:dividerHeight="5dp"/>
 </RelativeLayout>
