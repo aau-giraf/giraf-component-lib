@@ -38,7 +38,7 @@ public class GProfileAdapter extends BaseAdapter {
     }
  
     public long getItemId(int position) {
-        return position;
+        return data.get(position).getId();
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {

@@ -41,13 +41,19 @@ public class GSeekBar extends RelativeLayout {
     {
         super(context, attrs);
         CreateSeekBar(context);
+
+        this.setProgress(context.obtainStyledAttributes(attrs, R.styleable.GSeekBar).getInteger(R.styleable.GSeekBar_StartPercent, 0));
     }
 
     public GSeekBar (Context context, AttributeSet attrs, int defStyle)
     {
         super(context, attrs, defStyle);
         CreateSeekBar(context);
+
+        this.setProgress(context.obtainStyledAttributes(attrs, R.styleable.GSeekBar).getInteger(R.styleable.GSeekBar_StartPercent, 0));
     }
+
+
 
     protected void CreateSeekBar(Context context)
     {

@@ -3,4 +3,7 @@
     <declare-styleable name="GToggleButton">
         <attr name="Toggled" format="boolean"/>
     </declare-styleable>
+    <declare-styleable name="GSeekBar">
+        <attr name="StartPercent" format="integer"/>
+    </declare-styleable>
 </resources>
