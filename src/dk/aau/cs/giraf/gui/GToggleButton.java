@@ -1,12 +1,11 @@
 package dk.aau.cs.giraf.gui;
 
 import android.content.Context;
+
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
-import android.widget.ToggleButton;
 
 /**
  * Created by Jelly on 25-03-14.
@@ -14,6 +13,7 @@ import android.widget.ToggleButton;
 public class GToggleButton extends GButton {
 
     private boolean toggled = false;
+    private boolean isSetup = false;
     private OnClickListener task;
     final GToggleButton btn;
 
@@ -32,7 +32,7 @@ public class GToggleButton extends GButton {
         if (attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "onClick") == null)
             setOnClickListener(null);
 
-        this.setToggled(context.obtainStyledAttributes(attrs, R.styleable.GToggleButton).getBoolean(R.styleable.GToggleButton_Toggled, false));
+        toggled = context.obtainStyledAttributes(attrs, R.styleable.GToggleButton).getBoolean(R.styleable.GToggleButton_Toggled, false);
     }
 
     public GToggleButton(Context context, AttributeSet attrs, int defStyle)
@@ -43,7 +43,25 @@ public class GToggleButton extends GButton {
         if (attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "onClick") == null)
             setOnClickListener(null);
 
-        this.setToggled(context.obtainStyledAttributes(attrs, R.styleable.GToggleButton).getBoolean(R.styleable.GToggleButton_Toggled, false));
+        toggled = context.obtainStyledAttributes(attrs, R.styleable.GToggleButton).getBoolean(R.styleable.GToggleButton_Toggled, false);
+    }
+
+    protected void onSizeChanged (int w, int h, int oldw, int oldh)
+    {
+        super.onSizeChanged(w,h,oldw,oldh);
+        SetBackground();
+    }
+
+    @Override
+    public void onDraw(Canvas c)
+    {
+        super.onDraw(c);
+        if (!isSetup)
+        {
+            SetBackground();
+
+            isSetup = true;
+        }
     }
 
     private void Setup()
@@ -73,16 +91,18 @@ public class GToggleButton extends GButton {
         toggled = !toggled;
         if (task != null) task.onClick(this);
 
-        if (isToggled())
-            this.setBackgroundDrawable(stylePressed);
-        else
-            this.setBackgroundDrawable(styleUnPressed);
+        SetBackground();
     }
 
     public void setToggled(boolean state)
     {
         toggled = state;
 
+        SetBackground();
+    }
+
+    private void SetBackground()
+    {
         if (isToggled())
             this.setBackgroundDrawable(stylePressed);
         else
