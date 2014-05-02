@@ -43,7 +43,7 @@ public class GColorPicker extends GDialog {
     private final RelativeLayout _hueContainer;
     private final RelativeLayout _prevColorContainer;
     private final RelativeLayout _newColorContainer;
-    private GColorPickerTargetFrame _targetFrame;
+    private GDialogColorSelectTargetFrame _targetFrame;
 
     private final float[] currentColorHsv = new float[3];
     private int colorCurr;
@@ -69,7 +69,7 @@ public class GColorPicker extends GDialog {
         _prevColorContainer = (RelativeLayout) v.findViewById(R.id.GDialogColorSelect_PrevColorContainer);
         _newColorContainer = (RelativeLayout) v.findViewById(R.id.GDialogColorSelect_NewColorContainer);
 
-        _targetFrame = new GColorPickerTargetFrame(getContext());
+        _targetFrame = new GDialogColorSelectTargetFrame(getContext());
         _targetFrameContainer.addView(_targetFrame);
 
         int color = GStyler.calculateGradientColor(GStyler.dialogBackgroundColor);
@@ -274,22 +274,22 @@ public class GColorPicker extends GDialog {
         return Color.HSVToColor(currentColorHsv);
     }
 
-    public class GColorPickerTargetFrame extends View {
+    public class GDialogColorSelectTargetFrame extends View {
         final float[] color = { 1.0f, 1.0f, 1.0f };
         Paint paint;
         Shader verticalGradient;
 
-        public GColorPickerTargetFrame(Context context)
+        public GDialogColorSelectTargetFrame(Context context)
         {
             this(context, null);
         }
 
-        public GColorPickerTargetFrame(Context context, AttributeSet attrs)
+        public GDialogColorSelectTargetFrame(Context context, AttributeSet attrs)
         {
             this(context, attrs, 0);
         }
 
-        public GColorPickerTargetFrame(Context context, AttributeSet attrs, int defStyle)
+        public GDialogColorSelectTargetFrame(Context context, AttributeSet attrs, int defStyle)
         {
             super(context, attrs, defStyle);
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)

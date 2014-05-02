@@ -33,6 +33,7 @@ public class GTextView extends TextView{
     private void setStyle()
     {
         this.setTypeface(Typeface.SANS_SERIF);
+        this.setTextColor(GStyler.textBaseColor);
     }
 
     public void SetScrollable(boolean scroll)
