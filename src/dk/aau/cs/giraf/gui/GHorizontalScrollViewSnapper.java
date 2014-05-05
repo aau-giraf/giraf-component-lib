@@ -152,8 +152,9 @@ public class GHorizontalScrollViewSnapper extends HorizontalScrollView{
                     touched = true;
                 }
                 else if (event.getAction() == MotionEvent.ACTION_UP) {
-
-                        touched = false;}
+                    touched = false;
+                    gHorizontalScrollViewSnapper.invalidate();
+                }
                 return false;
             }
         });
