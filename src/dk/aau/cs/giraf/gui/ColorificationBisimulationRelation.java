@@ -22,6 +22,14 @@ public class ColorificationBisimulationRelation {
         return Color.HSVToColor(HSV);
     }
 
+    public static int SetAndGetColor(float sat)
+    {
+        ResetColor();
+        SetSat(sat);
+
+        return Color.HSVToColor(HSV);
+    }
+
     private static void ResetColor()
     {
         Color.colorToHSV(GStyler.baseColor, HSV);
