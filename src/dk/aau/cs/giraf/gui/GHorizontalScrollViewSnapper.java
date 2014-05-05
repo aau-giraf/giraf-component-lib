@@ -55,9 +55,6 @@ public class GHorizontalScrollViewSnapper extends HorizontalScrollView{
             //Check if the user is touching the screen
             if(!touched)
             {
-                //Check if the scrollview has moved from the initialPosition
-                if (this.getInitialPosition() != this.getScrollX())
-                {
                     //Fetch the LinearLayout inside the ScrollView
                     LinearLayout linearLayout = (LinearLayout) this.getChildAt(0);
                     //Count number of views inside this layout
@@ -91,7 +88,7 @@ public class GHorizontalScrollViewSnapper extends HorizontalScrollView{
                         else{pixelCount += w.getMeasuredWidth();}
                     }
                 }
-            }
+            
         }
         scrollRecordPosition = this.getScrollX();
     }
@@ -148,7 +145,6 @@ public class GHorizontalScrollViewSnapper extends HorizontalScrollView{
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     GHorizontalScrollViewSnapper scroller = (GHorizontalScrollViewSnapper) v;
-                    scroller.setInitialPosition(scroller.getScrollX());
                     touched = true;
                 }
                 else if (event.getAction() == MotionEvent.ACTION_UP) {
