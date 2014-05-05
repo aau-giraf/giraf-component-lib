@@ -12,6 +12,7 @@ public class GComponent {
     public enum Background{
         SOLID,
         GRADIENT,
+        GRADIENT_INVERSE,
         SUBTLEGRADIENT
     }
 
@@ -29,10 +30,16 @@ public class GComponent {
             GStyler.sliderThumbColor      =
             GStyler.sliderProgressColor   = color;
 
+        GStyler.backgroundColor = ColorificationBisimulationRelation.InversePropoertionallyAlterVS(0.9f);
         GStyler.dialogBorderColor = ColorificationBisimulationRelation.InversePropoertionallyAlterVS(0.8f);
         GStyler.backgroundColor = ColorificationBisimulationRelation.InversePropoertionallyAlterVS(0.2f);
         GStyler.dialogBackgroundColor = ColorificationBisimulationRelation.ProportionallyAlterVS(0.8f);
 
+    }
+
+    public static int GetTextColor()
+    {
+        return GStyler.textBaseColor;
     }
 
     public static int GetBackgroundColor(){
@@ -41,13 +48,19 @@ public class GComponent {
 
     public static Drawable GetBackground(Background type)
     {
+        int startColor = ColorificationBisimulationRelation.SetAndGetColor(0.6f);
         switch (type){
             case SOLID:
                 return new ColorDrawable(GStyler.backgroundColor);
             case GRADIENT:
                 return new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[] {
-                        Color.parseColor("#FFffe062"),
-                        Color.parseColor("#FFebbc39")
+                        startColor,
+                        ColorificationBisimulationRelation.InversePropoertionallyAlterVS(1.1f)
+                });
+            case GRADIENT_INVERSE:
+                return new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, new int[] {
+                        ColorificationBisimulationRelation.InversePropoertionallyAlterVS(1.1f),
+                        startColor
                 });
             default:
                 return new ColorDrawable(GStyler.backgroundColor);
