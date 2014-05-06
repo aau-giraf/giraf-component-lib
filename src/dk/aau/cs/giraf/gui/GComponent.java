@@ -41,6 +41,12 @@ public class GComponent {
         return GStyler.textBaseColor;
     }
 
+    @Deprecated½
+    public static int GetBackgroundColor()
+    {
+        return GStyler.backgroundColor;
+    }
+
     public static Drawable GetBackground(Background type)
     {
         int startColor = ColorificationBisimulationRelation.SetAndGetColor(0.6f);
