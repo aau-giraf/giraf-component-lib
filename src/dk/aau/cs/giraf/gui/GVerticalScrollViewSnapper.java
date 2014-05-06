@@ -155,6 +155,7 @@ public class GVerticalScrollViewSnapper extends ScrollView
                 }
                 else if (event.getAction() == MotionEvent.ACTION_UP) {
                     touched = false;
+                    gVerticalScrollViewSnapper.invalidate();
                 }
                 return false;
             }
