@@ -41,7 +41,7 @@ public class GComponent {
         return GStyler.textBaseColor;
     }
 
-    @Deprecated½
+    @Deprecated
     public static int GetBackgroundColor()
     {
         return GStyler.backgroundColor;
