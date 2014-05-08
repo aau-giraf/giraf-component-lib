@@ -74,11 +74,20 @@ public class GProfileSelector extends GDialog {
 
         ProfileController profileController = new ProfileController(getContext());
         //Create and set the adapter to the list
-        if(guardianProfile.getRole() == Profile.Roles.GUARDIAN)
+        if(guardianProfile.getRole() == Profile.Roles.GUARDIAN && currentProfile != null)
+        {
+
+            List<Profile> profileList = new ArrayList<Profile>();
+            profileList.add(guardianProfile);
+            profileList.addAll(profileController.getChildrenByGuardian(guardianProfile));
+            GProfileAdapter profileAdapter = new GProfileAdapter((Activity) context, profileList);
+            theList.setAdapter(profileAdapter);
+        }
+        else if(guardianProfile.getRole() == Profile.Roles.GUARDIAN && currentProfile == null)
         {
             List<Profile> profileList = profileController.getChildrenByGuardian(guardianProfile);
-        GProfileAdapter profileAdapter = new GProfileAdapter((Activity) context, profileList);
-        theList.setAdapter(profileAdapter);
+            GProfileAdapter profileAdapter = new GProfileAdapter((Activity) context, profileList);
+            theList.setAdapter(profileAdapter);
         }
         else
         {
