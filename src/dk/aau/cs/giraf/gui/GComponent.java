@@ -12,8 +12,7 @@ public class GComponent {
     public enum Background{
         SOLID,
         GRADIENT,
-        GRADIENT_INVERSE,
-        SUBTLEGRADIENT
+        GRADIENT_INVERSE
     }
 
     public static void SetBaseColor(int color)
@@ -42,7 +41,9 @@ public class GComponent {
         return GStyler.textBaseColor;
     }
 
-    public static int GetBackgroundColor(){
+    @Deprecated
+    public static int GetBackgroundColor()
+    {
         return GStyler.backgroundColor;
     }
 
