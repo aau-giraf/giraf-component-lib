@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class GProfileSelector extends GDialog {
     protected GradientDrawable picBackground;
     protected GList theList;
 
-    public GProfileSelector(Context context, Profile guardianProfile)
+    public GProfileSelector(Context context, Profile guardianProfile, Profile currentProfile)
     {
         super(context);
 
@@ -35,19 +36,38 @@ public class GProfileSelector extends GDialog {
         //Find the different components
         theList = (GList) completeView.findViewById(R.id.profileSelectorList);
         LinearLayout currentProfileLayer =(LinearLayout) completeView.findViewById(R.id.currentProfileLayer);
-        LinearLayout profilePicture = (LinearLayout) currentProfileView.findViewById(R.id.profile_pic);
+        LinearLayout profileLayout = (LinearLayout) currentProfileView.findViewById(R.id.profile_pic);
+        ImageView profilePicture = (ImageView) profileLayout.findViewById(R.id.imageview_profilepic);
         GTextView currentPersonTextView = (GTextView) currentProfileView.findViewById(R.id.profile_name);
-        currentPersonTextView.setText(guardianProfile.getName());
+
+        //Checks to see whether the profile is guardian or a child (if the current profile == null it's a guardian)
+        if(currentProfile == null)
+        {
+            currentPersonTextView.setText(guardianProfile.getName());
+            if(guardianProfile.getImage() != null)
+            {
+                profilePicture.setImageBitmap(guardianProfile.getImage());
+            }
+        }
+        else
+        {
+            currentPersonTextView.setText(currentProfile.getName());
+            if(currentProfile.getImage() != null)
+            {
+                profilePicture.setImageBitmap(currentProfile.getImage());
+            }
+        }
+
 
         //Create a back dynamic background to the profile picture accordingly to GStyler
         picBackground = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
                          new int[] {GStyler.calculateGradientColor(GStyler.calculateGradientColor(GStyler.buttonBaseColor)),GStyler.calculateGradientColor(GStyler.calculateGradientColor(GStyler.buttonBaseColor))});
         picBackground.setCornerRadius(5);
-        profilePicture.setPadding(GStyler.dpToPixel(3, completeView.getContext())
+        profileLayout.setPadding(GStyler.dpToPixel(3, completeView.getContext())
                 , GStyler.dpToPixel(3, completeView.getContext())
                 , GStyler.dpToPixel(3, completeView.getContext())
                 , GStyler.dpToPixel(3, completeView.getContext()));
-        profilePicture.setBackgroundDrawable(picBackground);
+        profileLayout.setBackgroundDrawable(picBackground);
 
         //Add the inflated currentProfileView to the currentProfileLayer
         currentProfileLayer.addView(currentProfileView);
