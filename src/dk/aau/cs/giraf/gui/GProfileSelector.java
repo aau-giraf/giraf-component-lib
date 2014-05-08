@@ -29,7 +29,7 @@ public class GProfileSelector extends GDialog {
     {
         super(context);
 
-            //Inflate Views
+        //Inflate Views
         View completeView = LayoutInflater.from(this.getContext()).inflate(R.layout.gprofile_selector, null);
         View currentProfileView = LayoutInflater.from(this.getContext()).inflate(R.layout.gprofile_row, null);
 
