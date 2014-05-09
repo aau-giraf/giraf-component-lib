@@ -30,7 +30,7 @@ public class GButtonProfileSelect extends GButton {
     private onCloseListener myOnCloseListener;
 
     public interface onCloseListener {
-        void onClose(GButtonProfileSelect theSelectorButton);
+        void onClose(Profile guardianProfile, Profile currentProfile);
     }
 
     //Getters
@@ -80,10 +80,12 @@ public class GButtonProfileSelect extends GButton {
     }
 
     //Setup the button with the custom listener from the user, the guardian profile and the current profile
-    public void setup(onCloseListener myListener, Profile incGuardianProfile, Profile incCurrentProfile)
+    public void setup(Profile incGuardianProfile, Profile incCurrentProfile, onCloseListener myListener)
     {
         //Ensures the argument inGuardianProfile is actually a guardian
-        if(guardianProfile.getRole() == Profile.Roles.GUARDIAN)
+        if(incGuardianProfile != null)
+        {
+        if(incGuardianProfile.getRole() == Profile.Roles.GUARDIAN)
         {
             this.guardianProfile = incGuardianProfile;
             profilesLoaded = true;
@@ -92,7 +94,7 @@ public class GButtonProfileSelect extends GButton {
         {
             Log.e("Error", "You must select a guardian profile!");
         }
-        if(currentProfile != null)
+        if(incCurrentProfile != null)
         {
             this.currentProfile = incCurrentProfile;
         }
@@ -139,11 +141,13 @@ public class GButtonProfileSelect extends GButton {
                 }
         });
         }
+        else{Log.e("Error", "Your selected guardian is null");}
+    }
     }
 
     //Method used to call the users onCloseListener
     public void closing()
     {
-        myOnCloseListener.onClose(this);
+        myOnCloseListener.onClose(guardianProfile, currentProfile);
     }
 }
