@@ -31,7 +31,7 @@ class GStyler {
     public static int listItemBaseColor     = 0xFFFFD96E;
     public static int tooltipBaseColor      = 0xFFFFD96E;
     public static int spinnerBaseColor      = 0xFFFFD96E;
-    public static int sliderThumbColor      = 0xFFFFD96E;
+    public static int sliderThumbColor      = ColorificationBisimulationRelation.ProportionallyAlterVS(1.5f);
     public static int sliderProgressColor   = 0xFFFFD96E;
 
     public static int backgroundColor       = 0xFFFFEAA1;

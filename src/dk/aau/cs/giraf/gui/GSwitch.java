@@ -4,10 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.Drawable;
@@ -16,13 +14,10 @@ import android.graphics.drawable.InsetDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
-import android.graphics.drawable.shapes.Shape;
 import android.os.SystemClock;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.SeekBar;
 
@@ -35,6 +30,9 @@ public class GSwitch extends GSeekBar {
     private boolean toggled = false;
     private int offSet;
     private OnClickListener task;
+    private boolean drawableSetup = false;
+    private String onText = "on";
+    private String offText = "off";
 
     public GSwitch (Context context)
     {
@@ -68,32 +66,10 @@ public class GSwitch extends GSeekBar {
         LayoutInflater.from(context).inflate(R.layout.gseekbar, this);
         seeker = (SeekBar)findViewById(R.id.internalSeekbar);
 
-        //The colors
-        final int[] thumbColors = { GStyler.sliderThumbColor, GStyler.sliderThumbColor};
-        final int[] progressColors = { GStyler.calculateGradientColor(GStyler.sliderProgressColor, 0.9f), GStyler.calculateGradientColor(GStyler.sliderProgressColor,0.9f) };
-        final int[] unProgressColors = { GStyler.sliderUnProgressColor, GStyler.sliderUnProgressColor };
-
         //The thumb (button you drag)
         final ShapeDrawable thumbDrawable = new ShapeDrawable(new OvalShape());
-        thumbDrawable.getPaint().setColor(thumbColors[0]);
+        thumbDrawable.getPaint().setColor(GStyler.sliderThumbColor);
         thumbDrawable.getPaint().setStyle(Paint.Style.FILL);
-
-
-        //Progress bar to the left and right of the thumb
-        GradientDrawable progressDrawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, progressColors);
-        GradientDrawable unProgressDrawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, unProgressColors);
-
-        //Both progressbars are essentially rendered, the progress ontop of the unprogress
-        //This makes the progress clip-able
-        InsetDrawable padding = new InsetDrawable(unProgressDrawable,0,padAmount,0,padAmount);
-        ClipDrawable clip = new ClipDrawable(progressDrawable, Gravity.LEFT,ClipDrawable.HORIZONTAL);
-
-        //combining into a single drawable
-        LayerDrawable progressLayer = new LayerDrawable(new Drawable[]{padding,clip});
-
-        seeker.setProgressDrawable(progressLayer);
-
-
 
         //Can't get the size for the thumb yet, so hook a preDraw listener to set the thumb size
         final ViewTreeObserver vto = this.getViewTreeObserver();
@@ -104,17 +80,28 @@ public class GSwitch extends GSeekBar {
                 thumbDrawable.setIntrinsicHeight(seeker.getHeight()-padAmount*2);
                 offSet = seeker.getHeight();
                 seeker.setPadding(seeker.getHeight()/2, 0, seeker.getHeight()/2, 0);
-                seeker.setThumb(thumbDrawable);
+
+                Bitmap thumbBmp = Bitmap.createBitmap(thumbDrawable.getIntrinsicWidth(), thumbDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(thumbBmp);
+                thumbDrawable.setBounds(canvas.getClipBounds());
+                thumbDrawable.draw(canvas);
+                thumbBmp = GStyler.getRoundedCornerBitmap(thumbBmp, Color.WHITE, thumbBmp.getHeight()/2, 1, getResources());
+                BitmapDrawable thumbBmpDrawable = new BitmapDrawable(getResources(), thumbBmp);
+                seeker.setThumb(thumbBmpDrawable);
+                //seeker.setThumb(thumbDrawable);
 
                 //Drawing background
                 Bitmap bmResult = Bitmap.createBitmap(me.getWidth(), me.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bmResult);
+                canvas = new Canvas(bmResult);
                 Paint paint = new Paint();
-                paint.setShader(new LinearGradient(0, 0, bmResult.getWidth()/2, 0, unProgressColors[0], unProgressColors[0], Shader.TileMode.MIRROR));
-                canvas.drawPaint(paint);
-                paint.setShader(new LinearGradient (0, 0, bmResult.getWidth()/2, 0, progressColors[0], progressColors[0], Shader.TileMode.CLAMP));
-                canvas.drawRect(0, 0, bmResult.getWidth()/2, bmResult.getHeight(), paint);
-                bmResult = GStyler.getRoundedCornerBitmap(bmResult, GStyler.calculateGradientColor(progressColors[0]), offSet/2, padAmount, getResources());
+                paint.setStyle(Paint.Style.FILL);
+                paint.setColor(GStyler.sliderUnProgressColor);
+                canvas.drawRect(new Rect(0, 0, me.getWidth(), seeker.getHeight()), paint);
+                paint.setColor(GStyler.sliderProgressColor);
+                canvas.drawRect(new Rect(0,0, seeker.getHeight()/2, seeker.getHeight()), paint);
+
+                bmResult = GStyler.getRoundedCornerBitmap(bmResult, GStyler.calculateGradientColor(GStyler.sliderProgressColor), offSet/2, padAmount, getResources());
+
                 BitmapDrawable test = new BitmapDrawable(getResources(), bmResult);
 
                 me.setBackgroundDrawable(test);
@@ -124,6 +111,8 @@ public class GSwitch extends GSeekBar {
                 return true;
             }
         });
+
+
 
         seeker.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -150,6 +139,87 @@ public class GSwitch extends GSeekBar {
     }
 
     @Override
+    protected void onDraw(Canvas c)
+    {
+        super.onDraw(c);
+        if (!drawableSetup)
+        {
+            CreateProgressDrawables();
+            drawableSetup = true;
+        }
+    }
+
+    private void CreateProgressDrawables()
+    {
+        int[] progressColors = { GStyler.sliderProgressColor, GStyler.sliderProgressColor};
+        int[] unProgressColors = { GStyler.sliderUnProgressColor, GStyler.sliderUnProgressColor };
+
+        //Progress bar to the left and right of the thumb
+        Drawable progressDrawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, progressColors);
+        Drawable unProgressDrawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, unProgressColors);
+
+        Bitmap progressBmp = Bitmap.createBitmap(seeker.getWidth(), seeker.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap unProgressBmp = Bitmap.createBitmap(seeker.getWidth(), seeker.getHeight(), Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(progressBmp);
+
+        progressDrawable.setBounds(canvas.getClipBounds());
+        unProgressDrawable.setBounds(canvas.getClipBounds());
+
+        progressDrawable.draw(canvas);
+        progressBmp = drawTextToBitmap(getContext(), progressBmp, onText, Paint.Align.LEFT);
+        progressDrawable = new BitmapDrawable(getResources(), progressBmp);
+
+        canvas = new Canvas(unProgressBmp);
+        unProgressBmp = drawTextToBitmap(getContext(), unProgressBmp, offText, Paint.Align.RIGHT);
+        unProgressDrawable = new BitmapDrawable(getResources(), unProgressBmp);
+
+        //Both progressbars are essentially rendered, the progress ontop of the unprogress
+        //This makes the progress clip-able
+        final InsetDrawable padding = new InsetDrawable(unProgressDrawable,0,4,0,4);
+        final ClipDrawable clip = new ClipDrawable(progressDrawable, Gravity.LEFT,ClipDrawable.HORIZONTAL);
+
+        //combining into a single drawable
+        //LayerDrawable progressLayer = new LayerDrawable(new Drawable[]{padding,clip});
+        LayerDrawable progressLayer = new LayerDrawable(new Drawable[]{padding,clip});
+
+        seeker.setProgressDrawable(progressLayer);
+    }
+
+    private Bitmap drawTextToBitmap(Context mContext,  Bitmap bitmap,  String mText, Paint.Align align)
+    {
+        android.graphics.Bitmap.Config bitmapConfig =   bitmap.getConfig();
+        // set default bitmap config if none
+        if(bitmapConfig == null) {
+            bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
+        }
+        // resource bitmaps are imutable,
+        // so we need to convert it to mutable one
+        bitmap = bitmap.copy(bitmapConfig, true);
+
+        Canvas canvas = new Canvas(bitmap);
+        // new antialised Paint
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        // text color - #3D3D3D
+        paint.setColor(Color.rgb(0,0, 0));
+        // text size in pixels
+        paint.setTextSize(GStyler.dpToPixel(20, mContext));
+
+        paint.setTextAlign(align);
+
+        // draw text to the Canvas center
+        Rect bounds = new Rect();
+        paint.getTextBounds(mText, 0, mText.length(), bounds);
+
+        int x = align == Paint.Align.LEFT ? 0 : bitmap.getWidth();
+        int y = (bitmap.getHeight() + bounds.height()) / 2;
+
+        canvas.drawText(mText, GStyler.dpToPixel(x, mContext), GStyler.dpToPixel(y, mContext), paint);
+
+        return bitmap;
+    }
+
+    @Override
     public void setOnSeekBarChangeListener(SeekBar.OnSeekBarChangeListener listener)
     {
 
@@ -163,18 +233,7 @@ public class GSwitch extends GSeekBar {
 
     public void Toggle()
     {
-        if (toggled)
-        {
-            seeker.setProgress(0);
-            toggled = false;
-        }
-        else
-        {
-            seeker.setProgress(100);
-            toggled = true;
-        }
-
-        if (task != null) task.onClick(this);
+        setToggled(!toggled);
     }
 
     @Override
@@ -182,12 +241,11 @@ public class GSwitch extends GSeekBar {
     {
         boolean stateChanged = false;
 
-        if (seeker.getProgress() > (toggled ? 80 : 20))
+        if (progress > (toggled ? 80 : 20))
         {
             seeker.setProgress(100);
             if (!toggled) stateChanged = true;
             toggled = true;
-
         }
         else
         {
@@ -205,5 +263,23 @@ public class GSwitch extends GSeekBar {
         return toggled;
 
     }
+
+    public void setToggled(boolean state)
+    {
+        if (!state)
+        {
+            seeker.setProgress(0);
+            toggled = false;
+        }
+        else
+        {
+            seeker.setProgress(100);
+            toggled = true;
+        }
+
+        if (task != null) task.onClick(this);
+    }
+
+
 
 }

@@ -22,6 +22,7 @@ public class GToggleButton extends GButton {
         super(context);
         btn = this;
         setOnClickListener(null);
+        Setup();
     }
 
     public GToggleButton(Context context, AttributeSet attrs)
