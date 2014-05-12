@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 /**
  * Created by Malakahh on 5/1/14.
  */
+@Deprecated
 public class GSelectableContent extends RelativeLayout {
     private GradientDrawable d;
 

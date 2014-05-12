@@ -6,4 +6,9 @@
     <declare-styleable name="GSeekBar">
         <attr name="StartPercent" format="integer"/>
     </declare-styleable>
+    <declare-styleable name="GLayout">
+        <attr name="Selectable" format="boolean"/>
+        <attr name="Deletable" format="boolean"/>
+        <attr name="Markable" format="boolean"/>
+    </declare-styleable>
 </resources>
