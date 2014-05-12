@@ -46,6 +46,8 @@ public class GSwitch extends GSeekBar {
         me = this;
         onText = context.obtainStyledAttributes(attrs, R.styleable.GSwitch).getString(R.styleable.GSwitch_OnText);
         offText = context.obtainStyledAttributes(attrs, R.styleable.GSwitch).getString(R.styleable.GSwitch_OffText);
+        if (onText == null) onText = "";
+        if (offText == null) offText = "";
     }
 
     public GSwitch (Context context, AttributeSet attrs, int defStyle)
@@ -54,6 +56,8 @@ public class GSwitch extends GSeekBar {
         me = this;
         onText = context.obtainStyledAttributes(attrs, R.styleable.GSwitch).getString(R.styleable.GSwitch_OnText);
         offText = context.obtainStyledAttributes(attrs, R.styleable.GSwitch).getString(R.styleable.GSwitch_OffText);
+        if (onText == null) onText = "";
+        if (offText == null) offText = "";
     }
 
     @Override
