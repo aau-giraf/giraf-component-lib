@@ -80,12 +80,19 @@ public class GSwitch extends GSeekBar {
                 thumbDrawable.setIntrinsicHeight(seeker.getHeight()-padAmount*2);
                 offSet = seeker.getHeight();
                 seeker.setPadding(seeker.getHeight()/2, 0, seeker.getHeight()/2, 0);
-                 
-                seeker.setThumb(thumbDrawable);
+
+                Bitmap thumbBmp = Bitmap.createBitmap(thumbDrawable.getIntrinsicWidth(), thumbDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(thumbBmp);
+                thumbDrawable.setBounds(canvas.getClipBounds());
+                thumbDrawable.draw(canvas);
+                thumbBmp = GStyler.getRoundedCornerBitmap(thumbBmp, Color.WHITE, thumbBmp.getHeight()/2, 1, getResources());
+                BitmapDrawable thumbBmpDrawable = new BitmapDrawable(getResources(), thumbBmp);
+                seeker.setThumb(thumbBmpDrawable);
+                //seeker.setThumb(thumbDrawable);
 
                 //Drawing background
                 Bitmap bmResult = Bitmap.createBitmap(me.getWidth(), me.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bmResult);
+                canvas = new Canvas(bmResult);
                 Paint paint = new Paint();
                 paint.setStyle(Paint.Style.FILL);
                 paint.setColor(GStyler.sliderUnProgressColor);
