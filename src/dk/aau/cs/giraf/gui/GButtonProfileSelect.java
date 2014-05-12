@@ -85,64 +85,65 @@ public class GButtonProfileSelect extends GButton {
         //Ensures the argument inGuardianProfile is actually a guardian
         if(incGuardianProfile != null)
         {
-        if(incGuardianProfile.getRole() == Profile.Roles.GUARDIAN)
-        {
-            this.guardianProfile = incGuardianProfile;
-            profilesLoaded = true;
-        }
-        else
-        {
-            Log.e("Error", "You must select a guardian profile!");
-        }
-        if(incCurrentProfile != null)
-        {
-            this.currentProfile = incCurrentProfile;
-        }
-        if(profilesLoaded == true)
-        {
+            if(incGuardianProfile.getRole() == Profile.Roles.GUARDIAN)
+            {
+                this.guardianProfile = incGuardianProfile;
+                profilesLoaded = true;
+            }
+            else
+            {
+                Log.e("Error", "You must select a guardian profile!");
+            }
+            if(incCurrentProfile != null)
+            {
+                this.currentProfile = incCurrentProfile;
+            }
+            if(profilesLoaded == true)
+            {
 
-            updateImage();
-            myOnCloseListener = myListener;
+                updateImage();
+                myOnCloseListener = myListener;
 
-            //Set the onClickListener for the Button
-            this.setOnClickListener(new OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    //Set the onListItemClickListener for the List in the profileSelector
-                    profileSelector = new GProfileSelector(getContext(), guardianProfile, currentProfile);
-                    profileSelector.setOnListItemClick(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            //Create controller to find Profile by the id
-                            ProfileController profileController = new ProfileController(getContext());
-                            //see if the pressed user is a guardian, and if so set currentProfile to null and update guardian
-                            if(profileController.getProfileById((int)id).getRole() == Profile.Roles.GUARDIAN)
-                            {
-                                currentProfile = null;
-                                guardianProfile = profileController.getProfileById((int)id);
+                //Set the onClickListener for the Button
+                this.setOnClickListener(new OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        //Set the onListItemClickListener for the List in the profileSelector
+                        profileSelector = new GProfileSelector(getContext(), guardianProfile, currentProfile);
+                        profileSelector.setOnListItemClick(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                //Create controller to find Profile by the id
+                                ProfileController profileController = new ProfileController(getContext());
+                                //see if the pressed user is a guardian, and if so set currentProfile to null and update guardian
+                                if(profileController.getProfileById((int)id).getRole() == Profile.Roles.GUARDIAN)
+                                {
+                                    currentProfile = null;
+                                    guardianProfile = profileController.getProfileById((int)id);
+                                }
+                                else
+                                {
+                                    currentProfile = profileController.getProfileById((int)id);
+                                }
+                                gButtonProfileSelect.updateImage();
+                                //Closing the profileselector
+                                profileSelector.dismiss();
                             }
-                            else
-                            {
-                                currentProfile = profileController.getProfileById((int)id);
+                        });
+                        //set the OnDismissListener to call the users onCloseListener
+                        profileSelector.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                closing();
                             }
-                            gButtonProfileSelect.updateImage();
-                            //Closing the profileselector
-                            profileSelector.dismiss();
-                        }
-                    });
-                    //set the OnDismissListener to call the users onCloseListener
-                    profileSelector.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            closing();
-                        }
-                    });
-                    profileSelector.show();
-                }
-        });
+                        });
+                        profileSelector.show();
+                    }
+                });
+            }
         }
         else{Log.e("Error", "Your selected guardian is null");}
-    }
+
     }
 
     //Method used to call the users onCloseListener
