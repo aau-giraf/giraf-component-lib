@@ -163,18 +163,7 @@ public class GSwitch extends GSeekBar {
 
     public void Toggle()
     {
-        if (toggled)
-        {
-            seeker.setProgress(0);
-            toggled = false;
-        }
-        else
-        {
-            seeker.setProgress(100);
-            toggled = true;
-        }
-
-        if (task != null) task.onClick(this);
+        setToggled(!toggled);
     }
 
     @Override
@@ -182,12 +171,11 @@ public class GSwitch extends GSeekBar {
     {
         boolean stateChanged = false;
 
-        if (seeker.getProgress() > (toggled ? 80 : 20))
+        if (progress > (toggled ? 80 : 20))
         {
             seeker.setProgress(100);
             if (!toggled) stateChanged = true;
             toggled = true;
-
         }
         else
         {
@@ -205,5 +193,23 @@ public class GSwitch extends GSeekBar {
         return toggled;
 
     }
+
+    public void setToggled(boolean state)
+    {
+        if (!state)
+        {
+            seeker.setProgress(0);
+            toggled = false;
+        }
+        else
+        {
+            seeker.setProgress(100);
+            toggled = true;
+        }
+
+        if (task != null) task.onClick(this);
+    }
+
+
 
 }
