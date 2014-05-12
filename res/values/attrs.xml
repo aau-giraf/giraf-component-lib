@@ -11,4 +11,8 @@
         <attr name="Deletable" format="boolean"/>
         <attr name="Markable" format="boolean"/>
     </declare-styleable>
+    <declare-styleable name="GSwitch">
+        <attr name="OnText" format="string"/>
+        <attr name="OffText" format="string"/>
+    </declare-styleable>
 </resources>

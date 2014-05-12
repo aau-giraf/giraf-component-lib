@@ -31,8 +31,8 @@ public class GSwitch extends GSeekBar {
     private int offSet;
     private OnClickListener task;
     private boolean drawableSetup = false;
-    private String onText = "on";
-    private String offText = "off";
+    private String onText = "";
+    private String offText = "";
 
     public GSwitch (Context context)
     {
@@ -44,14 +44,17 @@ public class GSwitch extends GSeekBar {
     {
         super(context, attrs);
         me = this;
+        onText = context.obtainStyledAttributes(attrs, R.styleable.GSwitch).getString(R.styleable.GSwitch_OnText);
+        offText = context.obtainStyledAttributes(attrs, R.styleable.GSwitch).getString(R.styleable.GSwitch_OffText);
     }
 
     public GSwitch (Context context, AttributeSet attrs, int defStyle)
     {
         super(context, attrs, defStyle);
         me = this;
+        onText = context.obtainStyledAttributes(attrs, R.styleable.GSwitch).getString(R.styleable.GSwitch_OnText);
+        offText = context.obtainStyledAttributes(attrs, R.styleable.GSwitch).getString(R.styleable.GSwitch_OffText);
     }
-
 
     @Override
     protected void CreateSeekBar(Context context)
@@ -280,6 +283,20 @@ public class GSwitch extends GSeekBar {
         if (task != null) task.onClick(this);
     }
 
+    public void setTextOn(CharSequence text)
+    {
+        onText = text.toString();
+        CreateProgressDrawables();
 
+        //It wont re-render otherwise
+        seeker.setProgress(0);
+        seeker.setProgress(100);
+    }
+
+    public void setTextOff(CharSequence text)
+    {
+        offText = text.toString();
+        CreateProgressDrawables();
+    }
 
 }
