@@ -28,6 +28,7 @@ public class GButtonProfileSelect extends GButton {
     private boolean profilesLoaded = false;
     private GButtonProfileSelect gButtonProfileSelect;
     private onCloseListener myOnCloseListener;
+    private boolean addGuardianToList = true;
 
     public interface onCloseListener {
         void onClose(Profile guardianProfile, Profile currentProfile);
@@ -109,7 +110,7 @@ public class GButtonProfileSelect extends GButton {
                     @Override
                     public void onClick(View v) {
                         //Set the onListItemClickListener for the List in the profileSelector
-                        profileSelector = new GProfileSelector(getContext(), guardianProfile, currentProfile);
+                        profileSelector = new GProfileSelector(getContext(), guardianProfile, currentProfile, addGuardianToList);
                         profileSelector.setOnListItemClick(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -146,6 +147,10 @@ public class GButtonProfileSelect extends GButton {
 
     }
 
+    public void GuardianSelectableInList(boolean selectable)
+    {
+        addGuardianToList = selectable;
+    }
     //Method used to call the users onCloseListener
     public void closing()
     {

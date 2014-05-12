@@ -24,10 +24,33 @@ public class GProfileSelector extends GDialog {
 
     protected GradientDrawable picBackground;
     protected GList theList;
+    private Profile guardianProfile;
+    private Profile currentProfile;
+    private boolean placeGuardianInList = true;
+    private Context context;
 
     public GProfileSelector(Context context, Profile guardianProfile, Profile currentProfile)
     {
         super(context);
+        this.guardianProfile = guardianProfile;
+        this.currentProfile = currentProfile;
+        this.context = context;
+        setup();
+    }
+
+    public GProfileSelector(Context context, Profile guardianProfile, Profile currentProfile, boolean placeGuardianInList)
+    {
+        super(context);
+        this.guardianProfile = guardianProfile;
+        this.currentProfile = currentProfile;
+        this.placeGuardianInList = placeGuardianInList;
+        this.context = context;
+        setup();
+    }
+
+    //Setup
+    private void setup()
+    {
 
         //Inflate Views
         View completeView = LayoutInflater.from(this.getContext()).inflate(R.layout.gprofile_selector, null);
@@ -61,7 +84,7 @@ public class GProfileSelector extends GDialog {
 
         //Create a back dynamic background to the profile picture accordingly to GStyler
         picBackground = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                         new int[] {GStyler.calculateGradientColor(GStyler.calculateGradientColor(GStyler.buttonBaseColor)),GStyler.calculateGradientColor(GStyler.calculateGradientColor(GStyler.buttonBaseColor))});
+                new int[] {GStyler.calculateGradientColor(GStyler.calculateGradientColor(GStyler.buttonBaseColor)),GStyler.calculateGradientColor(GStyler.calculateGradientColor(GStyler.buttonBaseColor))});
         picBackground.setCornerRadius(5);
         profileLayout.setPadding(GStyler.dpToPixel(3, completeView.getContext())
                 , GStyler.dpToPixel(3, completeView.getContext())
@@ -78,7 +101,10 @@ public class GProfileSelector extends GDialog {
         {
 
             List<Profile> profileList = new ArrayList<Profile>();
-            profileList.add(guardianProfile);
+            if(placeGuardianInList == true)
+            {
+                profileList.add(guardianProfile);
+            }
             profileList.addAll(profileController.getChildrenByGuardian(guardianProfile));
             GProfileAdapter profileAdapter = new GProfileAdapter((Activity) context, profileList);
             theList.setAdapter(profileAdapter);
@@ -102,8 +128,8 @@ public class GProfileSelector extends GDialog {
             this.backgroundCancelsDialog(true);
         }
         catch(Exception e){}
-    }
 
+    }
     /**
      * Used to set the OnItemClickListener to the List from outside the Dialog
      * @param listener The Listener desired for the List's OnItemClickListener
