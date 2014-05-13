@@ -18,6 +18,7 @@ import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.SeekBar;
 
@@ -83,6 +84,9 @@ public class GSwitch extends GSeekBar {
         vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
+                ViewGroup.LayoutParams lp = me.getLayoutParams();
+                lp.width = seeker.getHeight()*2;
+                me.setLayoutParams(lp);
                 thumbDrawable.setIntrinsicWidth(seeker.getHeight()-padAmount*2);
                 thumbDrawable.setIntrinsicHeight(seeker.getHeight()-padAmount*2);
                 offSet = seeker.getHeight();
@@ -178,6 +182,7 @@ public class GSwitch extends GSeekBar {
         progressDrawable = new BitmapDrawable(getResources(), progressBmp);
 
         canvas = new Canvas(unProgressBmp);
+        unProgressDrawable.draw(canvas);
         unProgressBmp = drawTextToBitmap(getContext(), unProgressBmp, offText, Paint.Align.RIGHT);
         unProgressDrawable = new BitmapDrawable(getResources(), unProgressBmp);
 
