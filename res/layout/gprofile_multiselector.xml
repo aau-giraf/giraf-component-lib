@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/upperLayer">
+    <dk.aau.cs.giraf.gui.GTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="VALGBAR PROFILER"
+        android:id="@+id/selectableProfileText"
+        android:textColor="#FCCC"
+        android:layout_marginTop="3dp"/>
+
+    <dk.aau.cs.giraf.gui.GList
+        android:layout_width="500dp"
+        android:layout_height="400dp"
+        android:id="@+id/profileSelectorList"
+        android:layout_below="@id/selectableProfileText"
+        android:dividerHeight="5dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/upperLayer"
+        android:layout_marginTop="5dp"
+        android:layout_centerHorizontal="true">
+        <dk.aau.cs.giraf.gui.GVerifyButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/verifyButton"
+            android:layout_marginRight="5dp"/>
+        <dk.aau.cs.giraf.gui.GCancelButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cancelButton"
+            android:layout_marginLeft="5dp"/>
+        </LinearLayout>
+</RelativeLayout>
