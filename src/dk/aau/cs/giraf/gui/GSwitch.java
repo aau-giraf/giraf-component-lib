@@ -16,6 +16,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.SystemClock;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -85,10 +86,16 @@ public class GSwitch extends GSeekBar {
             @Override
             public boolean onPreDraw() {
                 ViewGroup.LayoutParams lp = me.getLayoutParams();
-                lp.width = seeker.getHeight()*2;
+
+                if (me.getWidth() < me.getHeight()*2)
+                    lp.width = seeker.getHeight()*2;
+
+                if (me.getHeight() - padAmount * 2 < 15)
+                    lp.height = 15 + padAmount * 2;
+
                 me.setLayoutParams(lp);
-                thumbDrawable.setIntrinsicWidth(seeker.getHeight()-padAmount*2);
-                thumbDrawable.setIntrinsicHeight(seeker.getHeight()-padAmount*2);
+                thumbDrawable.setIntrinsicWidth(lp.height-padAmount*2);
+                thumbDrawable.setIntrinsicHeight(lp.height-padAmount*2);
                 offSet = seeker.getHeight();
                 seeker.setPadding(seeker.getHeight()/2, 0, seeker.getHeight()/2, 0);
 
@@ -117,8 +124,9 @@ public class GSwitch extends GSeekBar {
 
                 me.setBackgroundDrawable(test);
 
-                if (vto.isAlive())
-                    vto.removeOnPreDrawListener(this);
+                if (me.getViewTreeObserver().isAlive())
+                    me.getViewTreeObserver().removeOnPreDrawListener(this);
+
                 return true;
             }
         });
