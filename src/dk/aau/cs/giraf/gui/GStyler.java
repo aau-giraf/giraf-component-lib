@@ -27,6 +27,7 @@ class GStyler {
     public static int dialogBoxBaseColor    = 0xFFFFD96E;
     public static int listBaseColor         = 0xFFFFD96E;
     public static int gridBaseColor         = 0xFFFFD96E;
+    public static int profileSelectorColor  = 0xFFFFD96E;
     public static int toastBaseTextColor    = 0xFFFFD96E;
     public static int listItemBaseColor     = 0xFFFFD96E;
     public static int tooltipBaseColor      = 0xFFFFD96E;
@@ -40,7 +41,7 @@ class GStyler {
     public static int dialogBorderColor     = ColorificationBisimulationRelation.InversePropoertionallyAlterVS(0.8f);
     public static int[] dividerBaseColors   = { 0x40000000, 0x25999999 }; // May need to be changed to be dynamic, currently is not
     public static int sliderUnProgressColor = 0xFFC2C2C2; // Fixed
-    public static int dialogBackgroundColor = ColorificationBisimulationRelation.ProportionallyAlterVS(0.8f);
+    public static int dialogBackgroundColor = 0xFFFFD96E;
     public static int dialogShadeColor = 0xFF000000;
 
 

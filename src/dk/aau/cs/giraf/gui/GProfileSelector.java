@@ -84,8 +84,9 @@ public class GProfileSelector extends GDialog {
 
         //Create a back dynamic background to the profile picture accordingly to GStyler
         picBackground = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[] {GStyler.calculateGradientColor(GStyler.calculateGradientColor(GStyler.buttonBaseColor)),GStyler.calculateGradientColor(GStyler.calculateGradientColor(GStyler.buttonBaseColor))});
+                new int[] {0xFFFFFFFF , 0xFFFFFFFF});
         picBackground.setCornerRadius(5);
+        picBackground.setStroke(2, ColorificationBisimulationRelation.ProportionallyAlterVS(0.9f));
         profileLayout.setPadding(GStyler.dpToPixel(3, completeView.getContext())
                 , GStyler.dpToPixel(3, completeView.getContext())
                 , GStyler.dpToPixel(3, completeView.getContext())
