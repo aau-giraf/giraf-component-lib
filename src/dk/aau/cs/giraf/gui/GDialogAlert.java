@@ -80,7 +80,9 @@ public class GDialogAlert extends GDialog {
     {
         this.findViewById(R.id.GDialogAlert_okBtn).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                _task.onClick(v);
+                if (_task != null)
+                    _task.onClick(v);
+
                 mDialog.dismiss();
             }
         });
