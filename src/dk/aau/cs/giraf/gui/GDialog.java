@@ -2,6 +2,7 @@ package dk.aau.cs.giraf.gui;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,14 @@ public class GDialog extends Dialog {
     {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
         thisDialog = this;
+    }
+
+    public void SetShade(boolean enabled)
+    {
+        if (enabled)
+            findViewById(R.id.GDialog_Shade).setBackgroundColor(GStyler.dialogShadeColor);
+        else
+            findViewById(R.id.GDialog_Shade).setBackgroundColor(Color.TRANSPARENT);
     }
 
     public void SetView(View content)
