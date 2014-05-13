@@ -23,22 +23,30 @@ import dk.aau.cs.giraf.oasis.lib.controllers.ProfileController;
  */
 public class GMultiSelectAdapter extends BaseAdapter {
 
+    //Fields
     private Activity activity;
-    public List<MultiSelectDataWrapper> data = new ArrayList<MultiSelectDataWrapper>();
     private static LayoutInflater inflater=null;
-    private int currentPosition = 0;
     private ProfileController profileController;
 
+    public List<MultiSelectDataWrapper> data = new ArrayList<MultiSelectDataWrapper>();
+
+    //Constructor
     public GMultiSelectAdapter(Activity a, List<Integer> indexes, List<Integer> toggledIndexes) {
+        //Store the activity and Create the controller handling of database
         activity = a;
         profileController = new ProfileController(a.getApplicationContext());
+
+        //Fetch the id's from the indexes List and transform them to MultiSelectDataWrapper
+        //(containing index number in list, id for a profile and toggle status)
         for(int i = 0; i < indexes.size(); i++)
         {
             data.add(new MultiSelectDataWrapper(i, indexes.get(i)));
+            //If there is some ids in the toggledIndexes find which corrospond to the one's in the data list and toggle.
             if(toggledIndexes != null)
             {
                 for(int x = 0; x < toggledIndexes.size(); x++)
                 {
+
                     if(toggledIndexes.get(x).intValue() == indexes.get(i).intValue())
                     {
                         data.get(i).setToggled(true);
@@ -63,10 +71,10 @@ public class GMultiSelectAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi = convertView;
-        currentPosition = ((GList) parent).getFirstVisiblePosition() +position;
         //Inflate our view (gshowrow) if it's null
         if(convertView==null)
         {
+            //if the view is null instantiate a GToggleButton and attach a listener
             vi = new GToggleButton(activity.getApplicationContext());
             ((GToggleButton) vi).setToggled(true);
              vi.setOnClickListener(new View.OnClickListener() {
@@ -74,23 +82,23 @@ public class GMultiSelectAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     if(((GToggleButton) v).isToggled())
                     {
+                        //Get position of the toggled toggleButton and store in data
                         int i = ((GList)v.getParent()).getPositionForView(v);
                        data.get(i).setToggled(true);
                     }
                     else
                     {
+                        //Get position of the detoggled toggleButton and store in data
                         int i = ((GList)v.getParent()).getPositionForView(v);
                         data.get(i).setToggled(false);
                     }
                 }
             });
         }
-     /*   BitmapDrawable profilePicture = new BitmapDrawable(profileController.getProfileById(data.get(position).getId()).getImage());
-        if(profilePicture != null)
-        {
-        ((GToggleButton) vi).setCompoundDrawablesWithIntrinsicBounds(profilePicture, null, null, null);
-        }*/
+
+        //Set the Text of the ToggleButtons to the Profiles name
         ((GToggleButton) vi).setText(profileController.getProfileById(data.get(position).getId()).getName());
+        //Toggle the ToggleButton if the data says is should be toggled.
         if(data.get(position).getToggled())
         {
             ((GToggleButton)vi).setToggled(true);
@@ -104,10 +112,10 @@ public class GMultiSelectAdapter extends BaseAdapter {
         return vi;
     }
 
-
-
+//Wrapper class for the data
     public class MultiSelectDataWrapper
     {
+        //Contains a index in the list, id of the profile, and if the given is toggled.
         int index;
         int id;
         boolean toggled = false;
