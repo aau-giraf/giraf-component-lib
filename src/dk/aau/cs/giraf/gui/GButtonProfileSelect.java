@@ -151,6 +151,7 @@ public class GButtonProfileSelect extends GButton {
     {
         addGuardianToList = selectable;
     }
+
     //Method used to call the users onCloseListener
     public void closing()
     {
