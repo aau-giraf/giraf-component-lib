@@ -47,7 +47,7 @@ public class GProfileAdapter extends BaseAdapter {
         if(convertView==null)
             vi = inflater.inflate(R.layout.gprofile_row, null);
 
-        ImageView profilePicture = (ImageView)vi.findViewById(R.id.profile_pic);
+        ImageView profilePicture = (ImageView)vi.findViewById(R.id.imageview_profilepic);
 
             if(data.get(position).getImage() != null)
             {
