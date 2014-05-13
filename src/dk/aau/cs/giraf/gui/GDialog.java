@@ -58,7 +58,7 @@ public class GDialog extends Dialog {
         GradientDrawable d = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {GStyler.dialogBackgroundColor, GStyler.dialogBackgroundColor});
         d.setCornerRadius(10);
 
-        d.setStroke(5, GStyler.calculateGradientColor(GStyler.dialogBorderColor));
+        d.setStroke(5, GStyler.dialogBorderColor);
 
         background.setBackgroundDrawable(d);
         background.setOnClickListener(new View.OnClickListener() {
