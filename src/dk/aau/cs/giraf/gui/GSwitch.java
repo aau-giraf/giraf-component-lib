@@ -94,8 +94,8 @@ public class GSwitch extends GSeekBar {
                     lp.height = 15 + padAmount * 2;
 
                 me.setLayoutParams(lp);
-                thumbDrawable.setIntrinsicWidth(lp.height-padAmount*2);
-                thumbDrawable.setIntrinsicHeight(lp.height-padAmount*2);
+                thumbDrawable.setIntrinsicWidth(lp.height - padAmount * 2);
+                thumbDrawable.setIntrinsicHeight(lp.height - padAmount * 2);
                 offSet = lp.height;
                 seeker.setPadding(lp.height/2, 0, lp.height/2, 0);
 
@@ -203,7 +203,6 @@ public class GSwitch extends GSeekBar {
         //combining into a single drawable
         //LayerDrawable progressLayer = new LayerDrawable(new Drawable[]{padding,clip});
         LayerDrawable progressLayer = new LayerDrawable(new Drawable[]{padding,clip});
-        
         seeker.setProgressDrawable(progressLayer);
     }
 
@@ -221,10 +220,12 @@ public class GSwitch extends GSeekBar {
         Canvas canvas = new Canvas(bitmap);
         // new antialised Paint
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+        paint.setTextScaleX(2);
         // text color - #3D3D3D
         paint.setColor(Color.rgb(0,0, 0));
         // text size in pixels
-        paint.setTextSize(20);
+        paint.setTextSize(GStyler.dpToPixel(20, mContext));
 
         paint.setTextAlign(align);
 
@@ -233,7 +234,7 @@ public class GSwitch extends GSeekBar {
         paint.getTextBounds(mText, 0, mText.length(), bounds);
 
         int x = align == Paint.Align.LEFT ? 0 : bitmap.getWidth();
-        int y = (bitmap.getHeight() + bounds.height()) / 2;
+        int y = (bitmap.getHeight() + bounds.height() ) / 2;
 
         canvas.drawText(mText, GStyler.dpToPixel(x, mContext), GStyler.dpToPixel(y, mContext), paint);
 
