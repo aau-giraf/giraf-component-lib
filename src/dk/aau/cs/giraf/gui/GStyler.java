@@ -153,7 +153,8 @@ class GStyler {
         paint.setColor(0xFFFFFFFF);
         paint.setStyle(Paint.Style.FILL);
         canvas.drawARGB(0, 0, 0, 0);
-        canvas.drawRoundRect(rectF, cornerSizePx, cornerSizePx, paint);
+        //canvas.drawRoundRect(rectF, cornerSizePx, cornerSizePx, paint);
+        canvas.drawRoundRect(rectF, cornerDips, cornerDips, paint);
 
         // draw bitmap
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
