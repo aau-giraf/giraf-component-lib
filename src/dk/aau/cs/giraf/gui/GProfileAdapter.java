@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 
 import java.util.List;
 
@@ -45,6 +46,13 @@ public class GProfileAdapter extends BaseAdapter {
         View vi = convertView;
         if(convertView==null)
             vi = inflater.inflate(R.layout.gprofile_row, null);
+
+        ImageView profilePicture = (ImageView)vi.findViewById(R.id.profile_pic);
+
+            if(data.get(position).getImage() != null)
+            {
+                profilePicture.setImageBitmap(data.get(position).getImage());
+            }
 
         StateListDrawable stateListDrawable = new StateListDrawable();
 
@@ -96,7 +104,6 @@ public class GProfileAdapter extends BaseAdapter {
                 , GStyler.dpToPixel(5, vi.getContext()));
 
         vi.setBackgroundDrawable(stateListDrawable);
-        //imageLoader.DisplayImage(song.get(CustomizedListView.KEY_THUMB_URL), thumb_image);
         return vi;
     }
 
