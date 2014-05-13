@@ -16,6 +16,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.SystemClock;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -85,12 +86,18 @@ public class GSwitch extends GSeekBar {
             @Override
             public boolean onPreDraw() {
                 ViewGroup.LayoutParams lp = me.getLayoutParams();
-                lp.width = seeker.getHeight()*2;
+
+                if (me.getWidth() < me.getHeight()*2)
+                    lp.width = seeker.getHeight()*2;
+
+                if (me.getHeight() - padAmount * 2 < 15)
+                    lp.height = 15 + padAmount * 2;
+
                 me.setLayoutParams(lp);
-                thumbDrawable.setIntrinsicWidth(seeker.getHeight()-padAmount*2);
-                thumbDrawable.setIntrinsicHeight(seeker.getHeight()-padAmount*2);
-                offSet = seeker.getHeight();
-                seeker.setPadding(seeker.getHeight()/2, 0, seeker.getHeight()/2, 0);
+                thumbDrawable.setIntrinsicWidth(lp.height-padAmount*2);
+                thumbDrawable.setIntrinsicHeight(lp.height-padAmount*2);
+                offSet = lp.height;
+                seeker.setPadding(lp.height/2, 0, lp.height/2, 0);
 
                 Bitmap thumbBmp = Bitmap.createBitmap(thumbDrawable.getIntrinsicWidth(), thumbDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(thumbBmp);
@@ -102,14 +109,14 @@ public class GSwitch extends GSeekBar {
                 //seeker.setThumb(thumbDrawable);
 
                 //Drawing background
-                Bitmap bmResult = Bitmap.createBitmap(me.getWidth(), me.getHeight(), Bitmap.Config.ARGB_8888);
+                Bitmap bmResult = Bitmap.createBitmap(lp.width, lp.height, Bitmap.Config.ARGB_8888);
                 canvas = new Canvas(bmResult);
                 Paint paint = new Paint();
                 paint.setStyle(Paint.Style.FILL);
                 paint.setColor(GStyler.sliderUnProgressColor);
-                canvas.drawRect(new Rect(0, 0, me.getWidth(), seeker.getHeight()), paint);
+                canvas.drawRect(new Rect(0, 0, lp.width, lp.height), paint);
                 paint.setColor(GStyler.sliderProgressColor);
-                canvas.drawRect(new Rect(0,0, seeker.getHeight()/2, seeker.getHeight()), paint);
+                canvas.drawRect(new Rect(0,0, lp.height/2, lp.height), paint);
 
                 bmResult = GStyler.getRoundedCornerBitmap(bmResult, GStyler.calculateGradientColor(GStyler.sliderProgressColor), offSet/2, padAmount, getResources());
 
@@ -117,8 +124,9 @@ public class GSwitch extends GSeekBar {
 
                 me.setBackgroundDrawable(test);
 
-                if (vto.isAlive())
-                    vto.removeOnPreDrawListener(this);
+                if (me.getViewTreeObserver().isAlive())
+                    me.getViewTreeObserver().removeOnPreDrawListener(this);
+
                 return true;
             }
         });

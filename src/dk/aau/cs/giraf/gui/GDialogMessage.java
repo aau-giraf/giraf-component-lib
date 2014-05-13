@@ -67,7 +67,9 @@ public class GDialogMessage extends GDialog
         this.findViewById(R.id.GDialogMessage_okBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                _task.onClick(v);
+                if (_task != null)
+                    _task.onClick(v);
+
                 mDialog.dismiss();
             }
         });
