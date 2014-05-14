@@ -318,17 +318,31 @@ public class GSwitch extends GSeekBar {
     {
         onText = text.toString();
         CreateProgressDrawables();
-        refresh();
+        reDraw();
     }
 
     public void setTextOff(CharSequence text)
     {
         offText = text.toString();
         CreateProgressDrawables();
-        refresh();
+        reDraw();
     }
 
     public void refresh()
+    {
+        this.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                reDraw();
+
+                if (me.getViewTreeObserver().isAlive())
+                    me.getViewTreeObserver().removeOnPreDrawListener(this);
+                return true;
+            }
+        });
+    }
+
+    private void reDraw()
     {
         CreateProgressDrawables();
         int prog = seeker.getProgress();
