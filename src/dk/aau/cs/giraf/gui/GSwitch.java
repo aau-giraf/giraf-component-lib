@@ -164,6 +164,7 @@ public class GSwitch extends GSeekBar {
         if (!drawableSetup)
         {
             CreateProgressDrawables();
+
             drawableSetup = true;
         }
     }
@@ -330,16 +331,7 @@ public class GSwitch extends GSeekBar {
 
     public void refresh()
     {
-        this.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                reDraw();
 
-                if (me.getViewTreeObserver().isAlive())
-                    me.getViewTreeObserver().removeOnPreDrawListener(this);
-                return true;
-            }
-        });
     }
 
     private void reDraw()
@@ -348,6 +340,14 @@ public class GSwitch extends GSeekBar {
         int prog = seeker.getProgress();
         seeker.setProgress(50);
         seeker.setProgress(prog);
+    }
+
+    @Override
+    protected void onWindowVisibilityChanged(int visibility)
+    {
+        super.onWindowVisibilityChanged(visibility);
+        if (visibility == VISIBLE)
+            reDraw();
     }
 
 }
