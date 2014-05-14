@@ -35,6 +35,7 @@ public class GSwitch extends GSeekBar {
     private boolean drawableSetup = false;
     private String onText = "";
     private String offText = "";
+    private boolean refresher = false;
 
     public GSwitch (Context context)
     {
@@ -166,6 +167,12 @@ public class GSwitch extends GSeekBar {
             CreateProgressDrawables();
 
             drawableSetup = true;
+        }
+
+        if (refresher)
+        {
+            refresher = false;
+            reDraw();
         }
     }
 
@@ -331,7 +338,7 @@ public class GSwitch extends GSeekBar {
 
     public void refresh()
     {
-
+        refresher = true;
     }
 
     private void reDraw()
@@ -340,14 +347,6 @@ public class GSwitch extends GSeekBar {
         int prog = seeker.getProgress();
         seeker.setProgress(50);
         seeker.setProgress(prog);
-    }
-
-    @Override
-    protected void onWindowVisibilityChanged(int visibility)
-    {
-        super.onWindowVisibilityChanged(visibility);
-        if (visibility == VISIBLE)
-            reDraw();
     }
 
 }
