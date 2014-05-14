@@ -94,8 +94,8 @@ public class GSwitch extends GSeekBar {
                     lp.height = 15 + padAmount * 2;
 
                 me.setLayoutParams(lp);
-                thumbDrawable.setIntrinsicWidth(lp.height-padAmount*2);
-                thumbDrawable.setIntrinsicHeight(lp.height-padAmount*2);
+                thumbDrawable.setIntrinsicWidth(lp.height - padAmount);
+                thumbDrawable.setIntrinsicHeight(lp.height - padAmount);
                 offSet = lp.height;
                 seeker.setPadding(lp.height/2, 0, lp.height/2, 0);
 
@@ -118,7 +118,7 @@ public class GSwitch extends GSeekBar {
                 paint.setColor(GStyler.sliderProgressColor);
                 canvas.drawRect(new Rect(0,0, lp.height/2, lp.height), paint);
 
-                bmResult = GStyler.getRoundedCornerBitmap(bmResult, GStyler.calculateGradientColor(GStyler.sliderProgressColor), offSet/2, padAmount, getResources());
+                bmResult = GStyler.getRoundedCornerBitmap(bmResult, GStyler.calculateGradientColor(GStyler.sliderProgressColor), offSet/2, padAmount/2, getResources());
 
                 BitmapDrawable test = new BitmapDrawable(getResources(), bmResult);
 
@@ -168,6 +168,17 @@ public class GSwitch extends GSeekBar {
         }
     }
 
+    private void Resize()
+    {
+        CreateProgressDrawables();
+        CreateBackground();
+    }
+
+    private void CreateBackground()
+    {
+
+    }
+
     private void CreateProgressDrawables()
     {
         int padd = GStyler.dpToPixel(4, getContext());
@@ -197,13 +208,12 @@ public class GSwitch extends GSeekBar {
 
         //Both progressbars are essentially rendered, the progress ontop of the unprogress
         //This makes the progress clip-able
-        final InsetDrawable padding = new InsetDrawable(unProgressDrawable,0,padd,0,padd);
+        final InsetDrawable padding = new InsetDrawable(unProgressDrawable,0,padd/2,0,padd/2);
         final ClipDrawable clip = new ClipDrawable(progressDrawable, Gravity.LEFT,ClipDrawable.HORIZONTAL);
 
         //combining into a single drawable
         //LayerDrawable progressLayer = new LayerDrawable(new Drawable[]{padding,clip});
         LayerDrawable progressLayer = new LayerDrawable(new Drawable[]{padding,clip});
-        
         seeker.setProgressDrawable(progressLayer);
     }
 
@@ -221,21 +231,24 @@ public class GSwitch extends GSeekBar {
         Canvas canvas = new Canvas(bitmap);
         // new antialised Paint
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+        paint.setTextScaleX(2);
         // text color - #3D3D3D
         paint.setColor(Color.rgb(0,0, 0));
         // text size in pixels
-        paint.setTextSize(20);
+        paint.setTextSize(GStyler.dpToPixel(20, mContext));
 
         paint.setTextAlign(align);
+
 
         // draw text to the Canvas center
         Rect bounds = new Rect();
         paint.getTextBounds(mText, 0, mText.length(), bounds);
 
         int x = align == Paint.Align.LEFT ? 0 : bitmap.getWidth();
-        int y = (bitmap.getHeight() + bounds.height()) / 2;
+        int y = bounds.height() + bitmap.getHeight()/2 - (int)paint.getTextSize()/2;//bitmap.getHeight()/2 - (int)paint.getTextSize()/2;
 
-        canvas.drawText(mText, GStyler.dpToPixel(x, mContext), GStyler.dpToPixel(y, mContext), paint);
+        canvas.drawText(mText, x, y, paint);
 
         return bitmap;
     }
@@ -305,16 +318,21 @@ public class GSwitch extends GSeekBar {
     {
         onText = text.toString();
         CreateProgressDrawables();
-
-        //It wont re-render otherwise
-        seeker.setProgress(0);
-        seeker.setProgress(100);
+        refresh();
     }
 
     public void setTextOff(CharSequence text)
     {
         offText = text.toString();
         CreateProgressDrawables();
+        refresh();
+    }
+
+    public void refresh()
+    {
+        int prog = seeker.getProgress();
+        seeker.setProgress(50);
+        seeker.setProgress(prog);
     }
 
 }
