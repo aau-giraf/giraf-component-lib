@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="Scale.svg"
+   sodipodi:docname="rotate.svg"
    inkscape:export-filename="/home/mathias/Git/croc/res/drawable-mdpi/rezise_icon.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -28,9 +28,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="6.17"
-     inkscape:cx="21.474878"
-     inkscape:cy="50"
+     inkscape:zoom="4.3628488"
+     inkscape:cx="47.2877"
+     inkscape:cy="40.164945"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="false"
@@ -70,26 +70,30 @@
      id="layer2"
      inkscape:label="Draw"
      style="display:inline">
-    <path
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.99036424999999995px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;"
-       d="M 20.907617,69.448947 30.794165,79.497569 11.994,88.736 z"
-       id="path3047"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc"
-       transform="matrix(0.26133721,-0.97532367,0.97532367,0.26133721,1.2614369,79.083277)" />
-    <path
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.99036424999999995px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;"
-       d="M 80.388979,30.388979 70.502431,20.340357 89.303,11.102 z"
-       id="path3047-5"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc"
-       transform="matrix(-0.3453478,-0.94883523,0.94883523,-0.3453478,31.076818,99.426873)" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:0.99036424999999995px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
-       d="M 11.994,88.736 C 68.172096,60.328024 68.267563,60.322408 89.187395,11.143608"
-       id="path3876"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc"
-       transform="matrix(0,-1.0097295,1.0097295,0,-0.40474643,100.97726)" />
+    <g
+       id="g2987"
+       transform="matrix(-1.1087561,0,0,-1.1087561,106.38714,106.48559)">
+      <path
+         transform="matrix(0.26133721,-0.97532367,0.97532367,0.26133721,1.2614369,79.083277)"
+         sodipodi:nodetypes="cccc"
+         inkscape:connector-curvature="0"
+         id="path3047"
+         d="M 20.907617,69.448947 30.794165,79.497569 11.994,88.736 z"
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.99036425px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1" />
+      <path
+         transform="matrix(-0.3453478,-0.94883523,0.94883523,-0.3453478,31.076818,99.426873)"
+         sodipodi:nodetypes="cccc"
+         inkscape:connector-curvature="0"
+         id="path3047-5"
+         d="M 80.388979,30.388979 70.502431,20.340357 89.303,11.102 z"
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.99036425px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1" />
+      <path
+         transform="matrix(0,-1.0097295,1.0097295,0,-0.40474643,100.97726)"
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path3876"
+         d="M 11.994,88.736 C 68.172096,60.328024 68.267563,60.322408 89.187395,11.143608"
+         style="fill:none;stroke:#000000;stroke-width:0.99036425px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    </g>
   </g>
 </svg>
