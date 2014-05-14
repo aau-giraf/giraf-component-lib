@@ -168,6 +168,17 @@ public class GSwitch extends GSeekBar {
         }
     }
 
+    private void Resize()
+    {
+        CreateProgressDrawables();
+        CreateBackground();
+    }
+
+    private void CreateBackground()
+    {
+
+    }
+
     private void CreateProgressDrawables()
     {
         int padd = GStyler.dpToPixel(4, getContext());
@@ -233,9 +244,6 @@ public class GSwitch extends GSeekBar {
         // draw text to the Canvas center
         Rect bounds = new Rect();
         paint.getTextBounds(mText, 0, mText.length(), bounds);
-
-        Log.e("bitmap", "H:" + bitmap.getHeight() + " W:" + bitmap.getWidth());
-        Log.e("bounds", "H:" + bounds.height() + " W:" + bounds.width());
 
         int x = align == Paint.Align.LEFT ? 0 : bitmap.getWidth();
         int y = bounds.height() + bitmap.getHeight()/2 - (int)paint.getTextSize()/2;//bitmap.getHeight()/2 - (int)paint.getTextSize()/2;
@@ -310,16 +318,21 @@ public class GSwitch extends GSeekBar {
     {
         onText = text.toString();
         CreateProgressDrawables();
-
-        //It wont re-render otherwise
-        seeker.setProgress(0);
-        seeker.setProgress(100);
+        refresh();
     }
 
     public void setTextOff(CharSequence text)
     {
         offText = text.toString();
         CreateProgressDrawables();
+        refresh();
+    }
+
+    public void refresh()
+    {
+        int prog = seeker.getProgress();
+        seeker.setProgress(50);
+        seeker.setProgress(prog);
     }
 
 }
