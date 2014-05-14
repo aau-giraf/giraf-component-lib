@@ -330,6 +330,7 @@ public class GSwitch extends GSeekBar {
 
     public void refresh()
     {
+        CreateProgressDrawables();
         int prog = seeker.getProgress();
         seeker.setProgress(50);
         seeker.setProgress(prog);
