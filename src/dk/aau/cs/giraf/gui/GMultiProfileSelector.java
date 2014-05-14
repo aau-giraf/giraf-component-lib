@@ -23,6 +23,7 @@ import dk.aau.cs.giraf.oasis.lib.models.Profile;
  */
 public class GMultiProfileSelector extends GDialog{
 
+    //Fields
     protected GradientDrawable picBackground;
     protected GList theList;
     private GVerifyButton verifyButton;
@@ -32,14 +33,24 @@ public class GMultiProfileSelector extends GDialog{
     ProfileController profileController;
     private onCloseListener myOnCloseListener;
 
+    //Custom onClose Listener
     public interface onCloseListener {
         void onClose(List<Profile> selectedProfiles);
     }
 
+    //Constructor
     public GMultiProfileSelector(Context context, List<Profile> allProfiles,  List<Profile> selectedProfiles)
     {
         super(context);
 
+        //Disable the Dialogs ability to close when pressed on background
+        try{
+        this.backgroundCancelsDialog(false);
+        }
+        catch(Exception e)
+        {}
+
+        //Instantiate the ProfileController  for the Database usage
         profileController = new ProfileController((Activity) context);
 
         //Inflate Views
@@ -50,22 +61,28 @@ public class GMultiProfileSelector extends GDialog{
         verifyButton = (GVerifyButton) completeView.findViewById(R.id.verifyButton);
         cancelButton = (GCancelButton) completeView.findViewById(R.id.cancelButton);
 
+        //Set the OnClickListener for the verifyButton
         verifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               GMultiSelectAdapter multiSelectAdapter = (GMultiSelectAdapter) theList.getAdapter();
+                //Fetch the Adapter from the List.
+                GMultiSelectAdapter multiSelectAdapter = (GMultiSelectAdapter) theList.getAdapter();
+                //Clear the selected List and fill with the newfound selected indexes
                 selectedProfileindexes.clear();
                 for(int i = 0; i < multiSelectAdapter.data.size(); i++)
                 {
                     if(multiSelectAdapter.data.get(i).getToggled())
                     {
-                    selectedProfileindexes.add(multiSelectAdapter.data.get(i).getId());
+                       selectedProfileindexes.add(multiSelectAdapter.data.get(i).getId());
                     }
                 }
+                //Call the function notifying the Listeners
                 closing();
+                //Close the Dialog
                 cancel();
             }
         });
+        //Attach the onClick event for the cancel button
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,40 +90,36 @@ public class GMultiProfileSelector extends GDialog{
             }
         });
 
+        //Get the ID's from all the Profiles
         for(int i = 0; i < allProfiles.size() ; i++)
         {
             allProfileindexes.add(allProfiles.get(i).getId());
         }
 
+        //Get the ID's from all the Profiles which should be toggled in the dialog (if any)
         if(selectedProfiles != null)
         {
             for(int i = 0; i < selectedProfiles.size() ; i++)
             {
                 selectedProfileindexes.add(selectedProfiles.get(i).getId());
             }
-
         }
 
-
+        //Create the adapter and attach
         GMultiSelectAdapter selectorAdapter = new GMultiSelectAdapter((Activity) context, allProfileindexes, selectedProfileindexes);
         theList.setAdapter(selectorAdapter);
         this.SetView(completeView);
-
-        //Set the ability to close the dialog by clicking next to it
-        try
-        {
-            this.backgroundCancelsDialog(true);
-        }
-        catch(Exception e){}
     }
 
     public void closing()
     {
+        //Transform the id's to profiles
         List<Profile> selectedProfiles = new ArrayList<Profile>();
         for (int i = 0; i < selectedProfileindexes.size(); i++)
         {
             selectedProfiles.add(profileController.getProfileById(selectedProfileindexes.get(i)));
         }
+        //Notify listeners
         myOnCloseListener.onClose(selectedProfiles);
     }
 
