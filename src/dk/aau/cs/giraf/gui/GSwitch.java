@@ -339,6 +339,7 @@ public class GSwitch extends GSeekBar {
     public void refresh()
     {
         refresher = true;
+        invalidate();
     }
 
     private void reDraw()
