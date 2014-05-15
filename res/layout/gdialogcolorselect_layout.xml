@@ -87,13 +87,13 @@
             android:id="@+id/GDialogColorSelect_Cursor"
             android:layout_width="9dp"
             android:layout_height="9dp"
-            android:src="@drawable/gdialogcolorselect_cursor"
+            android:background="@drawable/gdialogcolorselect_cursor"
             android:scaleType="matrix"/>
         <ImageView
             android:id="@+id/GDialogColorSelect_Target"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:src="@drawable/gdialogcolorselect_target"
+            android:background="@drawable/gdialogcolorselect_target"
             android:scaleType="matrix"/>
     </RelativeLayout>
     <LinearLayout
