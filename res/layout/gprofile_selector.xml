@@ -29,7 +29,7 @@
     <dk.aau.cs.giraf.gui.GTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="VALGBAR PROFILER"
+        android:text="VALGBARE PROFILER"
         android:id="@+id/selectableProfileText"
         android:layout_below="@id/currentProfileLayer"
         android:textColor="#FCCC"
