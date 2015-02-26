@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.cars.test;
+package dk.aau.cs.giraf.gui.test;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
