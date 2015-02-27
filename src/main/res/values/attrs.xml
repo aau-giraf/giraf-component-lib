@@ -15,4 +15,33 @@
         <attr name="OnText" format="string"/>
         <attr name="OffText" format="string"/>
     </declare-styleable>
+    <declare-styleable name="GirafButton">
+        <attr name="type" format="enum">
+            <enum name="ACCEPT" value="0" />
+            <enum name="ADD" value="1" />
+            <enum name="ARROW_DOWN" value="2" />
+            <enum name="ARROW_LEFT" value="3" />
+            <enum name="ARROW_RIGHT" value="4" />
+            <enum name="ARROW_UP" value="5" />
+            <enum name="BACK" value="6" />
+            <enum name="CAMERA" value="7" />
+            <enum name="CAMERA_SWITCH" value="8" />
+            <enum name="CANCEL" value="9" />
+            <enum name="CHANGE_USER" value="10" />
+            <enum name="COPY" value="11" />
+            <enum name="DELETE" value="12" />
+            <enum name="HELP" value="13" />
+            <enum name="LOG_OUT" value="14" />
+            <enum name="MICROPHONE" value="15" />
+            <enum name="MICROPHONE_OFF" value="16" />
+            <enum name="MICROPHONE_ON" value="17" />
+            <enum name="PLAY" value="18" />
+            <enum name="RECORD" value="19" />
+            <enum name="RESIZE" value="20" />
+            <enum name="ROTATE" value="21" />
+            <enum name="SAVE" value="22" />
+            <enum name="SEARCH" value="23" />
+            <enum name="SETTING" value="24" />
+        </attr>
+    </declare-styleable>
 </resources>
