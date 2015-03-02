@@ -273,6 +273,8 @@ public class GirafButton extends Button {
      */
     private void initializeButton(AttributeSet attrs) {
         final TypedArray a = this.getContext().obtainStyledAttributes(attrs, R.styleable.GirafButton);
+
+        // Finds the style if no stylle was found -1 is fallback
         int buttonTypeId = a.getInt(R.styleable.GirafButton_type, -1);
         BUTTON_TYPE buttonType = BUTTON_TYPE.values()[buttonTypeId];
 
@@ -454,6 +456,7 @@ public class GirafButton extends Button {
      * @return a layered drawable with the defined background and icon
      */
     private LayerDrawable generateLayerDrawable(Drawable background, Drawable icon) {
+        icon.setBounds(10,10,10,10);
         Drawable[] drawables = {background, icon};
         return new LayerDrawable(drawables);
     }
