@@ -12,4 +12,7 @@
     	<item>0xFFB3DC6C</item>
     	<item>0xFF9FC6E7</item>   
     </integer-array>
+    <integer name="giraf_button_padding">11</integer>
+    <integer name="giraf_button_corner_radius">10</integer>
+    <integer name="giraf_button_stroke_width">2</integer>
 </resources>

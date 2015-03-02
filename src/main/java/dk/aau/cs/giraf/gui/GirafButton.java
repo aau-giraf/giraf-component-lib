@@ -1,32 +1,32 @@
 package dk.aau.cs.giraf.gui;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
 /**
  * Created on 24/02/15.
  */
-public class GirafButton extends Button {
+public class GirafButton extends ImageButton {
 
     /**
      * <p>Objects that implements this interface will have methods that are used to describe how
      * a button should be styled</p>
      */
     private interface IButtonStyleable {
-        /**
-         * The icon of the button style
-         *
-         * @param icon the icon of the button style
-         */
-        public void setIcon(Drawable icon);
-
         /**
          * The corner radius of the button style
          *
@@ -66,19 +66,18 @@ public class GirafButton extends Button {
         public ButtonStateStyle focused;
         public ButtonStateStyle disabled;
 
-        public ButtonStyle(Drawable icon) {
-            enabled = new ButtonStateStyle(icon);
-            pressed = new ButtonStateStyle(icon);
-            focused = new ButtonStateStyle(icon);
-            disabled = new ButtonStateStyle(icon);
+        public Drawable icon;
 
-            // Set default for different button states
-            int cornerRadius = 10;
-            int borderRadius = 2;
+        public ButtonStyle(Context context, Drawable icon) {
+            enabled = new ButtonStateStyle();
+            pressed = new ButtonStateStyle();
+            focused = new ButtonStateStyle();
+            disabled = new ButtonStateStyle();
 
-            setCornerRadius(cornerRadius);
-            setStrokeWidth(borderRadius);
+            setCornerRadius(context.getResources().getInteger(R.integer.giraf_button_corner_radius));
+            setStrokeWidth(context.getResources().getInteger(R.integer.giraf_button_stroke_width));
             setBaseColor(getColorCode(R.color.button_default_color));
+            this.setIcon(icon);
         }
 
         /**
@@ -116,14 +115,10 @@ public class GirafButton extends Button {
         }
 
         /**
-         * Sets the icon of all button states
+         * Sets the icon of the button
          */
-        @Override
         public void setIcon(Drawable icon) {
-            enabled.setIcon(icon);
-            pressed.setIcon(icon);
-            focused.setIcon(icon);
-            disabled.setIcon(icon);
+            this.icon = icon;
         }
 
         /**
@@ -175,20 +170,10 @@ public class GirafButton extends Button {
      * <p>Used to configure the style of a button in a specific state. See {@link dk.aau.cs.giraf.gui.GirafButton.ButtonStyle}</p>
      */
     private class ButtonStateStyle implements IButtonStyleable {
-        Drawable icon;
         int cornerRadius;
         int fillColor;
         int strokeColor;
         int strokeWidth;
-
-        public ButtonStateStyle(Drawable icon) {
-            setIcon(icon);
-        }
-
-        @Override
-        public void setIcon(Drawable icon) {
-            this.icon = icon;
-        }
 
         @Override
         public void setCornerRadius(int cornerRadius) {
@@ -222,7 +207,7 @@ public class GirafButton extends Button {
 
     /**
      * <p>A list of all available buttons</p>
-     * <p>If more are needed, these should be added to the switch-statement in the {@link #generateGirafButtonDrawable}-method</p>
+     * <p>If more are needed, these should be added to the switch-statement in the {@link #getButtonStyle(dk.aau.cs.giraf.gui.GirafButton.BUTTON_TYPE)}-method</p>
      */
     public enum BUTTON_TYPE {
         ACCEPT,
@@ -274,150 +259,162 @@ public class GirafButton extends Button {
     private void initializeButton(AttributeSet attrs) {
         final TypedArray a = this.getContext().obtainStyledAttributes(attrs, R.styleable.GirafButton);
 
-        // Finds the style if no stylle was found -1 is fallback
+        // Finds the style if no style was found -1 is fallback
         int buttonTypeId = a.getInt(R.styleable.GirafButton_type, -1);
         BUTTON_TYPE buttonType = BUTTON_TYPE.values()[buttonTypeId];
 
-        this.setBackgroundDrawable(generateGirafButtonDrawable(buttonType));
+        // Find the button style
+        ButtonStyle buttonStyle = getButtonStyle(buttonType);
+
+        // Set the background and icon of the button depending on the buttonstyle
+        this.setBackgroundDrawable(this.generateStateListDrawable(buttonStyle));
+        this.setImageDrawable(buttonStyle.icon);
+
+        // Set the image to scale fitting the center
+        this.setScaleType(ScaleType.FIT_CENTER);
+
+        // Sets the padding of the button to 20dp
+        int pad = (int) convertDpToPixel(this.getContext().getResources().getInteger(R.integer.giraf_button_padding), this.getContext()); // Convert dp to pixels
+        this.setPadding(pad,pad,pad,pad); // Set the padding in all directions
     }
 
     /**
-     * <p>Used to generate the drawable part of the button.</p>
-     *
-     * @param buttonType indicates the layout of the button. See {@link dk.aau.cs.giraf.gui.GirafButton.BUTTON_TYPE}
-     * @return A {@link android.graphics.drawable.StateListDrawable} with the correct button style
+     * Gets the button style based on the button type
+     * @param buttonType the type of the button
+     * @return a {@link dk.aau.cs.giraf.gui.GirafButton.ButtonStyle} corresponding to the given button type, null if given incorrect type.
      */
-    public StateListDrawable generateGirafButtonDrawable(BUTTON_TYPE buttonType) {
+    private ButtonStyle getButtonStyle(BUTTON_TYPE buttonType) {
+        ButtonStyle bs = null;
         switch (buttonType) {
             case ACCEPT: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_accept));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_accept));
                 bs.setBaseColor(getColorCode(R.color.button_success_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case ADD: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_add));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_add));
                 bs.setBaseColor(getColorCode(R.color.button_success_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case ARROW_DOWN: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_arrow_down));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_arrow_down));
                 bs.setBaseColor(getColorCode(R.color.button_arrows_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case ARROW_LEFT: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_arrow_left));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_arrow_left));
                 bs.setBaseColor(getColorCode(R.color.button_arrows_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case ARROW_RIGHT: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_arrow_right));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_arrow_right));
                 bs.setBaseColor(getColorCode(R.color.button_arrows_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case ARROW_UP: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_arrow_up));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_arrow_up));
                 bs.setBaseColor(getColorCode(R.color.button_arrows_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case BACK: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_back));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_back));
                 bs.setBaseColor(getColorCode(R.color.button_utility_action_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case CAMERA: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_camera));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_camera));
                 bs.setBaseColor(getColorCode(R.color.button_camera_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case CAMERA_SWITCH: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_camera_switch));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_camera_switch));
                 bs.setBaseColor(getColorCode(R.color.button_camera_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case CANCEL: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_cancel));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_cancel));
                 bs.setBaseColor(getColorCode(R.color.button_negative_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case CHANGE_USER: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_change_user));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_change_user));
                 bs.setBaseColor(getColorCode(R.color.button_user_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case COPY: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_copy));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_copy));
                 bs.setBaseColor(getColorCode(R.color.button_utility_tool_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case DELETE: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_delete));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_delete));
                 bs.setBaseColor(getColorCode(R.color.button_negative_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case HELP: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_help));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_help));
                 bs.setBaseColor(getColorCode(R.color.button_help_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case LOG_OUT: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_logout));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_logout));
                 bs.setBaseColor(getColorCode(R.color.button_user_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case MICROPHONE: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_microphone));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_microphone));
                 bs.setBaseColor(getColorCode(R.color.button_microphone_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case MICROPHONE_OFF: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_microphone_off));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_microphone_off));
                 bs.setBaseColor(getColorCode(R.color.button_microphone_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case MICROPHONE_ON: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_microphone_on));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_microphone_on));
                 bs.setBaseColor(getColorCode(R.color.button_microphone_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case PLAY: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_play));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_play));
                 bs.setBaseColor(getColorCode(R.color.button_media_play_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case RECORD: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_record));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_record));
                 bs.setBaseColor(getColorCode(R.color.button_media_record_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case RESIZE: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_resize));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_resize));
                 bs.setBaseColor(getColorCode(R.color.button_utility_tool_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case ROTATE: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_rotate));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_rotate));
                 bs.setBaseColor(getColorCode(R.color.button_utility_tool_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case SAVE: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_save));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_save));
                 bs.setBaseColor(getColorCode(R.color.button_utility_tool_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case SEARCH: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_search));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_search));
                 bs.setBaseColor(getColorCode(R.color.button_utility_tool_color));
-                return generateStateListDrawable(bs);
+                break;
             }
             case SETTINGS: {
-                ButtonStyle bs = new ButtonStyle(this.getContext().getResources().getDrawable(R.drawable.icon_settings));
+                bs = new ButtonStyle(this.getContext(),this.getContext().getResources().getDrawable(R.drawable.icon_settings));
                 bs.setBaseColor(getColorCode(R.color.button_utility_action_color));
-                return generateStateListDrawable(bs);
+                break;
             }
         }
 
         // This statement should never be reached
-        return new StateListDrawable();
+        return bs;
     }
 
     /**
@@ -440,25 +437,26 @@ public class GirafButton extends Button {
         StateListDrawable sld = new StateListDrawable();
 
         // Add different states
-        sld.addState(PRESSED_ENABLED_STATE_SET, generateLayerDrawable(buttonStyle.pressed.generateBackground(), buttonStyle.pressed.icon));
-        sld.addState(FOCUSED_STATE_SET, generateLayerDrawable(buttonStyle.focused.generateBackground(), buttonStyle.enabled.icon));
-        sld.addState(ENABLED_STATE_SET, generateLayerDrawable(buttonStyle.enabled.generateBackground(), buttonStyle.enabled.icon));
-        sld.addState(EMPTY_STATE_SET, generateLayerDrawable(buttonStyle.disabled.generateBackground(), buttonStyle.enabled.icon));
+        sld.addState(PRESSED_ENABLED_STATE_SET, buttonStyle.pressed.generateBackground());
+        sld.addState(FOCUSED_STATE_SET, buttonStyle.focused.generateBackground());
+        sld.addState(ENABLED_STATE_SET, buttonStyle.enabled.generateBackground());
+        sld.addState(EMPTY_STATE_SET, buttonStyle.disabled.generateBackground());
 
         return sld;
     }
 
     /**
-     * <p>Will generate a {@link android.graphics.drawable.LayerDrawable} with a background and an icon</p>
+     * This method converts dp unit to equivalent pixels, depending on device density.
      *
-     * @param background background of the button
-     * @param icon icon of the button
-     * @return a layered drawable with the defined background and icon
+     * @param dp A value in dp (density independent pixels) unit. Which we need to convert into pixels
+     * @param context Context to get resources and device specific display metrics
+     * @return A float value to represent px equivalent to dp depending on device density
      */
-    private LayerDrawable generateLayerDrawable(Drawable background, Drawable icon) {
-        icon.setBounds(10,10,10,10);
-        Drawable[] drawables = {background, icon};
-        return new LayerDrawable(drawables);
+    public static float convertDpToPixel(float dp, Context context){
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        float px = dp * (metrics.densityDpi / 160f);
+        return px;
     }
 
     /**
