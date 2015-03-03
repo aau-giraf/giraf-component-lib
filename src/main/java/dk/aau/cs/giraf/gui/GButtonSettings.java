@@ -1,9 +1,13 @@
 package dk.aau.cs.giraf.gui;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
+/**
+ * <p></p>
+ * @deprecated Old button use {@link dk.aau.cs.giraf.gui.GirafButton} instead. Remember to set the type to SETTING
+ */
+@Deprecated
 public class GButtonSettings extends GButton {
 
     public GButtonSettings(Context context) {

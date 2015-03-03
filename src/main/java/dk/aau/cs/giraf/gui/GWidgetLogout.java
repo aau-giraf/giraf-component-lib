@@ -4,6 +4,11 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+/**
+ * <p></p>
+ * @deprecated Replaced by {@link dk.aau.cs.giraf.gui.GirafButton}. Remember to set the type to LOG_OUT
+ */
+@Deprecated
 public class GWidgetLogout extends ImageView implements IGWidget {
 	
 	private void setStyle() {
