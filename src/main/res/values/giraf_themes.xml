@@ -2,7 +2,6 @@
 
 <resources>
     <style name="GirafTheme" parent="android:Theme.Holo.Light">
-        <item name="android:buttonStyle">@style/GirafButton</item>
     </style>
 
     <style name="GirafTheme.NoTitleBar" parent="GirafTheme">
