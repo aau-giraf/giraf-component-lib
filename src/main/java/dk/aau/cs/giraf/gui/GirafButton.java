@@ -3,22 +3,24 @@ package dk.aau.cs.giraf.gui;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 
 /**
  * Created on 24/02/15.
+ * <p>To use this component in xml remember to set the type of the button:</p>
+ * <p><b>Example:</b></p>
+ * <pre>{@code
+ *  <dk.aau.cs.giraf.gui.GirafButton
+ *      android:id="@+id/giraf_button"
+ *      android:layout_width="wrap_content"
+ *      android:layout_height="wrap_content"
+ *      app:type="CAMERA" />}</pre>
  */
 public class GirafButton extends ImageButton {
 
@@ -266,7 +268,7 @@ public class GirafButton extends ImageButton {
         // Find the button style
         ButtonStyle buttonStyle = getButtonStyle(buttonType);
 
-        // Set the background and icon of the button depending on the buttonstyle
+        // Set the background and icon of the button depending on the style of button
         this.setBackgroundDrawable(this.generateStateListDrawable(buttonStyle));
         this.setImageDrawable(buttonStyle.icon);
 
@@ -455,26 +457,7 @@ public class GirafButton extends ImageButton {
     public static float convertDpToPixel(float dp, Context context){
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
-        float px = dp * (metrics.densityDpi / 160f);
-        return px;
-    }
-
-    /**
-     * Gets the label of the {@link dk.aau.cs.giraf.gui.GirafButton}
-     *
-     * @return label of the {@link dk.aau.cs.giraf.gui.GirafButton}. See {@link dk.aau.cs.giraf.gui.GirafButton#label}
-     */
-    public String getLabel() {
-        return label;
-    }
-
-    /**
-     * Sets the label of the {@link dk.aau.cs.giraf.gui.GirafButton}
-     *
-     * @param label the label of the {@link dk.aau.cs.giraf.gui.GirafButton}. See {@link dk.aau.cs.giraf.gui.GirafButton#label}
-     */
-    public void setLabel(String label) {
-        this.label = label;
+        return dp * (metrics.densityDpi / 160f);
     }
 
 }
