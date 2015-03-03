@@ -4,6 +4,11 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
+/**
+ * <p></p>
+ * @deprecated Old button use {@link dk.aau.cs.giraf.gui.GirafButton} instead. Remember to set the type to PLAY
+ */
+@Deprecated
 public class GButtonPlay extends GButton {
 
     public GButtonPlay(Context context) {
