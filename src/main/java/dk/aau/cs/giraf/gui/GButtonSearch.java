@@ -5,9 +5,9 @@ import android.util.AttributeSet;
 
 /**
  * Created by AndersBender on 13-05-14.
- *
-        * @deprecated Old button use {@link dk.aau.cs.giraf.gui.GirafButton} instead. Remember to set the type to SEARCH
-        */
+ * <p></p>
+ * @deprecated Old button use {@link dk.aau.cs.giraf.gui.GirafButton} instead. Remember to set the search icon
+ */
 @Deprecated
 public class GButtonSearch extends GButton {
 

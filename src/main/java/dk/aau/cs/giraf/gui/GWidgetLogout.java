@@ -6,7 +6,7 @@ import android.widget.ImageView;
 
 /**
  * <p></p>
- * @deprecated Replaced by {@link dk.aau.cs.giraf.gui.GirafButton}. Remember to set the type to LOG_OUT
+ * @deprecated Old button use {@link dk.aau.cs.giraf.gui.GirafButton} instead. Remember to set the logout icon
  */
 @Deprecated
 public class GWidgetLogout extends ImageView implements IGWidget {
