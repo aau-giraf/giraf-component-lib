@@ -18,4 +18,6 @@
     <color name="giraf_button_disabled_fill_end">#59febe40</color>
     <color name="giraf_button_disabled_stroke">#59e4ae4e</color>
 
+    <color name="giraf_fading_edge_glow">#ff9d00</color>
+
 </resources>
