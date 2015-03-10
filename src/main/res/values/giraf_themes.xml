@@ -2,9 +2,14 @@
 
 <resources>
     <style name="GirafTheme" parent="android:Theme.Holo.Light">
+        <item name="android:progressBarStyle">@style/ProgressBar</item>
     </style>
 
     <style name="GirafTheme.NoTitleBar" parent="GirafTheme">
         <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="ProgressBar" parent="android:Widget.Holo.Light.ProgressBar.Large">
+        <item name="android:indeterminateDrawable">@drawable/gprogressbar</item>
     </style>
 </resources>
