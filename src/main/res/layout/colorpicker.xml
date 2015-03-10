@@ -10,6 +10,6 @@
     	android:gravity="center"
         android:layout_centerInParent="true"
     	android:orientation="vertical"
-    	android:background="@drawable/colorborder"    	
-       />
+    	android:background="@drawable/colorborder"
+        android:contentDescription="@string/colorpickerImageViewContentDescription" />
 </RelativeLayout>
