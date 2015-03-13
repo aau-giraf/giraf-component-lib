@@ -24,7 +24,7 @@ public class GViewPager extends android.support.v4.view.ViewPager {
     {
         int glowDrawableId = getContext().getResources().getIdentifier("overscroll_glow", "drawable", "android");
         Drawable androidGlow = getContext().getResources().getDrawable(glowDrawableId);
-        androidGlow.setColorFilter(getResources().getColor(R.color.giraf_fading_edge_glow), PorterDuff.Mode.SRC);
+        androidGlow.setColorFilter(getResources().getColor(R.color.giraf_fading_edge_glow), PorterDuff.Mode.SRC_IN);
     }
 
 }
