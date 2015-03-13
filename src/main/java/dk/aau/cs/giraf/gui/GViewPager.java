@@ -1,6 +1,7 @@
 package dk.aau.cs.giraf.gui;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -20,11 +21,19 @@ public class GViewPager extends android.support.v4.view.ViewPager {
         init();
     }
 
-    private void init()
-    {
-        int glowDrawableId = getContext().getResources().getIdentifier("overscroll_glow", "drawable", "android");
-        Drawable androidGlow = getContext().getResources().getDrawable(glowDrawableId);
-        androidGlow.setColorFilter(getResources().getColor(R.color.giraf_fading_edge_glow), PorterDuff.Mode.SRC_IN);
+    private void init() {
+        // Attempt to set the color of overscroll_glow (Does not work on all devices)
+        try {
+
+
+            int glowDrawableId = getContext().getResources().getIdentifier("overscroll_glow", "drawable", "android");
+            Drawable androidGlow = getContext().getResources().getDrawable(glowDrawableId);
+            androidGlow.setColorFilter(getResources().getColor(R.color.giraf_fading_edge_glow), PorterDuff.Mode.SRC_IN);
+        }
+        catch (Resources.NotFoundException e)
+        {
+            // TODO: Find a solution for changing the overscroll_glow for all devices and android versions
+        }
     }
 
 }
