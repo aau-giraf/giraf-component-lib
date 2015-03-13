@@ -2,17 +2,22 @@
 <resources>
 
     <!-- Base color for buttons -->
-    <color name="button_default_color">#f0c143</color>
-    <color name="button_arrows_color">#88288f</color>
-    <color name="button_success_color">#8cc63f</color>
-    <color name="button_utility_action_color">#5ec4b7</color>
-    <color name="button_utility_tool_color">#36c5ed</color>
-    <color name="button_camera_color">#285d92</color>
-    <color name="button_negative_color">#285d92</color>
-    <color name="button_user_color">#7e5422</color>
-    <color name="button_help_color">#a43795</color>
-    <color name="button_microphone_color">#26256c</color>
-    <color name="button_media_play_color">#52b947</color>
-    <color name="button_media_record_color">#ef4523</color>
+    <color name="giraf_button_fill_start">#ffcd59</color>
+    <color name="giraf_button_fill_end">#ff9d00</color>
+    <color name="giraf_button_stroke">#8a6e00</color>
+
+    <color name="giraf_button_pressed_fill_start">#d4ad2f</color>
+    <color name="giraf_button_pressed_fill_end">#ff9d00</color>
+    <color name="giraf_button_pressed_stroke">#493700</color>
+
+    <color name="giraf_button_focused_fill_start">#ff9d00</color>
+    <color name="giraf_button_focused_fill_end">#ff5900</color>
+    <color name="giraf_button_focused_stroke">#8a6e00</color>
+
+    <color name="giraf_button_disabled_fill_start">#59fad355</color>
+    <color name="giraf_button_disabled_fill_end">#59febe40</color>
+    <color name="giraf_button_disabled_stroke">#59e4ae4e</color>
+
+    <color name="giraf_fading_edge_glow">#ff9d00</color>
 
 </resources>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true"> <!-- pressed -->
+        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+            <stroke android:width="2dp" android:color="@color/giraf_button_pressed_stroke" />
+            <padding android:left="10dp" android:top="10dp"
+                android:right="10dp" android:bottom="10dp" />
+            <corners android:radius="10dp" />
+            <gradient android:startColor="@color/giraf_button_pressed_fill_start"
+                android:endColor="@color/giraf_button_pressed_fill_end"
+                android:angle="-90"/>
+        </shape>
+    </item>
+    <item android:state_focused="true"> <!-- focused -->
+        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+            <stroke android:width="2dp" android:color="@color/giraf_button_focused_stroke" />
+            <padding android:left="10dp" android:top="10dp"
+                android:right="10dp" android:bottom="10dp" />
+            <corners android:radius="10dp" />
+            <gradient android:startColor="@color/giraf_button_focused_fill_start"
+                android:endColor="@color/giraf_button_focused_fill_end"
+                android:angle="-90"/>
+        </shape>
+    </item>
+    <item android:state_enabled="true"> <!-- enabled -->
+        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+            <stroke android:width="2dp" android:color="@color/giraf_button_stroke" />
+            <padding android:left="10dp" android:top="10dp"
+                android:right="10dp" android:bottom="10dp" />
+            <corners android:radius="10dp" />
+            <gradient android:startColor="@color/giraf_button_fill_start"
+                      android:endColor="@color/giraf_button_fill_end"
+                      android:angle="-90"/>
+        </shape>
+    </item>
+    <item android:state_enabled="false"> <!-- disabled -->
+        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+            <stroke android:width="2dp" android:color="@color/giraf_button_disabled_stroke" />
+            <padding android:left="10dp" android:top="10dp"
+                android:right="10dp" android:bottom="10dp" />
+            <corners android:radius="10dp" />
+            <gradient android:startColor="@color/giraf_button_disabled_fill_start"
+                android:endColor="@color/giraf_button_disabled_fill_end"
+                android:angle="-90"/>
+        </shape>
+    </item>
+</selector>

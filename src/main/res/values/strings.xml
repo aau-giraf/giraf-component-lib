@@ -30,5 +30,6 @@
     <string name="mOnlineString">fuldt opdateret med det nyeste indhold.</string>
     <string name="mSyncingString">i ved at synkronisere indhold med Savannah-serveren.</string>
     <string name="mOfflineString">ikke i forbindelse med Savannah-serveren, indholdet i GIRAF er derfor muligvis ikke det nyeste.</string>
-    
+    <string name="gtooltipArrowImageDescription">Tooltip arow</string>
+    <string name="colorpickerImageViewContentDescription">Border of the colorpicker</string>
 </resources>

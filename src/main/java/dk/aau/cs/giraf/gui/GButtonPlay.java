@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 
 /**
  * <p></p>
- * @deprecated Old button use {@link dk.aau.cs.giraf.gui.GirafButton} instead. Remember to set the type to PLAY
+ * @deprecated Old button use {@link dk.aau.cs.giraf.gui.GirafButton} instead. Remember to set the play icon
  */
 @Deprecated
 public class GButtonPlay extends GButton {
