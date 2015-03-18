@@ -20,4 +20,10 @@
 
     <color name="giraf_fading_edge_glow">#ff9d00</color>
 
+    <!-- Colors for bars in giraf (eg. actionbars and sidebars) -->
+    <color name="giraf_bar_gradient_start">#fdbb55</color>
+    <color name="giraf_bar_gradient_end">#fed76c</color>
+    <color name="giraf_bar_gradient_stroke">#e5be53</color>
+
+
 </resources>
