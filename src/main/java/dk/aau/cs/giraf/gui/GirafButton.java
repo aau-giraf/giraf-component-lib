@@ -3,14 +3,14 @@ package dk.aau.cs.giraf.gui;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Gravity;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import dk.aau.cs.giraf.utilities.GirafScalingUtilities;
 
 /**
  * Created on 24/02/15.
@@ -25,12 +25,18 @@ import android.widget.LinearLayout;
  */
 public class GirafButton extends LinearLayout {
 
-    private ImageView imageView;
+    private ImageView iconView;
+    private Drawable icon;
 
     // Sets the max width and height of the button
-    private final int ICON_MAX_WIDTH = (int) convertDpToPixel(this.getContext(), 45);
-    private final int ICON_MAX_HEIGHT = (int) convertDpToPixel(this.getContext(), 45);
+    private final int ICON_MAX_WIDTH = (int) GirafScalingUtilities.convertDpToPixel(this.getContext(), 45);
+    private final int ICON_MAX_HEIGHT = (int) GirafScalingUtilities.convertDpToPixel(this.getContext(), 45);
 
+    public GirafButton(Context context, Drawable icon) {
+        super(context);
+        this.icon = icon; // Set the icon to the property
+        initializeButton(null); // Use the dynamic icon from code
+    }
 
     public GirafButton(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -42,20 +48,6 @@ public class GirafButton extends LinearLayout {
         initializeButton(attrs);
     }
 
-    // Flag to ensure that onLayout is only called once
-    private boolean onFirstLayout = true;
-
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        super.onLayout(changed, l, t, r, b);
-
-        if(onFirstLayout) {
-            this.getLayoutParams().width = ICON_MAX_WIDTH + this.getPaddingBottom() + this.getPaddingTop();
-            this.getLayoutParams().height = ICON_MAX_HEIGHT + this.getPaddingLeft() + this.getPaddingRight();
-            onFirstLayout = !onFirstLayout;
-        }
-    }
-
     /**
      * Initializes the GirafButton
      * @param attrs the attributes from the xml-declaration
@@ -65,15 +57,29 @@ public class GirafButton extends LinearLayout {
         // Set the orientation of the layout
         this.setOrientation(LinearLayout.HORIZONTAL);
 
-        // Make instance of the icon (imageView) and the text (textView) of the button
-        imageView = new ImageView(this.getContext(), attrs);
+        // Make instance of the icon (iconView) and the text (textView) of the button
+        iconView = new ImageView(this.getContext());
+        // Adjusts the size after matching the actual size values
+        iconView.setAdjustViewBounds(true);
 
-        TypedArray girafButtonAttributes = getContext().obtainStyledAttributes(attrs, R.styleable.GirafButton);
+        // Set maximum sizes
+        iconView.setMaxWidth(ICON_MAX_WIDTH);
+        iconView.setMaxHeight(ICON_MAX_HEIGHT);
 
-        // Find the attributes from the instance of the GirafButton
-        Drawable icon = girafButtonAttributes.getDrawable(R.styleable.GirafButton_icon); // Finds the icon
+        Drawable icon; // Declare the drawable of the iconView
 
-        imageView.setImageDrawable(icon); // Sets the icon into the ImageView
+
+        // If attributes given in xml use them otherwise use the one given in the constructor
+        if(attrs != null) {
+            TypedArray girafButtonAttributes = getContext().obtainStyledAttributes(attrs, R.styleable.GirafButton);
+
+            // Find the attributes from the instance of the GirafButton
+            icon = girafButtonAttributes.getDrawable(R.styleable.GirafButton_icon); // Finds the icon
+        } else {
+            icon = this.icon;
+        }
+
+        iconView.setImageDrawable(icon); // Sets the icon into the ImageView
 
         // Set the background of the button (with all sates)
         this.setBackgroundResource(R.drawable.giraf_button_background);
@@ -81,23 +87,11 @@ public class GirafButton extends LinearLayout {
         // If the button is disabled make it opaque
         // If you want to change the amount of opacity remember to change it in giraf_button_background too
         if(!this.isEnabled()) {
-            imageView.setAlpha(0x59);
+            iconView.setAlpha(0x59);
         }
 
         // Add the icon of the button
-        this.addView(imageView);
+        this.addView(iconView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
-    /**
-     * This method converts dp unit to equivalent pixels, depending on device density.
-     *
-     * @param dp A value in dp (density independent pixels) unit. Which we need to convert into pixels
-     * @param context Context to get resources and device specific display metrics
-     * @return A float value to represent px equivalent to dp depending on device density
-     */
-    public static float convertDpToPixel(Context context, float dp){
-        Resources resources = context.getResources();
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-        return dp * (metrics.densityDpi / 160f);
-    }
 }
