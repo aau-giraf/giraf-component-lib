@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,9 @@ import dk.aau.cs.giraf.utilities.GirafScalingUtilities;
  */
 public class GirafActivity extends FragmentActivity {
 
-    private final float ACTION_BAR_SPACING = 5; // Spacing in the action bar
-    private final float ACTION_BAR_TEXT_SIZE = 25; // Text size of the title in the action bar
+    private final float ACTION_BAR_SPACING_LEFT_RIGHT = 15; // Spacing in the action bar (left and right)
+    private final float ACTION_BAR_SPACING_TOP_BOTTOM = 6; // Spacing in the action bar (top and bot)
+    private final float ACTION_BAR_TEXT_PADDING = 4 * ACTION_BAR_SPACING_TOP_BOTTOM; // Padding on text
     private ActionBar actionBar; // The action bar of the activity
     private RelativeLayout actionBarCustomView; // The custom action bar view
     private LeftActionBarLayout actionBarCustomViewLeft; // The left side of the action bar that can be customized
@@ -64,7 +66,7 @@ public class GirafActivity extends FragmentActivity {
          */
         public void addGirafButton(final GirafButton girafButton) {
             final LinearLayout.LayoutParams buttonParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            buttonParams.rightMargin = (int) GirafScalingUtilities.convertDpToPixel(getContext(), ACTION_BAR_SPACING);
+            buttonParams.rightMargin = (int) GirafScalingUtilities.convertDpToPixel(getContext(), ACTION_BAR_SPACING_LEFT_RIGHT);
             this.addView(girafButton, buttonParams);
         }
     }
@@ -93,7 +95,7 @@ public class GirafActivity extends FragmentActivity {
          */
         public void addGirafButton(final GirafButton girafButton) {
             final LinearLayout.LayoutParams buttonParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            buttonParams.leftMargin = (int) GirafScalingUtilities.convertDpToPixel(getContext(), ACTION_BAR_SPACING);
+            buttonParams.leftMargin = (int) GirafScalingUtilities.convertDpToPixel(getContext(), ACTION_BAR_SPACING_LEFT_RIGHT);
             this.addView(girafButton, buttonParams);
         }
     }
@@ -164,10 +166,11 @@ public class GirafActivity extends FragmentActivity {
         );
 
         // Calculate the padding of the actionBarLayout
-        final int padding = (int) GirafScalingUtilities.convertDpToPixel(this, ACTION_BAR_SPACING);
+        final int paddingLeftRight = (int) GirafScalingUtilities.convertDpToPixel(this, ACTION_BAR_SPACING_LEFT_RIGHT);
+        final int paddingTopBottom = (int) GirafScalingUtilities.convertDpToPixel(this, ACTION_BAR_SPACING_TOP_BOTTOM);
 
         // Set padding on actionBarLayout
-        actionBarCustomView.setPadding(padding, padding, padding, padding);
+        actionBarCustomView.setPadding(paddingLeftRight, paddingTopBottom, paddingLeftRight, paddingTopBottom);
 
         // Set the background of the actionBarLayout
         actionBarCustomView.setBackgroundResource(R.drawable.action_bar_background);
@@ -209,8 +212,11 @@ public class GirafActivity extends FragmentActivity {
         }
 
         actionBarTitleView.setText(this.getTitle()); // Set the tile of the titleView
-        actionBarTitleView.setTextSize(GirafScalingUtilities.convertDpToPixel(this, ACTION_BAR_TEXT_SIZE));
+        actionBarTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, calculateActionBarTextSize());
         actionBarTitleView.setGravity(Gravity.CENTER); // Set the text to be in the cetner of the titleView
+
+        // Remove the padding on the font
+        actionBarTitleView.setIncludeFontPadding(false);
 
         // The layout params for the titleView
         final RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -234,6 +240,27 @@ public class GirafActivity extends FragmentActivity {
         actionBarCustomView.addView(actionBarCustomViewRight, rightActionBarLayoutParams);
 
         return actionBarCustomView; // Return the actionBarLayout
+    }
+
+    /**
+     * Calculates the text size of the actionBar
+     * @return the wanted text size of the actionBar
+     */
+    private int calculateActionBarTextSize() {
+
+        int actionBarHeight = 0; // The variable to be the height of the actionBar
+
+        // Calculate ActionBar height
+        final TypedValue tv = new TypedValue();
+
+        // Find the height of the action bar
+        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+        {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+        }
+
+        // Return the height of the actionBar - the padding of the text
+        return (int) (actionBarHeight - GirafScalingUtilities.convertDpToPixel(this, ACTION_BAR_TEXT_PADDING));
     }
 
 }
