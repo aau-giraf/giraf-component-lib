@@ -17,5 +17,6 @@
     </declare-styleable>
     <declare-styleable name="GirafButton">
         <attr name="icon" format="integer"/>
+        <attr name="text" format="string"/>
     </declare-styleable>
 </resources>
