@@ -43,6 +43,7 @@ public class GirafButton extends LinearLayout {
     // Sets the max width and height of the button
     private final int ICON_MAX_WIDTH = (int) GirafScalingUtilities.convertDpToPixel(this.getContext(), 45);
     private final int ICON_MAX_HEIGHT = (int) GirafScalingUtilities.convertDpToPixel(this.getContext(), 45);
+    private final int DEFAULT_TEXT_SIZE = (int) GirafScalingUtilities.convertDpToPixel(this.getContext(), 18);
 
     private final int SUBVIEW_SPACING = (int) GirafScalingUtilities.convertDpToPixel(this.getContext(), 10);
     private final int BUTTON_PADDING = (int) GirafScalingUtilities.convertDpToPixel(this.getContext(), 10);
@@ -113,17 +114,18 @@ public class GirafButton extends LinearLayout {
         // Check if it is the first time you call onLayout
         if (firstTimeLayout) {
             if (buttonText != null) { // If the button has text
-                // Set the textSize to the height of the iconView and remove a half padding
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, iconView.getHeight() - BUTTON_PADDING / 2);
 
                 // Create layout parameters for the textview
                 LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-                // If there is an icon set margin
+                // If there is an icon set margin accordingly
                 if(icon != null) {
                     // Set the margin on the textView
                     textViewParams.setMargins(SUBVIEW_SPACING, 0, 0, 0);
                 }
+
+                // Set the textSize of the textView dynamically of the height button
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, this.getHeight() - (int)(2.5 * BUTTON_PADDING));
 
                 // Remove the padding on the font
                 textView.setIncludeFontPadding(false);
@@ -194,6 +196,7 @@ public class GirafButton extends LinearLayout {
         // If the text was set in the xml attributes or the constructor
         if (buttonText != null) {
             textView.setText(buttonText); // Set the text of the button
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, DEFAULT_TEXT_SIZE);
         }
 
         textView.setGravity(Gravity.CENTER); // Center the textView in the button
