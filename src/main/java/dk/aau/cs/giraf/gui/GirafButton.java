@@ -119,8 +119,11 @@ public class GirafButton extends LinearLayout {
                 // Create layout parameters for the textview
                 LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-                // Set the margin on the textView
-                textViewParams.setMargins(SUBVIEW_SPACING, 0, 0, 0);
+                // If there is an icon set margin
+                if(icon != null) {
+                    // Set the margin on the textView
+                    textViewParams.setMargins(SUBVIEW_SPACING, 0, 0, 0);
+                }
 
                 // Remove the padding on the font
                 textView.setIncludeFontPadding(false);
@@ -157,22 +160,24 @@ public class GirafButton extends LinearLayout {
         iconView.setMaxWidth(ICON_MAX_WIDTH);
         iconView.setMaxHeight(ICON_MAX_HEIGHT);
 
-        Drawable icon; // Declare the drawable of the iconView
 
-        // If attributes given in xml use them otherwise use the one given in the constructor
+        // If attributes given in xml use them if the one given in the constructor is not set
         if (attrs != null) {
+
             TypedArray girafButtonAttributes = getContext().obtainStyledAttributes(attrs, R.styleable.GirafButton);
-
-            // Find the attributes from the instance of the GirafButton
-            icon = girafButtonAttributes.getDrawable(R.styleable.GirafButton_icon); // Finds the icon from xml
-
-            // If the text was not set from the constructor
-            if (buttonText == null) {
-                buttonText = girafButtonAttributes.getString(R.styleable.GirafButton_text); // Finds the text from xml
+            if(icon == null) {
+                // Finds the icon from xml
+                icon = girafButtonAttributes.getDrawable(R.styleable.GirafButton_icon);
             }
 
-        } else {
-            icon = this.icon; // Use the icon of the constructor
+            if(buttonText == null) {
+                // Find the attributes from the instance of the GirafButton
+                buttonText = girafButtonAttributes.getString(R.styleable.GirafButton_text);
+            }
+        }
+
+        if(icon == null && buttonText == null) {
+            throw new IllegalArgumentException("A GirafButton must have an icon or some text");
         }
 
         // If the icon is null remove the iconView
