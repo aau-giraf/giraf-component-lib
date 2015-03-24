@@ -1,14 +1,12 @@
 package dk.aau.cs.giraf.gui;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,11 +19,16 @@ import dk.aau.cs.giraf.utilities.GirafScalingUtilities;
  * <p>To use this component in xml remember to set the type of the button:</p>
  * <p><b>Example of an button for camera:</b></p>
  * <pre>{@code
+ * <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto">
+ *
  *  <dk.aau.cs.giraf.gui.GirafButton
  *      android:id="@+id/giraf_button"
  *      android:layout_width="wrap_content"
  *      android:layout_height="wrap_content"
- *      app:icon="@drawable/icon_camera" />}</pre>
+ *      app:text="Camera"
+ *      app:icon="@drawable/icon_camera" />
+ *
+ * </LinearLayout>}</pre>
  */
 public class GirafButton extends LinearLayout {
 
@@ -45,13 +48,22 @@ public class GirafButton extends LinearLayout {
     private final int BUTTON_PADDING = (int) GirafScalingUtilities.convertDpToPixel(this.getContext(), 10);
 
     /**
-     * Constructs an {@link dk.aau.cs.giraf.gui.GirafButton} without xml
+     * Constructs an {@link dk.aau.cs.giraf.gui.GirafButton} without xml only icon
      *
      * @param context the context
      * @param icon    the drawable icon of the {@link dk.aau.cs.giraf.gui.GirafButton}
      */
     public GirafButton(Context context, Drawable icon) {
         this(context, icon, null);
+    }
+
+    /**
+     * Constructs an {@link dk.aau.cs.giraf.gui.GirafButton} without xml only text
+     * @param context
+     * @param buttonText
+     */
+    public GirafButton(Context context, String buttonText) {
+        this(context, null, buttonText);
     }
 
     /**
@@ -119,7 +131,6 @@ public class GirafButton extends LinearLayout {
                 // It is no longer the first time you call onLayout
                 firstTimeLayout = !firstTimeLayout;
             }
-
         }
     }
 
@@ -164,8 +175,14 @@ public class GirafButton extends LinearLayout {
             icon = this.icon; // Use the icon of the constructor
         }
 
-        iconView.setImageDrawable(icon); // Sets the icon into the ImageView
-
+        // If the icon is null remove the iconView
+        if(icon == null)
+        {
+            iconView.setVisibility(View.GONE);
+        }
+        else {
+            iconView.setImageDrawable(icon); // Sets the icon into the ImageView
+        }
         // Initialize the textView
         textView = new TextView(this.getContext());
 
