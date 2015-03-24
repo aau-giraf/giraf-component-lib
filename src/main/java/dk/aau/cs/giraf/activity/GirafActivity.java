@@ -19,6 +19,7 @@ import dk.aau.cs.giraf.utilities.GirafScalingUtilities;
 
 /**
  * Created on 17/03/15.
+ * An activity that allows for a shared action bar.
  */
 public class GirafActivity extends FragmentActivity {
 
@@ -128,10 +129,13 @@ public class GirafActivity extends FragmentActivity {
      */
     public void addGirafButtonToActionBar(GirafButton girafButton, int side) {
 
+
+        // If the theme of the activity wants no titlebar tell the developer that it is not going to be shown
         if (actionBar == null) {
             throw new IllegalStateException("You cannot add a GirafButton to GirafActivity with \"GirafTheme.NoTitleBar\" use \"GirafTheme\" instead ");
         }
 
+        // Place the button on the wanted side of the actionBar
         if (side == LEFT) {
             actionBarCustomViewLeft.addGirafButton(girafButton);
         } else if (side == RIGHT) {
@@ -185,7 +189,7 @@ public class GirafActivity extends FragmentActivity {
             @Override
             public void onClick(View view) {
 
-                GirafActivity.this.finish();
+                GirafActivity.this.onBackPressed();
             }
         });
 
@@ -244,6 +248,7 @@ public class GirafActivity extends FragmentActivity {
 
     /**
      * Calculates the text size of the actionBar
+     *
      * @return the wanted text size of the actionBar
      */
     private int calculateActionBarTextSize() {
@@ -254,9 +259,8 @@ public class GirafActivity extends FragmentActivity {
         final TypedValue tv = new TypedValue();
 
         // Find the height of the action bar
-        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
-        {
-            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
         }
 
         // Return the height of the actionBar - the padding of the text
