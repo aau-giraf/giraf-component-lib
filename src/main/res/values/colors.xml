@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Default background -->
+    <color name="giraf_background">#e9e9e9</color>
+
     <!-- Base color for buttons -->
     <color name="giraf_button_fill_start">#ffcd59</color>
     <color name="giraf_button_fill_end">#ff9d00</color>
@@ -18,12 +21,15 @@
     <color name="giraf_button_disabled_fill_end">#59febe40</color>
     <color name="giraf_button_disabled_stroke">#59e4ae4e</color>
 
-    <color name="giraf_fading_edge_glow">#ff9d00</color>
-
     <!-- Colors for bars in giraf (eg. actionbars and sidebars) -->
     <color name="giraf_bar_gradient_start">#fdbb55</color>
     <color name="giraf_bar_gradient_end">#fed76c</color>
     <color name="giraf_bar_gradient_stroke">#e5be53</color>
+
+    <!-- Colors for the view pager  -->
+    <color name="giraf_page_indicator_active">#ff9d00</color>
+    <color name="giraf_page_indicator_inactive">#ffcd59</color>
+    <color name="giraf_fading_edge_glow">#ff9d00</color>
 
 
 </resources>
