@@ -23,7 +23,7 @@ public class GirafConfirmDialog extends GirafDialog {
     public interface Confirmation {
         /**
          * Method for swtiching between methods called when pressing the acceptance buttons
-         * @param methodID
+         * @param methodID identifier of the method
          */
         public void confirmDialog (int methodID);
     }
