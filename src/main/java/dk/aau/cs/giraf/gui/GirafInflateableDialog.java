@@ -15,6 +15,7 @@ public class GirafInflateableDialog extends GirafDialog {
     private static final String TITLE_TAG = "TITLE_TAG";
     private static final String DESCRIPTION_TAG = "DESCRIPTION_TAG";
     private static final String CUSTOM_VEIW_RESSOURCE_TAG = "CUSTOM_VEIW_RESSOURCE_TAG";
+    private ViewGroup customView;
 
     public static GirafInflateableDialog newInstance(String title, String description, int customViewRessource) {
         GirafInflateableDialog girafInflateableDialog = new GirafInflateableDialog();
@@ -47,9 +48,21 @@ public class GirafInflateableDialog extends GirafDialog {
         setTitle(args.getString(TITLE_TAG, "")); // Set the title
         setDescription(args.getString(DESCRIPTION_TAG, "")); // Set the description
 
-        // Finds the customView in ressources and inflates it then sets it on the dialog
-        setCustomView((ViewGroup) inflater.inflate(args.getInt(CUSTOM_VEIW_RESSOURCE_TAG), null));
+        // Finds the customView
+        customView = (ViewGroup) inflater.inflate(args.getInt(CUSTOM_VEIW_RESSOURCE_TAG), null);
+
+        // Set the customView
+        setCustomView(customView);
 
         return dialog; // Return the customize dialog
     }
+
+    /**
+     * Gets the customView of the GirafDialog
+     * @return the customView
+     */
+    public ViewGroup getCustomView() {
+        return customView;
+    }
+
 }
