@@ -1,14 +1,9 @@
 package dk.aau.cs.giraf.gui;
 
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
-import android.widget.SimpleAdapter;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import java.util.List;
