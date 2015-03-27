@@ -39,15 +39,16 @@ public class GirafButton extends LinearLayout {
     private Drawable icon;
     private String buttonText;
 
-    // Sets the max width and height of the button
+    // Max width and height of the icon
     private final int ICON_MAX_WIDTH = (int) GirafScalingUtilities.convertDpToPixel(this.getContext(), 45);
     private final int ICON_MAX_HEIGHT = (int) GirafScalingUtilities.convertDpToPixel(this.getContext(), 45);
 
+    // The spacings
     private final int SUBVIEW_SPACING = (int) GirafScalingUtilities.convertDpToPixel(this.getContext(), 10);
     private final int BUTTON_PADDING = (int) GirafScalingUtilities.convertDpToPixel(this.getContext(), 10);
 
     /**
-     * Constructs an {@link dk.aau.cs.giraf.gui.GirafButton} without xml only icon
+     * Constructs a {@link dk.aau.cs.giraf.gui.GirafButton} without xml only icon
      *
      * @param context the context
      * @param icon    the drawable icon of the {@link dk.aau.cs.giraf.gui.GirafButton}
@@ -57,7 +58,7 @@ public class GirafButton extends LinearLayout {
     }
 
     /**
-     * Constructs an {@link dk.aau.cs.giraf.gui.GirafButton} without xml only text
+     * Constructs a {@link dk.aau.cs.giraf.gui.GirafButton} without xml only text
      * @param context the context
      * @param buttonText the text of the button
      */
@@ -66,7 +67,7 @@ public class GirafButton extends LinearLayout {
     }
 
     /**
-     * Constructs an {@link dk.aau.cs.giraf.gui.GirafButton} without xml and text
+     * Constructs a {@link dk.aau.cs.giraf.gui.GirafButton} without xml and text
      *
      * @param context    the context
      * @param icon       the drawable icon of the {@link dk.aau.cs.giraf.gui.GirafButton}
@@ -80,7 +81,7 @@ public class GirafButton extends LinearLayout {
     }
 
     /**
-     * Construct an {@link dk.aau.cs.giraf.gui.GirafButton} from xml
+     * Construct a {@link dk.aau.cs.giraf.gui.GirafButton} from xml
      *
      * @param context the context
      * @param attrs   the attributes from the xml-declaration
@@ -91,7 +92,7 @@ public class GirafButton extends LinearLayout {
     }
 
     /**
-     * Constructs an {@link dk.aau.cs.giraf.gui.GirafButton} from xml
+     * Constructs a {@link dk.aau.cs.giraf.gui.GirafButton} from xml
      *
      * @param context  the context
      * @param attrs    the attributes from the xml-declaration
@@ -120,12 +121,11 @@ public class GirafButton extends LinearLayout {
                     textViewParams.setMargins(SUBVIEW_SPACING, 0, 0, 0);
                 }
 
-                // Set the textSize of the textView dynamically of the height button
+                // Set the textSize of the textView dynamically dependent on the height of the GirafButton
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, this.getHeight() - (int)(2.5 * BUTTON_PADDING));
 
                 // Remove the padding on the font
                 textView.setIncludeFontPadding(false);
-
             }
             // It is no longer the first time you call onLayout
             firstTimeLayout = !firstTimeLayout;
@@ -148,13 +148,14 @@ public class GirafButton extends LinearLayout {
 
         // Make instance of the icon (iconView) and the text (textView) of the button
         ImageView iconView = new ImageView(this.getContext());
+        textView = new TextView(this.getContext());
+
         // Adjusts the size after matching the actual size values
         iconView.setAdjustViewBounds(true);
 
         // Set maximum sizes
         iconView.setMaxWidth(ICON_MAX_WIDTH);
         iconView.setMaxHeight(ICON_MAX_HEIGHT);
-
 
         // If attributes given in xml use them if the one given in the constructor is not set
         if (attrs != null) {
@@ -170,6 +171,7 @@ public class GirafButton extends LinearLayout {
                 buttonText = girafButtonAttributes.getString(R.styleable.GirafButton_text);
             }
 
+            // Clean attributes from memory
             girafButtonAttributes.recycle();
         }
 
@@ -185,15 +187,13 @@ public class GirafButton extends LinearLayout {
         else {
             iconView.setImageDrawable(icon); // Sets the icon into the ImageView
         }
-        // Initialize the textView
-        textView = new TextView(this.getContext());
 
+        // Initialize the textView
         textView.setText(buttonText); // Set the text of the textView
         textView.setGravity(Gravity.CENTER); // Center the textView in the button
-        textView.setPadding(0, 0, 0, 0); // Remove padding fromt he textView
+        textView.setPadding(0, 0, 0, 0); // Remove padding from the textView
 
-
-        // Create layout parameters for the textview
+        // Create layout parameters for the textView
         textViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         // Set the background of the button (with all sates)
@@ -205,10 +205,8 @@ public class GirafButton extends LinearLayout {
             iconView.setAlpha(0x59);
         }
 
-        // Add the textView to the GirafButton
-        this.addView(textView, textViewParams);
-
-        // Add the icon of the button
+        // Add the iconView and the textView to the GirafButton
         this.addView(iconView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        this.addView(textView, textViewParams);
     }
 }

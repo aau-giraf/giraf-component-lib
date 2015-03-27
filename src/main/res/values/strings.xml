@@ -33,4 +33,6 @@
     <string name="gtooltipArrowImageDescription">Tooltip arow</string>
     <string name="colorpickerImageViewContentDescription">Border of the colorpicker</string>
     <string name="change_user_dialog_title">Vælg bruger</string>
+    <string name="giraf_confirm_dialog_yes_button_text">Ja</string>
+    <string name="giraf_confirm_dialog_no_button_text">Nej</string>
 </resources>

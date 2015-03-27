@@ -16,7 +16,7 @@ import android.widget.TextView;
  */
 public abstract class GirafDialog extends DialogFragment {
 
-    // Memebers of the GirafDialog
+    // Members of the GirafDialog
     private RelativeLayout dialogLayout; // The layout containing the dialog
     private TextView titleTextView; // The textView of the title
     private TextView descriptionTextView; // The textView of the description
@@ -55,7 +55,7 @@ public abstract class GirafDialog extends DialogFragment {
      * @param girafButton a {@link.dk.aau.cs.giraf.GirafButton}
      */
     public final void addButton(final GirafButton girafButton) {
-        // Add the button with the wanted params
+        // Add the button with the static params
         LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         buttonParams.leftMargin = getResources().getDimensionPixelSize(R.dimen.giraf_dialog_item_spacing) / 2;
         buttonParams.rightMargin = getResources().getDimensionPixelSize(R.dimen.giraf_dialog_item_spacing) / 2;

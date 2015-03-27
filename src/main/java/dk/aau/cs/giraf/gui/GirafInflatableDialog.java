@@ -8,17 +8,17 @@ import android.view.ViewGroup;
 /**
  * Created on 27/03/15.
  * Customize a GirafDialog. NOTICE! You can only add a title, description and a custom view to this class.
- * Also, you can only add custom view created in xml using ressources.
+ * Also, you can only add custom view created in xml using resources.
  */
-public class GirafInflateableDialog extends GirafDialog {
+public class GirafInflatableDialog extends GirafDialog {
 
     private static final String TITLE_TAG = "TITLE_TAG";
     private static final String DESCRIPTION_TAG = "DESCRIPTION_TAG";
-    private static final String CUSTOM_VEIW_RESSOURCE_TAG = "CUSTOM_VEIW_RESSOURCE_TAG";
+    private static final String CUSTOM_VIEW_RESOURCE_TAG = "CUSTOM_VIEW_RESOURCE_TAG";
     private ViewGroup customView;
 
-    public static GirafInflateableDialog newInstance(String title, String description, int customViewRessource) {
-        GirafInflateableDialog girafInflateableDialog = new GirafInflateableDialog();
+    public static GirafInflatableDialog newInstance(String title, String description, int customViewResource) {
+        GirafInflatableDialog girafInflatableDialog = new GirafInflatableDialog();
 
         // Create the argument bundle
         Bundle args = new Bundle();
@@ -26,11 +26,11 @@ public class GirafInflateableDialog extends GirafDialog {
         // Store the arguments into the bundle
         args.putString(TITLE_TAG, title);
         args.putString(DESCRIPTION_TAG, description);
-        args.putInt(CUSTOM_VEIW_RESSOURCE_TAG, customViewRessource);
+        args.putInt(CUSTOM_VIEW_RESOURCE_TAG, customViewResource);
 
         // Store the bundle
-        girafInflateableDialog.setArguments(args);
-        return girafInflateableDialog;
+        girafInflatableDialog.setArguments(args);
+        return girafInflatableDialog;
     }
 
     @Override
@@ -49,12 +49,12 @@ public class GirafInflateableDialog extends GirafDialog {
         setDescription(args.getString(DESCRIPTION_TAG, "")); // Set the description
 
         // Finds the customView
-        customView = (ViewGroup) inflater.inflate(args.getInt(CUSTOM_VEIW_RESSOURCE_TAG), null);
+        customView = (ViewGroup) inflater.inflate(args.getInt(CUSTOM_VIEW_RESOURCE_TAG), null);
 
         // Set the customView
         setCustomView(customView);
 
-        return dialog; // Return the customize dialog
+        return dialog; // Return the customized dialog
     }
 
     /**

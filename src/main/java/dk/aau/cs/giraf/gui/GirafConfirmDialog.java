@@ -2,14 +2,11 @@ package dk.aau.cs.giraf.gui;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 /**
- * Created by rasmusholmjensen on 25/03/15.
+ * Created on 25/03/15.
  */
 public class GirafConfirmDialog extends GirafDialog {
 
@@ -22,7 +19,7 @@ public class GirafConfirmDialog extends GirafDialog {
      */
     public interface Confirmation {
         /**
-         * Method for swtiching between methods called when pressing the acceptance buttons
+         * Method for switching between methods called when pressing the acceptance buttons
          * @param methodID identifier of the method
          */
         public void confirmDialog (int methodID);
@@ -37,7 +34,7 @@ public class GirafConfirmDialog extends GirafDialog {
         // Create the argument bundle
         Bundle args = new Bundle();
 
-        // Store the arguments into the bundel
+        // Store the arguments into the bundle
         args.putString(TITLE_TAG, title);
         args.putString(DESCRIPTION_TAG, description);
         args.putInt(METHOD_ID_TAG, methodID);
@@ -63,13 +60,18 @@ public class GirafConfirmDialog extends GirafDialog {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
+        // Fetch the dialog
         Dialog dialog = super.onCreateDialog(savedInstanceState);
 
+        // Fetch the arguments
         final Bundle args = this.getArguments();
+
+        // Set the arguments
         setTitle(args.getString(TITLE_TAG, ""));
         setDescription(args.getString(DESCRIPTION_TAG, ""));
 
-        GirafButton yesButton = new GirafButton(getActivity(),getResources().getDrawable(R.drawable.icon_accept),"Ja");
+        // Create the yesButton
+        GirafButton yesButton = new GirafButton(getActivity(),getResources().getDrawable(R.drawable.icon_accept),this.getActivity().getResources().getString(R.string.giraf_confirm_dialog_yes_button_text));
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,13 +79,17 @@ public class GirafConfirmDialog extends GirafDialog {
                 confirmation.confirmDialog(args.getInt(METHOD_ID_TAG));
             }
         });
-        GirafButton noButton = new GirafButton(getActivity(),getResources().getDrawable(R.drawable.icon_cancel),"Nej");
+
+        // Create the noButton
+        GirafButton noButton = new GirafButton(getActivity(),getResources().getDrawable(R.drawable.icon_cancel),this.getActivity().getString(R.string.giraf_confirm_dialog_no_button_text));
         noButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 GirafConfirmDialog.this.dismiss();
             }
         });
+
+        // Add the buttons to the dialog
         addButton(yesButton);
         addButton(noButton);
         return dialog;
