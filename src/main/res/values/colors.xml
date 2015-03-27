@@ -31,5 +31,8 @@
     <color name="giraf_page_indicator_inactive">#ffcd59</color>
     <color name="giraf_fading_edge_glow">#ff9d00</color>
 
+    <!-- Colors for GirafSpinnerItem -->
+    <color name="giraf_spinner_item_background">#fdbb55</color>
+
 
 </resources>

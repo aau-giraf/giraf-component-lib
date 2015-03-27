@@ -32,4 +32,5 @@
     <string name="mOfflineString">ikke i forbindelse med Savannah-serveren, indholdet i GIRAF er derfor muligvis ikke det nyeste.</string>
     <string name="gtooltipArrowImageDescription">Tooltip arow</string>
     <string name="colorpickerImageViewContentDescription">Border of the colorpicker</string>
+    <string name="change_user_dialog_title">Vælg bruger</string>
 </resources>
