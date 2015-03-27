@@ -10,7 +10,6 @@ import android.view.View;
  */
 public class GirafNotifyDialog extends GirafDialog {
 
-
     private static final String TITLE_TAG = "TITLE_TAG";
     private static final String DESCRIPTION_TAG = "DESCRIPTION_TAG";
     private static final String METHOD_ID_TAG = "METHOD_ID_TAG";
