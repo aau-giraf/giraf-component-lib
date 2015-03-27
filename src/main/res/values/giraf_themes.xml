@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <style name="GirafTheme" parent="android:Theme.Holo">
+    <style name="GirafTheme" parent="android:Theme.Holo.Light">
         <item name="android:progressBarStyle">@style/GirafProgressBar</item>
     </style>
 
