@@ -32,9 +32,8 @@ import dk.aau.cs.giraf.utilities.GirafScalingUtilities;
  */
 public class GirafButton extends LinearLayout {
 
-    // The inner views of the GirafButton
-    private ImageView iconView;
     private TextView textView;
+    private LinearLayout.LayoutParams textViewParams;
 
     // The content of the inner view of the GirafButton
     private Drawable icon;
@@ -43,7 +42,6 @@ public class GirafButton extends LinearLayout {
     // Sets the max width and height of the button
     private final int ICON_MAX_WIDTH = (int) GirafScalingUtilities.convertDpToPixel(this.getContext(), 45);
     private final int ICON_MAX_HEIGHT = (int) GirafScalingUtilities.convertDpToPixel(this.getContext(), 45);
-    private final int DEFAULT_TEXT_SIZE = (int) GirafScalingUtilities.convertDpToPixel(this.getContext(), 18);
 
     private final int SUBVIEW_SPACING = (int) GirafScalingUtilities.convertDpToPixel(this.getContext(), 10);
     private final int BUTTON_PADDING = (int) GirafScalingUtilities.convertDpToPixel(this.getContext(), 10);
@@ -60,8 +58,8 @@ public class GirafButton extends LinearLayout {
 
     /**
      * Constructs an {@link dk.aau.cs.giraf.gui.GirafButton} without xml only text
-     * @param context
-     * @param buttonText
+     * @param context the context
+     * @param buttonText the text of the button
      */
     public GirafButton(Context context, String buttonText) {
         this(context, null, buttonText);
@@ -113,10 +111,8 @@ public class GirafButton extends LinearLayout {
 
         // Check if it is the first time you call onLayout
         if (firstTimeLayout) {
-            if (buttonText != null) { // If the button has text
 
-                // Create layout parameters for the textview
-                LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            if (buttonText != null) { // If the button has text
 
                 // If there is an icon set margin accordingly
                 if(icon != null) {
@@ -130,12 +126,9 @@ public class GirafButton extends LinearLayout {
                 // Remove the padding on the font
                 textView.setIncludeFontPadding(false);
 
-                // Add the textView to the GirafButton
-                this.addView(textView, textViewParams);
-
-                // It is no longer the first time you call onLayout
-                firstTimeLayout = !firstTimeLayout;
             }
+            // It is no longer the first time you call onLayout
+            firstTimeLayout = !firstTimeLayout;
         }
     }
 
@@ -154,7 +147,7 @@ public class GirafButton extends LinearLayout {
         this.setGravity(Gravity.CENTER);
 
         // Make instance of the icon (iconView) and the text (textView) of the button
-        iconView = new ImageView(this.getContext());
+        ImageView iconView = new ImageView(this.getContext());
         // Adjusts the size after matching the actual size values
         iconView.setAdjustViewBounds(true);
 
@@ -176,6 +169,8 @@ public class GirafButton extends LinearLayout {
                 // Find the attributes from the instance of the GirafButton
                 buttonText = girafButtonAttributes.getString(R.styleable.GirafButton_text);
             }
+
+            girafButtonAttributes.recycle();
         }
 
         if(icon == null && buttonText == null) {
@@ -193,14 +188,13 @@ public class GirafButton extends LinearLayout {
         // Initialize the textView
         textView = new TextView(this.getContext());
 
-        // If the text was set in the xml attributes or the constructor
-        if (buttonText != null) {
-            textView.setText(buttonText); // Set the text of the button
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, DEFAULT_TEXT_SIZE);
-        }
-
+        textView.setText(buttonText); // Set the text of the textView
         textView.setGravity(Gravity.CENTER); // Center the textView in the button
         textView.setPadding(0, 0, 0, 0); // Remove padding fromt he textView
+
+
+        // Create layout parameters for the textview
+        textViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         // Set the background of the button (with all sates)
         this.setBackgroundResource(R.drawable.giraf_button_background);
@@ -210,6 +204,9 @@ public class GirafButton extends LinearLayout {
         if (!this.isEnabled()) {
             iconView.setAlpha(0x59);
         }
+
+        // Add the textView to the GirafButton
+        this.addView(textView, textViewParams);
 
         // Add the icon of the button
         this.addView(iconView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
