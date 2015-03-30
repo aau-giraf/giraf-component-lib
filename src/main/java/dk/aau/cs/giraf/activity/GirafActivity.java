@@ -177,7 +177,7 @@ public class GirafActivity extends FragmentActivity {
         actionBarCustomView.setPadding(paddingLeftRight, paddingTopBottom, paddingLeftRight, paddingTopBottom);
 
         // Set the background of the actionBarLayout
-        actionBarCustomView.setBackgroundResource(R.drawable.action_bar_background);
+        actionBarCustomView.setBackgroundResource(R.drawable.top_bar_background);
 
         // The backButton of the actionBarLayout
         final GirafButton backButton = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_back));
