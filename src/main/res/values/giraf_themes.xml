@@ -4,6 +4,7 @@
     <style name="GirafTheme" parent="android:Theme.Holo.Light">
         <item name="android:progressBarStyle">@style/GirafProgressBar</item>
         <item name="android:windowBackground">@color/giraf_window_background</item>
+        <item name="android:spinnerStyle">@style/GirafSpinner</item>
     </style>
 
     <style name="GirafTheme.NoTitleBar" parent="GirafTheme">
@@ -12,6 +13,10 @@
 
     <style name="GirafProgressBar" parent="android:Widget.Holo.Light.ProgressBar.Large">
         <item name="android:indeterminateDrawable">@drawable/gprogressbar</item>
+    </style>
+
+    <style name="GirafSpinner" parent="android:Widget.Holo.Light.Spinner">
+        <item name="android:popupBackground">@drawable/giraf_spinner_popup_background</item>
     </style>
 
 </resources>
