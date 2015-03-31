@@ -2,9 +2,6 @@
 buildscript {
     repositories {
         mavenCentral()
-        maven {
-            url 'http://cs-cust06-int.cs.aau.dk/artifactory/libraries'
-        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.0.+'
@@ -13,9 +10,6 @@ buildscript {
 }
 
 apply plugin: 'android-library'
-apply plugin: 'dk.giraf.lib'
-apply plugin: 'maven'
-apply plugin: 'maven-publish'
 
 dependencies {
     compile ('com.android.support:support-v4:+')
@@ -48,9 +42,4 @@ android {
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
     }
-}
-
-girafLibrary {
-    libraryName 'girafComponent'
-    version '1.0'
 }
