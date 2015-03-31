@@ -38,6 +38,7 @@ public class GirafButton extends LinearLayout {
     // The content of the inner view of the GirafButton
     private Drawable icon;
     private String buttonText;
+    private ImageView iconView;
 
     // Sets the max width and height of the button
     private final int ICON_MAX_WIDTH = (int) GirafScalingUtilities.convertDpToPixel(this.getContext(), 45);
@@ -147,7 +148,7 @@ public class GirafButton extends LinearLayout {
         this.setGravity(Gravity.CENTER);
 
         // Make instance of the icon (iconView) and the text (textView) of the button
-        ImageView iconView = new ImageView(this.getContext());
+        iconView = new ImageView(this.getContext());
         // Adjusts the size after matching the actual size values
         iconView.setAdjustViewBounds(true);
 
@@ -210,5 +211,8 @@ public class GirafButton extends LinearLayout {
 
         // Add the icon of the button
         this.addView(iconView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+    }
+    public void setIcon(Drawable icon){
+        iconView.setImageDrawable(icon);
     }
 }
