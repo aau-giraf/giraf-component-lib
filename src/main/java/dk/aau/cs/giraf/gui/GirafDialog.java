@@ -54,7 +54,7 @@ public abstract class GirafDialog extends DialogFragment {
      * Adds a button to the bottom of the {@link.dk.aau.cs.giraf.GirafDialog}
      * @param girafButton a {@link.dk.aau.cs.giraf.GirafButton}
      */
-    public final void addButton(final GirafButton girafButton) {
+    protected final void addButton(final GirafButton girafButton) {
         // Add the button with the static params
         LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         buttonParams.leftMargin = getResources().getDimensionPixelSize(R.dimen.giraf_dialog_item_spacing) / 2;
