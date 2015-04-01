@@ -5,6 +5,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.0.+'
+        classpath 'dk.aau.cs.giraf:giraf-library:1.0'
     }
 }
 
