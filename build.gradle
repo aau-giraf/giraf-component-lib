@@ -25,9 +25,11 @@ repositories {
 
 dependencies {
     compile ('com.android.support:support-v4:+')
+    compile files('libs/nineoldandroids-2.4.0.jar')
     compile fileTree(dir: 'libs', include: '*.jar')
     compile(group: 'dk.aau.cs.giraf', name: 'oasisLib', version: '1.0', ext: 'aar')
-    compile files('libs/nineoldandroids-2.4.0.jar')
+    compile(group: 'dk.aau.cs.giraf', name: 'localDb', version: '1.0', ext: 'aar')
+    compile(group: 'dk.aau.cs.giraf', name: 'meta-database', version: '1.0')
 }
 
 android {
