@@ -33,4 +33,13 @@
     <color name="giraf_fading_edge_glow">#ff9d00</color>
 
 
+    <!-- GIRAF LIST COLORS -->
+    <color name="giraf_list_background">#ffffeeaa</color>
+    <color name="giraf_list_active">#ffffdd55</color>
+    <color name="giraf_list_shadow">#99000000</color>
+    <color name="giraf_container_spinner_background">#ff4d4d4d</color>
+
+    <!-- Colors for GirafSpinnerItem -->
+    <color name="giraf_spinner_item_background">#fdbb55</color>
+
 </resources>
