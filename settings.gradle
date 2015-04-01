@@ -1,5 +1,0 @@
-include ':OasisLib'
-include ':local-db'
-project(':local-db').projectDir = new File('OasisLib/local-db')
-include ':metadata'
-project(':metadata').projectDir = new File('OasisLib/local-db/metadata')
