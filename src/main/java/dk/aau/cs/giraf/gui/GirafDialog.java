@@ -28,7 +28,7 @@ public abstract class GirafDialog extends DialogFragment {
      * Sets the title of the {@link.dk.aau.cs.giraf.GirafDialog}
      * @param title the title
      */
-    public final void setTitle(final String title) {
+    protected final void setTitle(final String title) {
         titleTextView.setText(title);
     }
 
@@ -36,7 +36,7 @@ public abstract class GirafDialog extends DialogFragment {
      * Sets the description of the {@link.dk.aau.cs.giraf.GirafDialog}
      * @param description the description
      */
-    public final void setDescription(final String description) {
+    protected final void setDescription(final String description) {
         descriptionTextView.setText(description);
         descriptionTextView.setVisibility(View.VISIBLE);
     }
@@ -45,7 +45,7 @@ public abstract class GirafDialog extends DialogFragment {
      * Sets a custom layout into the {@link.dk.aau.cs.giraf.GirafDialog}
      * @param viewGroup the custom layout
      */
-    public final void setCustomView(final ViewGroup viewGroup) {
+    protected final void setCustomView(final ViewGroup viewGroup) {
         customView.addView(viewGroup);
         customView.setVisibility(View.VISIBLE);
     }
