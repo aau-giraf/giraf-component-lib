@@ -4,9 +4,13 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import dk.aau.cs.giraf.oasis.lib.controllers.ProfileController;
@@ -14,6 +18,7 @@ import dk.aau.cs.giraf.oasis.lib.models.Profile;
 
 /**
  * Created on 26/03/15.
+ * GirafProfileSelectorDialog is not yet working!
  */
 public class GirafProfileSelectorDialog extends GirafDialog {
 
@@ -65,6 +70,9 @@ public class GirafProfileSelectorDialog extends GirafDialog {
 
         Dialog dialog = super.onCreateDialog(savedInstanceState);
 
+        setTitle("GirafProfileSelectorDialog is not yet working!");
+
+        /* TODO Undone work
         // Sets the title of the dialog
         setTitle(getActivity().getString(R.string.change_user_dialog_title));
 
@@ -76,11 +84,27 @@ public class GirafProfileSelectorDialog extends GirafDialog {
             throw new IllegalArgumentException("The user does not exist");
         }
 
+
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.giraf_profile_selection_custom_view,null);
+
+        setCustomView(ll);
+
+        GirafSpinner spinner = (GirafSpinner) ll.findViewById(R.id.department_spinner);
+        ArrayList<String> strings = new ArrayList<String>();
+        strings.add("Rød");
+        strings.add("Grøn");
+        strings.add("Blå");
+        GirafSpinnerAdapter<String> adapter = new GirafSpinnerAdapter<String>(getActivity(),strings);
+        spinner.setAdapter(adapter);
+
         ProfileController profileController = new ProfileController(GirafProfileSelectorDialog.this.getActivity());
         Profile guardianProfile = profileController.getProfileById(guardianID);
         List<Profile> childList = profileController.getChildrenByGuardian(guardianProfile);
 
 
+        */
         return dialog;
     }
 }
