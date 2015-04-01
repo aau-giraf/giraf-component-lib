@@ -6,13 +6,15 @@ import android.os.Bundle;
 import android.view.View;
 
 /**
- * Created by rasmusholmjensen on 26/03/15.
+ * Created on 26/03/15.
  */
 public class GirafNotifyDialog extends GirafDialog {
 
     private static final String TITLE_TAG = "TITLE_TAG";
     private static final String DESCRIPTION_TAG = "DESCRIPTION_TAG";
     private static final String METHOD_ID_TAG = "METHOD_ID_TAG";
+    private static final String BUTTON_TEXT = "BUTTON_TEXT";
+    private static final String BUTTON_ICON_RESOURCE = "BUTTON_ICON_RESOURCE";
 
     /**
      * An interface to perform the confirm action for a GirafNotifyDialog
@@ -29,6 +31,10 @@ public class GirafNotifyDialog extends GirafDialog {
     Notification notification;
 
     public static GirafNotifyDialog newInstance(String title, String description, int methodID) {
+        return GirafNotifyDialog.newInstance(title, description, methodID, null, -1);
+    }
+
+    public static GirafNotifyDialog newInstance(String title, String description, int methodID, String buttonText, int buttonIconResource) {
         GirafNotifyDialog girafNotifyDialog = new GirafNotifyDialog();
 
         // Create the argument bundle
@@ -38,6 +44,8 @@ public class GirafNotifyDialog extends GirafDialog {
         args.putString(TITLE_TAG, title);
         args.putString(DESCRIPTION_TAG, description);
         args.putInt(METHOD_ID_TAG, methodID);
+        args.putString(BUTTON_TEXT, buttonText);
+        args.putInt(BUTTON_ICON_RESOURCE, buttonIconResource);
 
         // Store the bundle
         girafNotifyDialog.setArguments(args);
@@ -66,7 +74,19 @@ public class GirafNotifyDialog extends GirafDialog {
         setTitle(args.getString(TITLE_TAG, ""));
         setDescription(args.getString(DESCRIPTION_TAG, ""));
 
-        GirafButton confirmButton = new GirafButton(getActivity(),getResources().getDrawable(R.drawable.icon_accept),"Okay");
+        String buttonText = args.getString(BUTTON_TEXT);
+
+        if(buttonText == null) {
+            buttonText = getActivity().getString(R.string.giraf_notify_dialog_button_text);
+        }
+
+        int buttonIconResource = args.getInt(BUTTON_ICON_RESOURCE);
+
+        if(buttonIconResource == -1) {
+            buttonIconResource = R.drawable.icon_accept;
+        }
+
+        GirafButton confirmButton = new GirafButton(getActivity(),getResources().getDrawable(buttonIconResource),buttonText);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
