@@ -8,8 +8,12 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.0.+'
-        classpath 'dk.aau.cs.giraf:giraf-library:1.0'
+        classpath 'dk.aau.cs.giraf:giraf-library:1.1'
     }
+}
+// Always download latest snapshot
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
 apply plugin: 'android-library'
@@ -60,5 +64,4 @@ android {
 
 girafLibrary {
     libraryName 'girafComponent'
-    version '1.0'
 }
