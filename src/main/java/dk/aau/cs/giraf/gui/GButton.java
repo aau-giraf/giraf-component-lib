@@ -18,7 +18,7 @@ import android.util.StateSet;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-/**
+/** 
  * <p></p>
  * @deprecated Old button use {@link dk.aau.cs.giraf.gui.GirafButton} instead. Remember to set the delete icon
  */
