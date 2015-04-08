@@ -8,8 +8,12 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.0.+'
-        classpath 'dk.aau.cs.giraf:giraf-library:1.0'
+        classpath 'dk.aau.cs.giraf:giraf-library:1.1'
     }
+}
+// Always download latest snapshot
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
 apply plugin: 'android-library'
@@ -18,6 +22,7 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 repositories {
+    mavenCentral()
     maven {
         url 'http://cs-cust06-int.cs.aau.dk/artifactory/libraries'
     }
@@ -25,11 +30,11 @@ repositories {
 
 dependencies {
     compile ('com.android.support:support-v4:+')
-    compile files('libs/nineoldandroids-2.4.0.jar')
-    compile fileTree(dir: 'libs', include: '*.jar')
     compile(group: 'dk.aau.cs.giraf', name: 'oasisLib', version: '1.0', ext: 'aar')
     compile(group: 'dk.aau.cs.giraf', name: 'localDb', version: '1.0', ext: 'aar')
-    compile(group: 'dk.aau.cs.giraf', name: 'meta-database', version: '1.0')
+    compile(group: 'dk.aau.cs.giraf', name: 'meta-database', version: '1.2')
+    compile files('libs/nineoldandroids-2.4.0.jar')
+    compile fileTree(dir: 'libs', include: '*.jar')
 }
 
 android {
@@ -45,7 +50,11 @@ android {
     lintOptions {
         abortOnError false
     }
-
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
+    }
     sourceSets {
         // Move the build types to build-types/<type>
         // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
@@ -61,4 +70,8 @@ android {
 girafLibrary {
     libraryName 'girafComponent'
     version '1.0'
+}
+
+girafLibrary {
+    libraryName 'girafComponent'
 }
