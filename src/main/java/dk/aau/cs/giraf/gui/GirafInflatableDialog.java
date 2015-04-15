@@ -52,10 +52,10 @@ public class GirafInflatableDialog extends GirafDialog {
         args.putString(DESCRIPTION_TAG, description);
         args.putInt(CUSTOM_VIEW_RESOURCE_TAG, customViewResource);
 
-        if (dialogIdentifier == DIALOG_ID_DEFAULT) {
-            throw new IllegalArgumentException("-1 is reserved for default identifier in GirafInflatableDialog.newInstance");
-        } else if (dialogIdentifier == null) {
+        if (dialogIdentifier == null) {
             args.putInt(DIALOG_ID_TAG, DIALOG_ID_DEFAULT);
+        } else if (dialogIdentifier == DIALOG_ID_DEFAULT) {
+            throw new IllegalArgumentException("-1 is reserved for default identifier in GirafInflatableDialog.newInstance");
         } else {
             args.putInt(DIALOG_ID_TAG, dialogIdentifier);
         }
