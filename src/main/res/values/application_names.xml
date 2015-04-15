@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+Name of applications.
+These are required so that application A can access application B's name without hardcoding it in B.
+TODO: Update the database-models so that these names are loaded from the database rather than being hardcoded here.
+TODO: These names should be available in different languages. Currently only available in danish. -->
+<resources>
+    <string name="launcher">Giraf</string>
+    <string name="categorygame">Kategorispillet</string>
+    <string name="categorymanager">Kategoriværktøjet</string>
+    <string name="lifestory">Livshistorier</string>
+    <string name="profilemanager">Oasis App</string>
+    <string name="pictoreader">Piktooplæser</string>
+    <string name="pictosearch">Piktosøger</string>
+    <string name="pictocreator">Piktotegner</string>
+    <string name="sequence">Sekvens</string>
+    <string name="voicegame">Stemmespillet</string>
+    <string name="timer">Tidstager</string>
+    <string name="weekschedule">Ugeplan</string>
+</resources>
