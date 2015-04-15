@@ -111,7 +111,7 @@ public class GirafInflatableDialog extends GirafDialog {
             onCustomViewCreatedCallback.editCustomView(customView, dialogIdentifier);
 
             // Check if an identifier was given but the activity do not implement OnCustomViewCreatedListener
-        } else if (dialogIdentifier != null) {
+        } else if (onCustomViewCreatedCallback == null && dialogIdentifier != null && dialogIdentifier != DIALOG_ID_DEFAULT) {
             throw new ClassCastException(caller.toString() + " must implement OnCustomViewCreatedListener interface. If you create a GirafInflatableDialog using an dialog identifier.");
         }
     }
