@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.cat;
+package dk.aau.cs.giraf.gui;
 
 import android.app.ActionBar;
 import android.content.Context;
@@ -11,7 +11,6 @@ import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import dk.aau.cs.giraf.oasis.lib.Helper;
 import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
 
@@ -39,11 +38,10 @@ public class GirafPictogram extends LinearLayout {
             initialize(null);
             return;
         }
-
+        
         Pictogram sample = new Pictogram();
         sample.setName("Sample pictogram");
         sample.setImage(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_copy));
-
         initialize(sample);
     }
 
