@@ -42,4 +42,9 @@
     <!-- Colors for GirafSpinnerItem -->
     <color name="giraf_spinner_item_background">#fdbb55</color>
 
+    <!-- Colors for GirafPictogramView -->
+    <color name="giraf_pictogram_view_stroke">#000000</color>
+    <color name="giraf_pictogram_view_background_regular">#00000000</color>
+    <color name="giraf_pictogram_view_background_checked">#fed76c</color>
+
 </resources>
