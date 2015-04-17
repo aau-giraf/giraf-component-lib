@@ -17,7 +17,7 @@ import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
 /**
  * Created on 14/04/2015.
  */
-public class GirafPictogram extends LinearLayout {
+public class GirafPictogramItemView extends LinearLayout {
 
     // The pictogram to base the view upon
     private Pictogram pictogram;
@@ -31,7 +31,7 @@ public class GirafPictogram extends LinearLayout {
     /**
      * Do not use this constructor. It is only available for creating the pictogram in xml!
      */
-    public GirafPictogram(Context context, AttributeSet attrs) {
+    public GirafPictogramItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         if(!isInEditMode()) {
@@ -45,19 +45,19 @@ public class GirafPictogram extends LinearLayout {
         initialize(sample);
     }
 
-    public GirafPictogram(Context context, Pictogram pictogram) {
+    public GirafPictogramItemView(Context context, Pictogram pictogram) {
         super(context);
 
         initialize(pictogram);
     }
 
-    public GirafPictogram(Context context, AttributeSet attrs, Pictogram pictogram) {
+    public GirafPictogramItemView(Context context, AttributeSet attrs, Pictogram pictogram) {
         super(context, attrs);
 
         initialize(pictogram);
     }
 
-    public GirafPictogram(Context context, AttributeSet attrs, int defStyle, Pictogram pictogram) {
+    public GirafPictogramItemView(Context context, AttributeSet attrs, int defStyle, Pictogram pictogram) {
         super(context, attrs, defStyle);
 
         initialize(pictogram);
