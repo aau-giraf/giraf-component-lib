@@ -7,7 +7,7 @@
     android:background="@drawable/giraf_sidebar_background">
 
     <ListView
-        android:id="@+id/category_container"
+        android:id="@+id/giraf_sidebar_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:verticalScrollbarPosition="left" />
