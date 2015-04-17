@@ -8,16 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.Checkable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import dk.aau.cs.giraf.oasis.lib.Helper;
 import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
 
 /**
  * Created on 14/04/2015.
  */
-public class GirafPictogram extends LinearLayout {
+public class GirafPictogramItemView extends LinearLayout implements Checkable {
 
     // The pictogram to base the view upon
     private Pictogram pictogram;
@@ -31,7 +33,7 @@ public class GirafPictogram extends LinearLayout {
     /**
      * Do not use this constructor. It is only available for creating the pictogram in xml!
      */
-    public GirafPictogram(Context context, AttributeSet attrs) {
+    public GirafPictogramItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         if(!isInEditMode()) {
@@ -45,19 +47,19 @@ public class GirafPictogram extends LinearLayout {
         initialize(sample);
     }
 
-    public GirafPictogram(Context context, Pictogram pictogram) {
+    public GirafPictogramItemView(Context context, Pictogram pictogram) {
         super(context);
 
         initialize(pictogram);
     }
 
-    public GirafPictogram(Context context, AttributeSet attrs, Pictogram pictogram) {
+    public GirafPictogramItemView(Context context, AttributeSet attrs, Pictogram pictogram) {
         super(context, attrs);
 
         initialize(pictogram);
     }
 
-    public GirafPictogram(Context context, AttributeSet attrs, int defStyle, Pictogram pictogram) {
+    public GirafPictogramItemView(Context context, AttributeSet attrs, int defStyle, Pictogram pictogram) {
         super(context, attrs, defStyle);
 
         initialize(pictogram);
@@ -109,5 +111,47 @@ public class GirafPictogram extends LinearLayout {
      */
     public void showTitle() {
         titleContainer.setVisibility(VISIBLE);
+    }
+
+    /*
+     * Methods and variables used to implement the interface Checkable below:
+     */
+
+    private boolean checked = false;
+
+    /**
+     * Will set the checked state of the pictogram. This will only change the appearance of the view.
+     * True for a selected style, false for normal view.
+     * @param checked if true, the view will be updated to look selected/checked
+     */
+    @Override
+    public void setChecked(final boolean checked) {
+        // Update the local variable
+        this.checked = checked;
+
+        // Update the view
+        if(checked) { // The view should appear as selected/checked
+            inflatedView.setBackgroundColor(getResources().getColor(R.color.giraf_pictogram_view_background_checked));
+        }
+        else { // The view should look regular (no selection)
+            inflatedView.setBackgroundColor(getResources().getColor(R.color.giraf_pictogram_view_background_regular));
+        }
+    }
+
+    /**
+     * Returns the checked state of the pictogram
+     * @return true if checked (selected), false is not
+     */
+    @Override
+    public boolean isChecked() {
+        return checked;
+    }
+
+    /**
+     * Will toggle the selected/checked state of the pictogram
+     */
+    @Override
+    public void toggle() {
+        setChecked(!checked);
     }
 }
