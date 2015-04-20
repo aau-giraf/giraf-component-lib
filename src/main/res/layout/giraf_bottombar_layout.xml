@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Contextual bottom bar -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/contextual_bottom_bar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/giraf_sidebar_background"
+    android:layout_alignParentBottom="true"
+    android:padding="@dimen/giraf_contextual_bottom_bar_spacing">
+
+    <!-- Left side of the bottom bar -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal">
+
+    </LinearLayout>
+
+    <!-- Right side of the bottom bar -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal">
+    </LinearLayout>
+
+</RelativeLayout>
