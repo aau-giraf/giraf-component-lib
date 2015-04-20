@@ -5,10 +5,11 @@ buildscript {
         maven {
             url 'http://cs-cust06-int.cs.aau.dk/artifactory/libraries'
         }
+        mavenLocal()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.0.+'
-        classpath 'dk.aau.cs.giraf:giraf-library:1.1'
+        classpath 'dk.aau.cs.giraf:giraf-library:1.2'
     }
 }
 // Always download latest snapshot
@@ -65,11 +66,6 @@ android {
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
     }
-}
-
-girafLibrary {
-    libraryName 'girafComponent'
-    version '1.0'
 }
 
 girafLibrary {
