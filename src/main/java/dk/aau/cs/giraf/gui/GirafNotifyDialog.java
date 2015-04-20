@@ -91,7 +91,9 @@ public class GirafNotifyDialog extends GirafDialog {
             @Override
             public void onClick(View view) {
                 GirafNotifyDialog.this.dismiss();
-                notification.noticeDialog(args.getInt(METHOD_ID_TAG));
+                if(notification != null) {
+                    notification.noticeDialog(args.getInt(METHOD_ID_TAG));
+                }
             }
         });
 
