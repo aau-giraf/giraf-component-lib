@@ -8,15 +8,15 @@
     android:padding="10dp">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/giraf_pictogram_view_stroke"
         android:padding="2dp">
 
         <ImageView
             android:id="@+id/pictogram_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:background="#FFFFFF"
             android:padding="5dp"
