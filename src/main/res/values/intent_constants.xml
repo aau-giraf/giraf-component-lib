@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<!-- General keys -->
+    <string name="current_guardian_id">currentGuardianID</string>
+    <string name="current_child_id">currentChildID</string>
+
+    <string name="app_package_name">appPackageName</string>
+    <string name="app_activity_name">appActivityName</string>
+    <string name="app_color">appBackgroundColor</string>
+
+    <!-- Keys for pictosearch -->
+    <string name="purpose">purpose</string>
+    <string name="cat">CAT</string>
+
+    <!-- Values for pictosearch -->
+    <string name="single">single</string>
+    <string name="multi">multi</string>
+
+</resources>

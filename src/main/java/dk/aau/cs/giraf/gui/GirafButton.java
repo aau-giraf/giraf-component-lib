@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -53,7 +54,7 @@ public class GirafButton extends LinearLayout {
      * @param context the context
      * @param icon    the drawable icon of the {@link dk.aau.cs.giraf.gui.GirafButton}
      */
-    public GirafButton(Context context, Drawable icon) {
+    public GirafButton(final Context context, final Drawable icon) {
         this(context, icon, null);
     }
 
@@ -62,7 +63,7 @@ public class GirafButton extends LinearLayout {
      * @param context the context
      * @param buttonText the text of the button
      */
-    public GirafButton(Context context, String buttonText) {
+    public GirafButton(final Context context, final String buttonText) {
         this(context, null, buttonText);
     }
 
@@ -73,7 +74,7 @@ public class GirafButton extends LinearLayout {
      * @param icon       the drawable icon of the {@link dk.aau.cs.giraf.gui.GirafButton}
      * @param buttonText the text of the {@link dk.aau.cs.giraf.gui.GirafButton}
      */
-    public GirafButton(Context context, Drawable icon, String buttonText) {
+    public GirafButton(final Context context, final Drawable icon, final String buttonText) {
         super(context);
         this.icon = icon; // Set the icon to the property
         this.buttonText = buttonText; // Set the text to the property
@@ -86,7 +87,7 @@ public class GirafButton extends LinearLayout {
      * @param context the context
      * @param attrs   the attributes from the xml-declaration
      */
-    public GirafButton(Context context, AttributeSet attrs) {
+    public GirafButton(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         initializeButton(attrs);
     }
@@ -98,7 +99,7 @@ public class GirafButton extends LinearLayout {
      * @param attrs    the attributes from the xml-declaration
      * @param defStyle the style
      */
-    public GirafButton(Context context, AttributeSet attrs, int defStyle) {
+    public GirafButton(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
         initializeButton(attrs);
     }
@@ -107,7 +108,7 @@ public class GirafButton extends LinearLayout {
     private boolean firstTimeLayout = true;
 
     @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+    protected void onLayout(final boolean changed, final int l, final int t, final int r, final int b) {
         super.onLayout(changed, l, t, r, b);
 
         // Check if it is the first time you call onLayout
@@ -138,7 +139,7 @@ public class GirafButton extends LinearLayout {
      *
      * @param attrs the attributes from the xml-declaration
      */
-    private void initializeButton(AttributeSet attrs) {
+    private void initializeButton(final AttributeSet attrs) {
 
         // Set the orientation of the layout
         this.setOrientation(LinearLayout.HORIZONTAL);
@@ -186,6 +187,7 @@ public class GirafButton extends LinearLayout {
         else {
             iconView.setImageDrawable(icon); // Sets the icon into the ImageView
         }
+
         // Initialize the textView
         textView = new TextView(this.getContext());
 
@@ -212,7 +214,28 @@ public class GirafButton extends LinearLayout {
         // Add the icon of the button
         this.addView(iconView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
-    public void setIcon(Drawable icon){
+    public void setIcon(final Drawable icon){
         iconView.setImageDrawable(icon);
     }
+
+    // If the button is disabled catch MotionEvent.ACTION_DOWN and invoke onDisabledClickCallBack
+    @Override
+    public final boolean onTouchEvent(final MotionEvent event) {
+        if (!this.isEnabled() && onDisabledClickCallBack != null && event.getAction() == MotionEvent.ACTION_DOWN) {
+            onDisabledClickCallBack.onClick(this);
+            return true;
+        }
+        return super.onTouchEvent(event);
+    }
+
+    private OnClickListener onDisabledClickCallBack;
+
+    /**
+     * Set a listener which is invoked when the button is disabled and clicked on
+     * @param listener
+     */
+    public void setOnDisabledClickListener(final OnClickListener listener) {
+        this.onDisabledClickCallBack = listener;
+    }
+
 }

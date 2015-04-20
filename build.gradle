@@ -27,12 +27,13 @@ repositories {
     maven {
         url 'http://cs-cust06-int.cs.aau.dk/artifactory/libraries'
     }
+    mavenLocal()
 }
 
 dependencies {
     compile ('com.android.support:support-v4:+')
-    compile(group: 'dk.aau.cs.giraf', name: 'oasisLib', version: '1.0', ext: 'aar')
-    compile(group: 'dk.aau.cs.giraf', name: 'localDb', version: '1.0', ext: 'aar')
+    compile(group: 'dk.aau.cs.giraf', name: 'oasisLib', version: '1.1', ext: 'aar')
+    compile(group: 'dk.aau.cs.giraf', name: 'localDb', version: '1.1-SNAPSHOT', ext: 'aar')
     compile(group: 'dk.aau.cs.giraf', name: 'meta-database', version: '1.2')
     compile files('libs/nineoldandroids-2.4.0.jar')
     compile fileTree(dir: 'libs', include: '*.jar')
