@@ -8,6 +8,7 @@
     <string name="app_package_name">appPackageName</string>
     <string name="app_activity_name">appActivityName</string>
     <string name="app_color">appBackgroundColor</string>
+    <string name="download_showanimation">downloadShowAnimiation</string>
 
     <!-- Keys for pictosearch -->
     <string name="purpose">purpose</string>
