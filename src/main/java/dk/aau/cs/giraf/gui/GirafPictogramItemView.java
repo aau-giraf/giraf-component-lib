@@ -95,16 +95,12 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         inflatedView = inflater.inflate(R.layout.giraf_pictogram, this);
 
         // Set the imageModel (image) for the view (Will be done as an ASyncTask)
+        iconContainer = (ImageView) inflatedView.findViewById(R.id.pictogram_icon);
         setImageModel(imageModel);
 
         // Set the name of pictogram
         titleContainer = (TextView) inflatedView.findViewById(R.id.pictogram_title);
-        titleContainer.setText(title);
-
-        // Hide the title view (if the title is null)
-        if (title == null) {
-            hideTitle();
-        }
+        setTitle(title);
     }
 
     /**
@@ -128,9 +124,6 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         }
 
         this.imageModel = imageModel;
-
-        // Set the imageModel icon depending on the provided imageModel
-        iconContainer = (ImageView) inflatedView.findViewById(R.id.pictogram_icon);
 
         // Cancel any currently loading imageModel tasks (This will ensure that we do not try and load two different pictograms)
         if (loadPictogramImage != null) {
@@ -201,6 +194,22 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
 
         // Start loading the image of the imageModel
         loadPictogramImage.execute();
+    }
+
+    /**
+     * Will update the view with the provided title
+     *
+     * @param title the title to set
+     */
+    public synchronized void setTitle(final String title) {
+        if(title == null) {
+            hideTitle();
+        }
+        else {
+            showTitle();
+        }
+
+        titleContainer.setText(title);
     }
 
     /**
