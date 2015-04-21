@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Contextual bottom bar -->
-    
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/contextual_bottom_bar"
     android:layout_width="match_parent"
@@ -11,6 +11,7 @@
 
     <!-- Left side of the bottom bar -->
     <LinearLayout
+        android:id="@+id/contextual_bottom_bar_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -20,6 +21,7 @@
 
     <!-- Right side of the bottom bar -->
     <LinearLayout
+        android:id="@+id/contextual_bottom_bar_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
