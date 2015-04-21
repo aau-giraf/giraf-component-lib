@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Checkable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.lang.reflect.Field;
@@ -101,6 +102,20 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         // Set the name of pictogram
         titleContainer = (TextView) inflatedView.findViewById(R.id.pictogram_title);
         setTitle(title);
+
+        // Force the container to be square (height = width)
+        final LinearLayout container = (LinearLayout) findViewById(R.id.pictogram_icon_container);
+        container.post(new Runnable() {
+            @Override
+            public void run() {
+                LinearLayout.LayoutParams newParams;
+                newParams = (LinearLayout.LayoutParams) container.getLayoutParams();
+                newParams.height = container.getWidth();
+                container.setLayoutParams(newParams);
+                container.postInvalidate();
+            }
+        });
+        container.postInvalidate();
     }
 
     /**
