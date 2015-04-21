@@ -8,6 +8,7 @@
     android:padding="10dp">
 
     <LinearLayout
+        android:id="@+id/pictogram_icon_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/giraf_pictogram_view_stroke"
