@@ -103,19 +103,32 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         titleContainer = (TextView) inflatedView.findViewById(R.id.pictogram_title);
         setTitle(title);
 
-        // Force the container to be square (height = width)
-        final LinearLayout container = (LinearLayout) findViewById(R.id.pictogram_icon_container);
-        container.post(new Runnable() {
+        // Hide the layout until it is loaded correctly (Have the correct height - see code below)
+        inflatedView.setVisibility(GONE);
+
+        // Runnable that will be used to update the size of the box (width = height)
+        Runnable updateSize = new Runnable() {
             @Override
             public void run() {
-                LinearLayout.LayoutParams newParams;
-                newParams = (LinearLayout.LayoutParams) container.getLayoutParams();
+                // Find the view to update the size of
+                LinearLayout container = (LinearLayout) inflatedView.findViewById(R.id.pictogram_icon_container);
+
+                // Generate new layout params
+                LinearLayout.LayoutParams newParams = (LinearLayout.LayoutParams) container.getLayoutParams();
                 newParams.height = container.getWidth();
+
+                // Update the container with new params
                 container.setLayoutParams(newParams);
                 container.postInvalidate();
+
+                // Now that the height is correct, update the visibility of the component
+                inflatedView.setVisibility(VISIBLE);
             }
-        });
-        container.postInvalidate();
+        };
+
+        // Register the runnable and invalidate (so that it will be updated)
+        inflatedView.post(updateSize);
+        inflatedView.postInvalidate();
     }
 
     /**
