@@ -13,8 +13,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-import dk.aau.cs.giraf.oasis.lib.controllers.ProfileController;
-import dk.aau.cs.giraf.oasis.lib.models.Profile;
+import dk.aau.cs.giraf.dblib.controllers.ProfileController;
+import dk.aau.cs.giraf.dblib.models.Profile;
 
 /**
  * Created on 26/03/15.

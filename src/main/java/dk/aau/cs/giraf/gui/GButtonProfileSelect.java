@@ -12,8 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
-import dk.aau.cs.giraf.oasis.lib.controllers.ProfileController;
-import dk.aau.cs.giraf.oasis.lib.models.Profile;
+import dk.aau.cs.giraf.dblib.controllers.ProfileController;
+import dk.aau.cs.giraf.dblib.models.Profile;
 
 /**
  * Created by AndersBender on 08-05-14.
