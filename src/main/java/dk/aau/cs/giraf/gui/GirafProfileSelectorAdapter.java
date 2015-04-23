@@ -15,13 +15,13 @@ import dk.aau.cs.giraf.oasis.lib.models.Profile;
 /**
  * Created by on 22/04/15.
  */
-public class GriafProfileSelectorAdapter extends BaseAdapter {
+public class GirafProfileSelectorAdapter extends BaseAdapter {
 
     private final Context context;
     private List<Profile> profileList;
     // private final LayoutInflater inflater;
 
-    public GriafProfileSelectorAdapter(Context context, List<Profile> profileList) {
+    public GirafProfileSelectorAdapter(Context context, List<Profile> profileList) {
         this.profileList = profileList;
         this.context = context;
     }
