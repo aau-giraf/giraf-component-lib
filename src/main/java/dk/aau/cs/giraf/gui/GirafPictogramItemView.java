@@ -1,8 +1,15 @@
 package dk.aau.cs.giraf.gui;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -10,119 +17,146 @@ import android.view.View;
 import android.widget.Checkable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 
 import dk.aau.cs.giraf.oasis.lib.Helper;
 import dk.aau.cs.giraf.oasis.lib.models.BasicImageModel;
 import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
-
-import static java.lang.Math.max;
 
 /**
  * Created on 14/04/2015.
  */
 public class GirafPictogramItemView extends LinearLayout implements Checkable {
 
-    // The imageModel to base the view upon
-    private BasicImageModel imageModel;
-
     // The inflated view (See constructors)
     private View inflatedView;
 
-    private ImageView iconContainer;
+    private LinearLayout pictogramIconContainer;
+    private ImageView iconImageView;
     private TextView titleContainer;
 
     private AsyncTask<Void, Void, Bitmap> loadPictogramImage;
 
     /**
-     * Do not use this constructor. It is only available for creating the imageModel in xml!
+     * Used to implement edit triangle
      */
-    public GirafPictogramItemView(Context context, AttributeSet attrs) {
+    private boolean isEditable = false;
+    private Paint editableIndicatorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Point point1_draw = new Point();
+    private Point point2_draw = new Point();
+    private Point point3_draw = new Point();
+    private Path path = new Path();
+
+    // For the global top left position of @param view
+    final int[] viewLocation = new int[2];
+
+    // For the global top left position of this GirafPictogramItemView
+    final int[] thisLocation = new int[2];
+
+    // For the conversion to relative bottom right position
+    final int[] bottomRightLocation = new int[2];
+
+    /**
+     * Do not use this constructor in code. It should only be used to inflate it from xml!
+     */
+    public GirafPictogramItemView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
 
         if (!isInEditMode()) {
-            initialize(null, null);
+            initialize(null, null, attrs);
             return;
         }
 
         Pictogram sample = new Pictogram();
         sample.setName("Sample imageModel");
         sample.setImage(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_copy));
-        initialize(sample, sample.getName());
+        initialize(sample, sample.getName(), attrs);
     }
 
     //<editor-fold desc="constructors">
-    public GirafPictogramItemView(Context context, BasicImageModel imageModel) {
-        this(context, imageModel, null);
-    }
-
-    public GirafPictogramItemView(Context context, AttributeSet attrs, BasicImageModel imageModel) {
-        this(context, attrs, imageModel, null);
-    }
-
-    public GirafPictogramItemView(Context context, AttributeSet attrs, int defStyle, BasicImageModel imageModel) {
-        this(context, attrs, defStyle, imageModel, null);
-    }
-
-    public GirafPictogramItemView(Context context, BasicImageModel imageModel, String title) {
+    public GirafPictogramItemView(final Context context, final BasicImageModel imageModel) {
         super(context);
-
-        initialize(imageModel, title);
+        initialize(imageModel, null, null);
     }
 
-    public GirafPictogramItemView(Context context, AttributeSet attrs, BasicImageModel imageModel, String title) {
-        super(context, attrs);
-
-        initialize(imageModel, title);
-    }
-
-    public GirafPictogramItemView(Context context, AttributeSet attrs, int defStyle, BasicImageModel imageModel, String title) {
-        super(context, attrs, defStyle);
-
-        initialize(imageModel, title);
+    public GirafPictogramItemView(final Context context, final BasicImageModel imageModel, final String title) {
+        super(context);
+        initialize(imageModel, title, null);
     }
     //</editor-fold>
 
     /**
      * Initialized the different components
      */
-    private void initialize(BasicImageModel imageModel, String title) {
+    private void initialize(final BasicImageModel imageModel, final String title, final AttributeSet attrs) {
+
+        // Disable layout optimization in order to enable this views onDraw method to be called by its parent
+        // NOTICE: This is require to draw the edit-triangle
+        setWillNotDraw(false);
+
         // Find the XML for the imageModel and load it into the view
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflatedView = inflater.inflate(R.layout.giraf_pictogram, this);
 
+        pictogramIconContainer = (LinearLayout) inflatedView.findViewById(R.id.pictogram_icon_container);
+        iconImageView = (ImageView) pictogramIconContainer.findViewById(R.id.pictogram_icon);
+
         // Set the imageModel (image) for the view (Will be done as an ASyncTask)
-        iconContainer = (ImageView) inflatedView.findViewById(R.id.pictogram_icon);
         setImageModel(imageModel);
 
         // Set the name of pictogram
         titleContainer = (TextView) inflatedView.findViewById(R.id.pictogram_title);
         setTitle(title);
 
-        // Force the container to be square (height = width)
-        final LinearLayout container = (LinearLayout) findViewById(R.id.pictogram_icon_container);
-        container.post(new Runnable() {
+        // Hide the layout until it is loaded correctly (Have the correct height - see code below)
+        inflatedView.setVisibility(INVISIBLE);
+
+        // Runnable that will be used to update the size of the box (width = height)
+        final Runnable updateSize = new Runnable() {
             @Override
             public void run() {
-                LinearLayout.LayoutParams newParams;
-                newParams = (LinearLayout.LayoutParams) container.getLayoutParams();
-                newParams.height = container.getWidth();
+                // Find the view to update the size of
+                LinearLayout container = (LinearLayout) inflatedView.findViewById(R.id.pictogram_icon_container);
+
+                // Generate new layout params
+                LinearLayout.LayoutParams newParams = (LinearLayout.LayoutParams) container.getLayoutParams();
+                newParams.height = container.getMeasuredWidth();
+
+                // Update the container with new params
                 container.setLayoutParams(newParams);
-                container.postInvalidate();
+                //container.postInvalidate();
+
+                // Now that the height is correct, update the visibility of the component
+                inflatedView.setVisibility(VISIBLE);
             }
-        });
-        container.postInvalidate();
+        };
+
+        // Register the runnable and invalidate (so that it will be updated)
+        inflatedView.post(updateSize);
+        //inflatedView.postInvalidate();
+
+        if (attrs != null) {
+            final TypedArray girafPictogramItemViewAttributes = getContext().obtainStyledAttributes(attrs, R.styleable.GirafPictogramItemView);
+
+            isEditable = girafPictogramItemViewAttributes.getBoolean(R.styleable.GirafPictogramItemView_editable, false);
+
+            girafPictogramItemViewAttributes.recycle();
+        }
+
+        editableIndicatorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        editableIndicatorPaint.setStrokeWidth(2);
+        editableIndicatorPaint.setColor(Color.LTGRAY);
+        editableIndicatorPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        editableIndicatorPaint.setAntiAlias(true);
     }
 
     /**
      * Reset the view (Checked state and imageModel image)
      */
     public synchronized void resetPictogramView() {
-        iconContainer.setImageBitmap(null);
+        iconImageView.setImageBitmap(null);
         setChecked(false);
     }
 
@@ -137,8 +171,6 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         if (imageModel == null) {
             return;
         }
-
-        this.imageModel = imageModel;
 
         // Cancel any currently loading imageModel tasks (This will ensure that we do not try and load two different pictograms)
         if (loadPictogramImage != null) {
@@ -172,7 +204,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
 
             @Override
             protected void onPostExecute(final Bitmap pictogramImage) {
-                iconContainer.setImageBitmap(pictogramImage);
+                iconImageView.setImageBitmap(pictogramImage);
             }
 
             // This method will be used to clone the the BasicImageModel to avoid memory leak. See doInBackground
@@ -217,10 +249,9 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
      * @param title the title to set
      */
     public synchronized void setTitle(final String title) {
-        if(title == null) {
+        if (title == null) {
             hideTitle();
-        }
-        else {
+        } else {
             showTitle();
         }
 
@@ -282,5 +313,77 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     @Override
     public void toggle() {
         setChecked(!checked);
+    }
+
+    /**
+     * Set if this GirafPictogramItemView should draw a small triangle to indicate that it is editable
+     *
+     * @param editable
+     */
+    public void setEditable(final boolean editable) {
+        this.isEditable = editable;
+
+        // Make the view redraw on the GUI thread
+        postInvalidate();
+    }
+
+    @Override
+    public void draw(final Canvas canvas) {
+        super.draw(canvas);
+
+        /*
+         * Only draw editable-triangle if the view is set to be editable in either xml
+         * using the attribute "editable" or using the method setEditable
+         */
+        if (isEditable) {
+
+            // Get the relative right and bottom coordinate of iconImageView from this GirafPictogramItemView
+            final int[] relativeRightAndBottom = getRelativeRightAndBottom(iconImageView);
+
+            // Use the relativeRightAndBottom as xEnd and yEnd
+            final int xEnd = relativeRightAndBottom[0];
+            final int yEnd = relativeRightAndBottom[1];
+
+            // Calculate xStart and yStart from end points minus 1/4 of the ImageView width and height
+            final int xStart = xEnd - (int) Math.ceil(iconImageView.getMeasuredWidth() / 4.0d);
+            final int yStart = yEnd - (int) Math.ceil(iconImageView.getMeasuredHeight() / 4.0d);
+
+            // Set 3 points in a triangle
+            point1_draw.set(xEnd, yEnd);
+            point2_draw.set(xEnd, yStart);
+            point3_draw.set(xStart, yEnd);
+
+            // Configure triangle path
+            path.reset();
+            path.setFillType(Path.FillType.EVEN_ODD);
+            path.moveTo(point1_draw.x, point1_draw.y);
+            path.lineTo(point2_draw.x, point2_draw.y);
+            path.lineTo(point3_draw.x, point3_draw.y);
+            path.lineTo(point1_draw.x, point1_draw.y);
+            path.close();
+
+            // Draw triangle
+            canvas.drawPath(path, editableIndicatorPaint);
+        }
+    }
+
+    /**
+     * Gets the relative bottom right position of @param view relative to this GirafPictogramItemView
+     *
+     * @param view
+     * @return the relative bottom right position of @param view
+     */
+    public int[] getRelativeRightAndBottom(final View view) {
+
+        // Get the global top left position of @param view
+        view.getLocationInWindow(viewLocation);
+
+        // Get the global top left position of this GirafPictogramItemView
+        this.getLocationInWindow(thisLocation);
+
+        // convert to relative bottom right position and return
+        bottomRightLocation[0] = viewLocation[0] - thisLocation[0] + view.getMeasuredWidth();
+        bottomRightLocation[1] = viewLocation[1] - thisLocation[1] + view.getMeasuredHeight();
+        return bottomRightLocation;
     }
 }
