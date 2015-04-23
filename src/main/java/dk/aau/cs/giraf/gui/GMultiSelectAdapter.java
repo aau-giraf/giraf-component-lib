@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-import dk.aau.cs.giraf.oasis.lib.controllers.ProfileController;
+import dk.aau.cs.giraf.dblib.controllers.ProfileController;
 
 /**
  * Created by AndersBender on 12-05-14.

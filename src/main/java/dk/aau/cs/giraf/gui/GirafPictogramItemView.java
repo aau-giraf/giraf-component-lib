@@ -21,9 +21,9 @@ import android.widget.TextView;
 
 import java.lang.reflect.Field;
 
-import dk.aau.cs.giraf.oasis.lib.Helper;
-import dk.aau.cs.giraf.oasis.lib.models.BasicImageModel;
-import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
+import dk.aau.cs.giraf.dblib.Helper;
+import dk.aau.cs.giraf.dblib.models.BasicImageModel;
+import dk.aau.cs.giraf.dblib.models.Pictogram;
 
 /**
  * Created on 14/04/2015.
