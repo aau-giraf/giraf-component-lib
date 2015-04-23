@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@color/giraf_background"
     android:gravity="center_horizontal"
-    android:background="@color/giraf_background">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_weight="0"
         android:background="@drawable/top_bar_background"
         android:gravity="center_horizontal"
         android:padding="@dimen/giraf_dialog_title_text_padding"
@@ -21,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
+        android:layout_weight="0"
         android:gravity="center_horizontal"
         android:padding="@dimen/giraf_dialog_description_text_padding"
         android:textSize="@dimen/giraf_dialog_description_text_size"
@@ -29,20 +32,23 @@
     <FrameLayout
         android:id="@+id/custom_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/button_container"
         android:layout_below="@+id/description"
         android:layout_marginBottom="@dimen/giraf_dialog_item_spacing"
         android:layout_marginTop="@dimen/giraf_dialog_item_spacing"
+        android:layout_weight="1"
         android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/button_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/giraf_dialog_button_container_height"
-        android:layout_below="@+id/custom_view"
-        android:layout_marginBottom="@dimen/giraf_dialog_item_spacing"
+        android:layout_alignParentBottom="true"
+        android:layout_weight="0"
         android:gravity="center"
         android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/giraf_dialog_item_spacing"
         android:visibility="gone" />
 
-</RelativeLayout>
+</LinearLayout>

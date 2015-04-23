@@ -17,7 +17,7 @@ import android.widget.TextView;
 public abstract class GirafDialog extends DialogFragment {
 
     // Members of the GirafDialog
-    private RelativeLayout dialogLayout; // The layout containing the dialog
+    private LinearLayout dialogLayout; // The layout containing the dialog
     private TextView titleTextView; // The textView of the title
     private TextView descriptionTextView; // The textView of the description
     private FrameLayout customView; // The container for some custom layout
@@ -73,7 +73,7 @@ public abstract class GirafDialog extends DialogFragment {
         final LayoutInflater inflater = getActivity().getLayoutInflater();
 
         // Create layout from xml
-        dialogLayout = (RelativeLayout) inflater.inflate(R.layout.giraf_dialog,null);
+        dialogLayout = (LinearLayout) inflater.inflate(R.layout.giraf_dialog,null);
 
         // Create layout from withing outer layout
         buttonContainer = (LinearLayout) dialogLayout.findViewById(R.id.button_container);
