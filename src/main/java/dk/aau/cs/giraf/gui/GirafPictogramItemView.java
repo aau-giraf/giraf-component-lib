@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -38,6 +37,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     private TextView titleContainer;
 
     private AsyncTask<Void, Void, Bitmap> loadPictogramImage;
+    private Runnable updateSizeAndSetVisible;
 
     /**
      * Used to implement edit triangle
@@ -103,29 +103,20 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         pictogramIconContainer = (LinearLayout) inflatedView.findViewById(R.id.pictogram_icon_container);
         iconImageView = (ImageView) pictogramIconContainer.findViewById(R.id.pictogram_icon);
 
-        // Set the imageModel (image) for the view (Will be done as an ASyncTask)
-        setImageModel(imageModel);
-
-        // Set the name of pictogram
-        titleContainer = (TextView) inflatedView.findViewById(R.id.pictogram_title);
-        setTitle(title);
-
-        // Hide the layout until it is loaded correctly (Have the correct height - see code below)
+        // Hide the layout until it is loaded correctly
         inflatedView.setVisibility(INVISIBLE);
 
         // Runnable that will be used to update the size of the box (width = height)
-        final Runnable updateSize = new Runnable() {
+        updateSizeAndSetVisible = new Runnable() {
             @Override
             public void run() {
-                // Find the view to update the size of
-                LinearLayout container = (LinearLayout) inflatedView.findViewById(R.id.pictogram_icon_container);
 
                 // Generate new layout params
-                LinearLayout.LayoutParams newParams = (LinearLayout.LayoutParams) container.getLayoutParams();
-                newParams.height = container.getMeasuredWidth();
+                LinearLayout.LayoutParams newParams = (LinearLayout.LayoutParams) pictogramIconContainer.getLayoutParams();
+                newParams.height = pictogramIconContainer.getMeasuredWidth();
 
                 // Update the container with new params
-                container.setLayoutParams(newParams);
+                pictogramIconContainer.setLayoutParams(newParams);
                 //container.postInvalidate();
 
                 // Now that the height is correct, update the visibility of the component
@@ -133,9 +124,12 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
             }
         };
 
-        // Register the runnable and invalidate (so that it will be updated)
-        inflatedView.post(updateSize);
-        //inflatedView.postInvalidate();
+        // Set the imageModel (image) for the view (Will be done as an ASyncTask)
+        setImageModel(imageModel);
+
+        // Set the name of pictogram
+        titleContainer = (TextView) inflatedView.findViewById(R.id.pictogram_title);
+        setTitle(title);
 
         if (attrs != null) {
             final TypedArray girafPictogramItemViewAttributes = getContext().obtainStyledAttributes(attrs, R.styleable.GirafPictogramItemView);
@@ -156,6 +150,10 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
      * Reset the view (Checked state and imageModel image)
      */
     public synchronized void resetPictogramView() {
+
+        // Hide the layout until it is loaded correctly
+        inflatedView.setVisibility(INVISIBLE);
+
         iconImageView.setImageBitmap(null);
         setChecked(false);
     }
@@ -175,7 +173,6 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         // Cancel any currently loading imageModel tasks (This will ensure that we do not try and load two different pictograms)
         if (loadPictogramImage != null) {
             loadPictogramImage.cancel(true);
-            loadPictogramImage = null;
         }
 
         // This class will be used to load the imageModel (image) from the database and "insert" it into the view
@@ -183,14 +180,12 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
 
             @Override
             protected Bitmap doInBackground(Void... params) {
-                final Helper helper = new Helper(getContext());
-
                 /**
                  * We create a temporary reference to a imageModel because the current model objects saves a permanent reference to
                  * their bitmaps once they are loaded once.
                  * This creates memory overflows because we keep a list of all imageModel objects in memory
                  */
-                BasicImageModel b = (BasicImageModel) clone(imageModel);
+                final BasicImageModel b = (BasicImageModel) clone(imageModel);
 
                 // Check if the temp could not be found (This means that no bitmap could be found)
                 if (b == null) {
@@ -205,6 +200,9 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
             @Override
             protected void onPostExecute(final Bitmap pictogramImage) {
                 iconImageView.setImageBitmap(pictogramImage);
+
+                // Register the runnable and invalidate (so that it will be updated)
+                inflatedView.post(updateSizeAndSetVisible);
             }
 
             // This method will be used to clone the the BasicImageModel to avoid memory leak. See doInBackground
