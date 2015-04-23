@@ -6,15 +6,21 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.zip.Inflater;
 
 import dk.aau.cs.giraf.dblib.controllers.ProfileController;
 import dk.aau.cs.giraf.dblib.models.Profile;
+import dk.aau.cs.giraf.dblib.lib.Helper;
 
 /**
  * Created on 26/03/15.
@@ -22,33 +28,81 @@ import dk.aau.cs.giraf.dblib.models.Profile;
  */
 public class GirafProfileSelectorDialog extends GirafDialog {
 
-    private static final String GUARDIAN_TAG = "GUARDIAN_TAG";
+    private static final String PROFILE_IDS_TAG = "PROFILE_IDS_TAG";
+    private static final String IS_MULTI_SELECT_TAG = "IS_MULTI_SELECT_TAG";
+    private static final String DIALOG_IDENTIFIER_TAG = "DIALOG_IDENTIFIER_TAG";
+    private static final String DESCRIPTION_TAG = "DESCRIPTION_TAG";
+
+    private Helper helper = new Helper(getActivity());
+
+    private List<Profile> selectedProfiles; // The selected profiles in the dialog
 
     /**
-     * An interface to perform the confirm action for a GirafNotifyDialog
+     * An interface to perform the confirm action for a GirafProfileSelectorDialog
      */
-    public interface Selection {
+    public interface OnReturnProfilesListener {
         /**
-         * Change the current user
-         * @param profileID the identifier of the user
+         * Gets the selected profiles
+         * @param dialogIdentifier the identifier of the dialog
          */
-        public void changeCurrentUser (int profileID);
+        public void onProfilesSelected(int dialogIdentifier, List<Profile> selectedProfiles);
     }
 
     // An instance of the confirmation interface user
-    Selection selection;
+    OnReturnProfilesListener profileListener;
 
-    public static GirafProfileSelectorDialog newInstance(int guardianID) {
+    /**
+     * Gets a new instance of the GirafProfileSelector
+     * @param context the context of where the dialog appears
+     * @param guardianID the identifier of the guardian of which citizens should be selectable
+     * @param includeGuardian should the guardian with the given identifier be included in the list of selectable profiles
+     * @param isMultiselect should it be possible to select multiple profiles
+     * @param description the description on the dialog
+     * @param dialogIdentifier a unique identifier of the dialog
+     * @return a GirafProfileSelector
+     */
+    public static GirafProfileSelectorDialog newInstance(Context context, int guardianID, boolean includeGuardian, boolean isMultiselect, String description, int dialogIdentifier) {
+        Helper helper = new Helper(context);
+        Profile guardian = helper.profilesHelper.getProfileById(guardianID);
+        List<Profile> profiles = helper.profilesHelper.getChildrenByGuardian(guardian);
+
+        if(includeGuardian) {
+            profiles.add(0, guardian);
+        }
+
+        return newInstance(profiles, isMultiselect, description, dialogIdentifier);
+    }
+
+    /**
+     * Gets a new instance of the GirafProfileSelector
+     * @param profiles a list of profiles to be selectable
+     * @param isMultiselect should it be possible to select multiple profiles
+     * @param description the description on the dialog
+     * @param dialogIdentifier a unique identifier of the dialog
+     * @return a GirafProfileSelector
+     */
+    private static GirafProfileSelectorDialog newInstance(List<Profile> profiles, boolean isMultiselect, String description, int dialogIdentifier) {
         GirafProfileSelectorDialog girafProfileSelectorDialog = new GirafProfileSelectorDialog();
+
+        // Store the identifier of the profiles to make it parcleable
+        ArrayList<Integer> profileIds = new ArrayList<Integer>();
+
+        for(Profile profile : profiles) {
+            profileIds.add(profile.getId());
+        }
 
         // Create the argument bundle
         Bundle args = new Bundle();
 
         // Store the arguments into the bundle
-        args.putInt(GUARDIAN_TAG, guardianID);
+        args.putIntegerArrayList(PROFILE_IDS_TAG,profileIds);
+        args.putBoolean(IS_MULTI_SELECT_TAG, isMultiselect);
+        args.putString(DESCRIPTION_TAG, description);
+        args.putInt(DIALOG_IDENTIFIER_TAG, dialogIdentifier);
 
         // Store the bundle
         girafProfileSelectorDialog.setArguments(args);
+
         return girafProfileSelectorDialog;
     }
 
@@ -58,10 +112,10 @@ public class GirafProfileSelectorDialog extends GirafDialog {
 
         // Check if the activity using the fragment implements the needed interface
         try {
-            selection = (Selection) activity;
+            profileListener = (OnReturnProfilesListener) activity;
         }
         catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement Selection interface");
+            throw new ClassCastException(activity.toString() + " must implement OnReturnProfilesListener interface");
         }
     }
 
@@ -70,41 +124,83 @@ public class GirafProfileSelectorDialog extends GirafDialog {
 
         Dialog dialog = super.onCreateDialog(savedInstanceState);
 
-        setTitle("GirafProfileSelectorDialog is not yet working!");
+        selectedProfiles = new ArrayList<Profile>();
 
-        /* TODO Undone work
-        // Sets the title of the dialog
-        setTitle(getActivity().getString(R.string.change_user_dialog_title));
+        Bundle args = savedInstanceState;
+        ArrayList<Integer> profileIds = args.getIntegerArrayList(PROFILE_IDS_TAG);
+        boolean isMultiselect = args.getBoolean(IS_MULTI_SELECT_TAG);
+        String description = args.getString(DESCRIPTION_TAG);
+        final int dialogIdentifier = args.getInt(DIALOG_IDENTIFIER_TAG);
 
-        final Bundle args = this.getArguments();
-        final int guardianID = args.getInt(GUARDIAN_TAG, -1);
+        // Write title according to if it is multiselect
+        if(isMultiselect) {
+            setTitle("Vælg profiler");
+        } else {
+            setTitle("Vælg profil");
+        }
 
-        // If the user was not found throw exception
-        if(guardianID == -1) {
-            throw new IllegalArgumentException("The user does not exist");
+        setDescription(description);
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final GridView profileGrid = (GridView) inflater.inflate(R.layout.giraf_profile_selector_dialog_gridview,null);
+        setCustomView(profileGrid);
+
+
+
+
+        // TODO Insert gridview with profiles
+        // TODO Return from the gridview the profile(s) selected using the "profileListener.onProfilesSelected()" method
+
+
+        if(isMultiselect) {
+
+            // Enable markin of profiles
+            profileGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Profile selectedProfile = (Profile) profileGrid.getAdapter().getItem(position);
+
+                    // If the pictogram is in the selected set remove it
+                    if (selectedProfiles.contains(selectedProfile)) {
+                        // Remove the pictogram to the selected pictogram(s)
+                        selectedProfiles.remove(selectedProfile);
+                    }
+                    // If the pictogram is not in the selected set add it
+                    else {
+                        // Add the pictogram to the selected pictogram(s)
+                        selectedProfiles.add(selectedProfile);
+                    }
+
+                    // Update the UI accordingly to above changes
+                    ((GirafPictogramItemView) view).toggle();
+                }
+            });
+
+            // Add a button that ends the selection
+            GirafButton selectButton = new GirafButton(getActivity(), getActivity().getResources().getDrawable(R.drawable.icon_accept), "Vælg");
+            selectButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    profileListener.onProfilesSelected(dialogIdentifier,selectedProfiles);
+                    dismiss();
+                }
+            });
+            addButton(selectButton);
+        } else {
+            // Return the first selected item
+            profileGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Profile selectedProfile = (Profile) profileGrid.getAdapter().getItem(position);
+
+                    selectedProfiles.add(selectedProfile);
+                    profileListener.onProfilesSelected(dialogIdentifier,selectedProfiles);
+                    dismiss();
+
+                }
+            });
         }
 
 
-
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.giraf_profile_selection_custom_view,null);
-
-        setCustomView(ll);
-
-        GirafSpinner spinner = (GirafSpinner) ll.findViewById(R.id.department_spinner);
-        ArrayList<String> strings = new ArrayList<String>();
-        strings.add("Rød");
-        strings.add("Grøn");
-        strings.add("Blå");
-        GirafSpinnerAdapter<String> adapter = new GirafSpinnerAdapter<String>(getActivity(),strings);
-        spinner.setAdapter(adapter);
-
-        ProfileController profileController = new ProfileController(GirafProfileSelectorDialog.this.getActivity());
-        Profile guardianProfile = profileController.getProfileById(guardianID);
-        List<Profile> childList = profileController.getChildrenByGuardian(guardianProfile);
-
-
-        */
         return dialog;
     }
 }
