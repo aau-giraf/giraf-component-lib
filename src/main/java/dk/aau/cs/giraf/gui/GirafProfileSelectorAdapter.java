@@ -9,8 +9,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
-import dk.aau.cs.giraf.oasis.lib.models.Profile;
+import dk.aau.cs.giraf.dblib.models.Pictogram;
+import dk.aau.cs.giraf.dblib.models.Profile;
 
 /**
  * Created by on 22/04/15.

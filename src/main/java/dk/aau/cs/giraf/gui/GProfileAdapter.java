@@ -13,7 +13,7 @@ import android.widget.ImageView;
 
 import java.util.List;
 
-import dk.aau.cs.giraf.oasis.lib.models.Profile;
+import dk.aau.cs.giraf.dblib.models.Profile;
 
 public class GProfileAdapter extends BaseAdapter {
 	

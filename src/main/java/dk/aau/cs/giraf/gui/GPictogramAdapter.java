@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.List;
 
-import dk.aau.cs.giraf.oasis.lib.models.Pictogram;
+import dk.aau.cs.giraf.dblib.models.Pictogram;
 
 /**
  * Created by AndersBender on 28-03-14.
