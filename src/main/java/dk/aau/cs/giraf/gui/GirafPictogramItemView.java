@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Checkable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.lang.reflect.Field;
@@ -33,7 +34,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     // The inflated view (See constructors)
     private View inflatedView;
 
-    private LinearLayout pictogramIconContainer;
+    private RelativeLayout pictogramIconContainer;
     private ImageView iconImageView;
     private TextView titleContainer;
 
@@ -108,7 +109,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflatedView = inflater.inflate(R.layout.giraf_pictogram, this);
 
-        pictogramIconContainer = (LinearLayout) inflatedView.findViewById(R.id.pictogram_icon_container);
+        pictogramIconContainer = (RelativeLayout) inflatedView.findViewById(R.id.pictogram_icon_container);
         iconImageView = (ImageView) pictogramIconContainer.findViewById(R.id.pictogram_icon);
 
         // Hide the layout until it is loaded correctly
@@ -260,6 +261,12 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
 
     // Will convert any drawable into a bitmap
     private Bitmap drawableToBitmap(Drawable drawable) {
+
+        if(drawable == null)
+        {
+            return null;
+        }
+
         if (drawable instanceof BitmapDrawable) {
             return ((BitmapDrawable)drawable).getBitmap();
         }
