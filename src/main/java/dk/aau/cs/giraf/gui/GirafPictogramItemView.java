@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import java.lang.reflect.Field;
 
-import dk.aau.cs.giraf.dblib.Helper;
 import dk.aau.cs.giraf.dblib.models.BasicImageModel;
 import dk.aau.cs.giraf.dblib.models.Pictogram;
 
@@ -117,7 +116,6 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
 
                 // Update the container with new params
                 pictogramIconContainer.setLayoutParams(newParams);
-                //container.postInvalidate();
 
                 // Now that the height is correct, update the visibility of the component
                 inflatedView.setVisibility(VISIBLE);
