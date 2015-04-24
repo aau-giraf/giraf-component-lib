@@ -16,8 +16,8 @@ public class GirafWaitingDialog extends GirafDialog {
     private static final String DESCRIPTION_TAG = "DESCRIPTION_TAG";
     private static final String METHOD_ID_TAG = "METHOD_ID_TAG";
 
-    public static GirafNotifyDialog newInstance(String title, String description) {
-        GirafNotifyDialog girafNotifyDialog = new GirafNotifyDialog();
+    public static GirafWaitingDialog newInstance(String title, String description) {
+        GirafWaitingDialog girafWaitingDialog = new GirafWaitingDialog();
 
         // Create the argument bundle
         Bundle args = new Bundle();
@@ -27,8 +27,8 @@ public class GirafWaitingDialog extends GirafDialog {
         args.putString(DESCRIPTION_TAG, description);
 
         // Store the bundle
-        girafNotifyDialog.setArguments(args);
-        return girafNotifyDialog;
+        girafWaitingDialog.setArguments(args);
+        return girafWaitingDialog;
     }
 
     @Override
