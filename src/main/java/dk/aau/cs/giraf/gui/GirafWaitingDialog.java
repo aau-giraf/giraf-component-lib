@@ -2,10 +2,13 @@ package dk.aau.cs.giraf.gui;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 /**
  * Created by rasmusholmjensen on 24/04/15.
@@ -33,21 +36,27 @@ public class GirafWaitingDialog extends GirafDialog {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
         Dialog dialog = super.onCreateDialog(savedInstanceState);
-
 
         final Bundle args = this.getArguments();
         setTitle(args.getString(TITLE_TAG, ""));
         setDescription(args.getString(DESCRIPTION_TAG, ""));
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        LinearLayout progressBar = (LinearLayout) inflater.inflate(R.layout.giraf_waiting_dialog_custom_view, null);
+        RelativeLayout progressBar = (RelativeLayout) inflater.inflate(R.layout.giraf_waiting_dialog_custom_view, null);
         setCustomView(progressBar);
 
         // Make the dialog unable to be cancelled
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
+        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+
+                // Prevent dialog close on back press button
+                return keyCode == KeyEvent.KEYCODE_BACK;
+            }
+        });
 
         return dialog;
     }
