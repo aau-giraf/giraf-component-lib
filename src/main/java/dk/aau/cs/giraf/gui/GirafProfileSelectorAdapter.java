@@ -2,11 +2,13 @@ package dk.aau.cs.giraf.gui;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dk.aau.cs.giraf.dblib.models.Pictogram;
@@ -18,33 +20,41 @@ import dk.aau.cs.giraf.dblib.models.Profile;
 public class GirafProfileSelectorAdapter extends BaseAdapter {
 
     private final Context context;
-    private List<Profile> profileList;
+    private List<Pair<Profile,Boolean>> checkedProfileList;
+
     // private final LayoutInflater inflater;
 
     public GirafProfileSelectorAdapter(Context context, List<Profile> profileList) {
-        this.profileList = profileList;
+
+        this.checkedProfileList = new ArrayList<Pair<Profile, Boolean>>();
+
+        for(Profile profile : profileList) {
+            this.checkedProfileList.add(new Pair<Profile, Boolean>(profile, false));
+        }
+
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        return profileList.size();
+        return checkedProfileList.size();
     }
 
     @Override
-    public Object getItem(int position) {
-        return profileList.get(position);
+    public Profile getItem(int position) {
+        return checkedProfileList.get(position).first;
     }
 
     @Override
     public long getItemId(int position) {
-        return profileList.get(position).getId();
+        return checkedProfileList.get(position).first.getId();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Profile profile = profileList.get(position);
+        Pair<Profile,Boolean> profilePair = checkedProfileList.get(position);
+        Profile profile = profilePair.first;
         GirafPictogramItemView itemView;
 
         if(convertView == null) {
@@ -72,7 +82,29 @@ public class GirafProfileSelectorAdapter extends BaseAdapter {
             }
             itemView.setTitle(profile.getName());
         }
+
+        itemView.setChecked(profilePair.second);
+
         return itemView;
     }
+
+    public void setItemChecked(int position, boolean checked) {
+        Pair<Profile,Boolean> oldProfilePair = checkedProfileList.get(position);
+        Pair<Profile,Boolean> newProfilePair = new Pair<Profile,Boolean>(oldProfilePair.first,checked);
+        checkedProfileList.set(position, newProfilePair);
+    }
+
+    public void toggleItemChecked(int position) {
+        Pair<Profile,Boolean> oldProfilePair = checkedProfileList.get(position);
+        Pair<Profile,Boolean> newProfilePair = new Pair<Profile,Boolean>(oldProfilePair.first,!oldProfilePair.second);
+
+        checkedProfileList.remove(position);
+        checkedProfileList.add(position,newProfilePair);
+    }
+
+    public List<Pair<Profile,Boolean>> getCheckedProfileList() {
+        return checkedProfileList;
+    }
+
 }
 
