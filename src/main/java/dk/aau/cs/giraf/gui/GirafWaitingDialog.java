@@ -45,7 +45,9 @@ public class GirafWaitingDialog extends GirafDialog {
         LinearLayout progressBar = (LinearLayout) inflater.inflate(R.layout.giraf_waiting_dialog_custom_view, null);
         setCustomView(progressBar);
 
+        // Make the dialog unable to be cancelled
         dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
 
         return dialog;
     }
