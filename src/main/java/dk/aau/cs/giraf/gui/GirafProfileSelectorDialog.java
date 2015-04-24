@@ -9,21 +9,14 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import dk.aau.cs.giraf.dblib.models.Category;
-import dk.aau.cs.giraf.gui.GirafButton;
-import dk.aau.cs.giraf.gui.GirafDialog;
-import dk.aau.cs.giraf.gui.GirafPictogramItemView;
-import dk.aau.cs.giraf.gui.GirafProfileSelectorAdapter;
 import dk.aau.cs.giraf.dblib.Helper;
 import dk.aau.cs.giraf.dblib.models.Profile;
-import dk.aau.cs.giraf.gui.R;
 
 /**
  * Created on 26/03/15.
@@ -37,14 +30,30 @@ public class GirafProfileSelectorDialog extends GirafDialog {
     private static final String DESCRIPTION_TAG = "DESCRIPTION_TAG";
     private static final String PROFILE_CHECK_STATUS_TAG = "PROFILE_CHECK_STATUS_TAG";
 
-    private Helper helper;
-
-    RelativeLayout gridContainer;
+    private Helper helper; // A helper to access the database
+    private RelativeLayout gridContainer; // The customView of the dialog
+    private Activity callBack;
 
     /**
-     * An interface to perform the confirm action for a GirafProfileSelectorDialog
+     * When multiselect is disabled this method will be called
      */
-    public interface OnReturnProfilesListener {
+    public interface OnSingleProfileSelectedListener {
+        /**
+         * Gets the selected profiles
+         *
+         * @param dialogIdentifier the identifier of the dialog
+         */
+        public void onProfileSelected(int dialogIdentifier, Profile profile);
+
+    }
+
+    // An instance of the confirmation interface user
+    OnSingleProfileSelectedListener profileListener;
+
+    /**
+     * When multiselect is enabled this method will be called
+     */
+    public interface OnMultipleProfilesSelectedListener {
         /**
          * Gets the selected profiles
          *
@@ -55,24 +64,39 @@ public class GirafProfileSelectorDialog extends GirafDialog {
     }
 
     // An instance of the confirmation interface user
-    OnReturnProfilesListener profileListener;
+    OnMultipleProfilesSelectedListener profilesListener;
 
+    /**
+     * An async task that fetches profiles from the database given ids,
+     * it also sets the adapter and builds listeners on the profile grid
+     */
     private class LoadUsers extends AsyncTask<Void, Void, List<Profile>> {
         private int[] profileIds;
         private boolean[] profilesCheckedStatus;
-        private boolean isMultiselect;
+        private boolean selectMultipleProfiles;
         private int dialogIdentifier;
 
-        public LoadUsers(int[] profileIds, boolean[] profilesCheckedStatus, boolean isMultiselect, int dialogIdentifier) {
+        /**
+         * Creates an async task to load users from the
+         *
+         * @param profileIds            an array of profile identifier
+         * @param profilesCheckedStatus an array of profile statuses
+         * @param selectMultipleProfiles         indicates if the dialog should select multiple profiles
+         * @param dialogIdentifier      the identifier of the dialog
+         */
+        public LoadUsers(int[] profileIds, boolean[] profilesCheckedStatus, boolean selectMultipleProfiles, int dialogIdentifier) {
             this.profileIds = profileIds;
             this.profilesCheckedStatus = profilesCheckedStatus;
-            this.isMultiselect = isMultiselect;
+            this.selectMultipleProfiles = selectMultipleProfiles;
             this.dialogIdentifier = dialogIdentifier;
         }
 
         @Override
         protected List<Profile> doInBackground(Void... params) {
+            // A list of profiles
             ArrayList<Profile> profiles = new ArrayList<Profile>();
+
+            // Fill the list of profiles using the helper and the ids
             for (int profileId : profileIds) {
                 profiles.add(helper.profilesHelper.getById(profileId));
             }
@@ -83,43 +107,60 @@ public class GirafProfileSelectorDialog extends GirafDialog {
         protected void onPostExecute(List<Profile> profiles) {
             super.onPostExecute(profiles);
 
+            // Create the adapter using the profiles found in doInBackground
             final GirafProfileSelectorAdapter profileAdapter = new GirafProfileSelectorAdapter(getActivity(), profiles);
+
+            // Find the profile grind in the custom view
             final GridView profileGrid = (GridView) gridContainer.findViewById(R.id.profile_grid);
 
+            // Set the adapter of the profile grid
             profileGrid.setAdapter(profileAdapter);
 
+            // Run throug all items in adapter
             for (int i = 0; i < profileAdapter.getCount(); i++) {
 
-                if (profilesCheckedStatus[i] && isMultiselect) {
+                // If the profile was checked and multiselect is enabled set the item to be checked
+                if (profilesCheckedStatus[i] && selectMultipleProfiles) {
                     profileAdapter.setItemChecked(i, true);
                 }
             }
 
-            if (isMultiselect) {
+            // Check if multiselect is enabled
+            if (selectMultipleProfiles) {
 
                 // Enable selection of profiles
                 profileGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        profileAdapter.toggleItemChecked(position);
-                        ((GirafPictogramItemView) view).toggle();
+                        profileAdapter.toggleItemChecked(position); // Toggle the item checked on the adapter
+                        ((GirafPictogramItemView) view).toggle(); // Enforce an visual update on the profile grid (mark them)
                     }
                 });
 
                 // Add a button that ends the selection
                 GirafButton selectButton = new GirafButton(getActivity(), getActivity().getResources().getDrawable(R.drawable.icon_accept), "Vælg");
+
+                // When the button is clicked called the interfac method to return checked profiles
                 selectButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        if (profileAdapter != null) {
-                            profileListener.onProfilesSelected(dialogIdentifier, profileAdapter.getCheckedProfileList());
-                        } else {
-                            Toast.makeText(getActivity(), "Profilerne blev ikke hentet inden du trykkede vælg", Toast.LENGTH_SHORT).show();
+                        // Check if the activity using the fragment implements the needed interface
+                        try {
+                            profilesListener = (OnMultipleProfilesSelectedListener) callBack;
+                        } catch (ClassCastException e) {
+                            throw new ClassCastException(callBack.toString() + " must implement OnMultipleProfilesSelectedListener interface");
                         }
+
+                        // Call the method in the activity that returns the selected profiles
+                        profilesListener.onProfilesSelected(dialogIdentifier, profileAdapter.getCheckedProfileList());
+
+                        // Dismiss the dialog
                         dismiss();
                     }
                 });
+
+                // Add the button to the dialog
                 addButton(selectButton);
 
             } else {
@@ -127,11 +168,19 @@ public class GirafProfileSelectorDialog extends GirafDialog {
                 profileGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        // Check if the activity using the fragment implements the needed interface
+                        try {
+                            profileListener = (OnSingleProfileSelectedListener) callBack;
+                        } catch (ClassCastException e) {
+                            throw new ClassCastException(callBack.toString() + " must implement OnSingleProfileSelectedListener interface");
+                        }
+
+                        // Find the selectedProfile
                         Profile selectedProfile = (Profile) profileGrid.getAdapter().getItem(position);
 
-                        List<Pair<Profile, Boolean>> singleUserList = new ArrayList<Pair<Profile, Boolean>>();
-                        singleUserList.add(new Pair<Profile, Boolean>(selectedProfile, true));
-                        profileListener.onProfilesSelected(dialogIdentifier, singleUserList);
+                        // Call the method in the activity that returns the selected profile
+                        profileListener.onProfileSelected(dialogIdentifier, selectedProfile);
                         dismiss();
 
                     }
@@ -147,12 +196,12 @@ public class GirafProfileSelectorDialog extends GirafDialog {
      * @param context          the context of where the dialog appears
      * @param guardianID       the identifier of the guardian of which citizens should be selectable
      * @param includeGuardian  should the guardian with the given identifier be included in the list of selectable profiles
-     * @param isMultiselect    should it be possible to select multiple profiles
+     * @param selectMultipleProfiles    should it be possible to select multiple profiles
      * @param description      the description on the dialog
      * @param dialogIdentifier a unique identifier of the dialog
      * @return a GirafProfileSelector
      */
-    public static GirafProfileSelectorDialog newInstance(Context context, int guardianID, boolean includeGuardian, boolean isMultiselect, String description, int dialogIdentifier) {
+    public static GirafProfileSelectorDialog newInstance(Context context, int guardianID, boolean includeGuardian, boolean selectMultipleProfiles, String description, int dialogIdentifier) {
         Helper helper = new Helper(context);
         Profile guardian = helper.profilesHelper.getById(guardianID);
         List<Profile> profiles = helper.profilesHelper.getChildrenByGuardian(guardian);
@@ -166,19 +215,19 @@ public class GirafProfileSelectorDialog extends GirafDialog {
             profileCheckList.add(new Pair<Profile, Boolean>(profile, false));
         }
 
-        return newInstance(profileCheckList, isMultiselect, description, dialogIdentifier);
+        return newInstance(profileCheckList, selectMultipleProfiles, description, dialogIdentifier);
     }
 
     /**
      * Gets a new instance of the GirafProfileSelector
      *
      * @param profileCheckList a list of pairs of profiles and a status indicating if they should be selected
-     * @param isMultiselect    should it be possible to select multiple profiles
+     * @param selectMultipleProfiles    should it be possible to select multiple profiles
      * @param description      the description on the dialog
      * @param dialogIdentifier a unique identifier of the dialog
      * @return a GirafProfileSelector
      */
-    private static GirafProfileSelectorDialog newInstance(List<Pair<Profile, Boolean>> profileCheckList, boolean isMultiselect, String description, int dialogIdentifier) {
+    public static GirafProfileSelectorDialog newInstance(List<Pair<Profile, Boolean>> profileCheckList, boolean selectMultipleProfiles, String description, int dialogIdentifier) {
         GirafProfileSelectorDialog girafProfileSelectorDialog = new GirafProfileSelectorDialog();
 
         // Store the identifier of the profiles to make it parcelable
@@ -197,7 +246,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
         // Store the arguments into the bundle
         args.putIntArray(PROFILE_IDS_TAG, profileIds);
         args.putBooleanArray(PROFILE_CHECK_STATUS_TAG, profilesCheckedStatus);
-        args.putBoolean(IS_MULTI_SELECT_TAG, isMultiselect);
+        args.putBoolean(IS_MULTI_SELECT_TAG, selectMultipleProfiles);
         args.putString(DESCRIPTION_TAG, description);
         args.putInt(DIALOG_IDENTIFIER_TAG, dialogIdentifier);
 
@@ -211,15 +260,11 @@ public class GirafProfileSelectorDialog extends GirafDialog {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        // Check if the activity using the fragment implements the needed interface
-        try {
-            profileListener = (OnReturnProfilesListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement OnReturnProfilesListener interface");
-        }
+        callBack = activity;
 
         // Sets the helper of the activity
-        helper = new Helper(activity);
+        helper = new Helper(callBack);
+
     }
 
     @Override
@@ -229,7 +274,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
 
         // Fetch the arguments
         final Bundle args = this.getArguments();
-        boolean isMultiselect = args.getBoolean(IS_MULTI_SELECT_TAG);
+        boolean selectMultipleProfiles = args.getBoolean(IS_MULTI_SELECT_TAG);
         String description = args.getString(DESCRIPTION_TAG);
         final int dialogIdentifier = args.getInt(DIALOG_IDENTIFIER_TAG);
         int[] profileIds = args.getIntArray(PROFILE_IDS_TAG);
@@ -241,7 +286,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
         final GridView profileGrid = (GridView) gridContainer.findViewById(R.id.profile_grid);
 
         // Write title according to if it is multiselect
-        if (isMultiselect) {
+        if (selectMultipleProfiles) {
             setTitle("Vælg profiler");
         } else {
             setTitle("Vælg profil");
@@ -252,7 +297,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
 
         profileGrid.setEmptyView(gridContainer.findViewById(R.id.loading_profiles_indicator));
 
-        new LoadUsers(profileIds, profilesCheckedStatus, isMultiselect, dialogIdentifier).execute();
+        new LoadUsers(profileIds, profilesCheckedStatus, selectMultipleProfiles, dialogIdentifier).execute();
 
         return dialog;
     }
