@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -16,11 +18,11 @@ import android.view.View;
 import android.widget.Checkable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.lang.reflect.Field;
 
-import dk.aau.cs.giraf.dblib.Helper;
 import dk.aau.cs.giraf.dblib.models.BasicImageModel;
 import dk.aau.cs.giraf.dblib.models.Pictogram;
 
@@ -32,7 +34,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     // The inflated view (See constructors)
     private View inflatedView;
 
-    private LinearLayout pictogramIconContainer;
+    private RelativeLayout pictogramIconContainer;
     private ImageView iconImageView;
     private TextView titleContainer;
 
@@ -65,32 +67,39 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         super(context, attrs);
 
         if (!isInEditMode()) {
-            initialize(null, null, attrs);
+            initialize(null, null, null, attrs);
             return;
         }
 
         Pictogram sample = new Pictogram();
         sample.setName("Sample imageModel");
         sample.setImage(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_copy));
-        initialize(sample, sample.getName(), attrs);
+        initialize(sample, null, sample.getName(), attrs);
     }
 
     //<editor-fold desc="constructors">
     public GirafPictogramItemView(final Context context, final BasicImageModel imageModel) {
-        super(context);
-        initialize(imageModel, null, null);
+        this(context, imageModel, null, null);
     }
 
     public GirafPictogramItemView(final Context context, final BasicImageModel imageModel, final String title) {
+        this(context, imageModel, null, title);
+    }
+
+    public GirafPictogramItemView(final Context context, final BasicImageModel imageModel, final Drawable fallback) {
+        this(context, imageModel, fallback, null);
+    }
+
+    public GirafPictogramItemView(final Context context, final BasicImageModel imageModel, final Drawable fallback, final String title) {
         super(context);
-        initialize(imageModel, title, null);
+        initialize(imageModel, fallback, title, null);
     }
     //</editor-fold>
 
     /**
      * Initialized the different components
      */
-    private void initialize(final BasicImageModel imageModel, final String title, final AttributeSet attrs) {
+    private void initialize(final BasicImageModel imageModel, final Drawable fallback, final String title, final AttributeSet attrs) {
 
         // Disable layout optimization in order to enable this views onDraw method to be called by its parent
         // NOTICE: This is require to draw the edit-triangle
@@ -100,7 +109,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflatedView = inflater.inflate(R.layout.giraf_pictogram, this);
 
-        pictogramIconContainer = (LinearLayout) inflatedView.findViewById(R.id.pictogram_icon_container);
+        pictogramIconContainer = (RelativeLayout) inflatedView.findViewById(R.id.pictogram_icon_container);
         iconImageView = (ImageView) pictogramIconContainer.findViewById(R.id.pictogram_icon);
 
         // Hide the layout until it is loaded correctly
@@ -117,7 +126,6 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
 
                 // Update the container with new params
                 pictogramIconContainer.setLayoutParams(newParams);
-                //container.postInvalidate();
 
                 // Now that the height is correct, update the visibility of the component
                 inflatedView.setVisibility(VISIBLE);
@@ -125,7 +133,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         };
 
         // Set the imageModel (image) for the view (Will be done as an ASyncTask)
-        setImageModel(imageModel);
+        setImageModel(imageModel, fallback);
 
         // Set the name of pictogram
         titleContainer = (TextView) inflatedView.findViewById(R.id.pictogram_title);
@@ -164,6 +172,16 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
      * @param imageModel the imageModel to update based upon
      */
     public synchronized void setImageModel(final BasicImageModel imageModel) {
+        setImageModel(imageModel, null);
+    }
+
+    /**
+     * Will update the view with the provided imageModel. Uses the provided fallback if no image could be loaded
+     *
+     * @param imageModel the imageModel to update based upon
+     * @param fallback fallback drawable to use if no image could be loaded
+     */
+    public synchronized void setImageModel(final BasicImageModel imageModel, final Drawable fallback) {
 
         // If provided with null, do not update!
         if (imageModel == null) {
@@ -194,7 +212,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
 
                 // Find the imageModel to show
                 // Notice that we create a copy to avoid memory leak (See implementation of getImage on imageModel)
-                return b.getImage();
+                return b.getImage() != null ? b.getImage() : drawableToBitmap(fallback);
             }
 
             @Override
@@ -239,6 +257,26 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
 
         // Start loading the image of the imageModel
         loadPictogramImage.execute();
+    }
+
+    // Will convert any drawable into a bitmap
+    private Bitmap drawableToBitmap(Drawable drawable) {
+
+        if(drawable == null)
+        {
+            return null;
+        }
+
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable)drawable).getBitmap();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
     }
 
     /**
