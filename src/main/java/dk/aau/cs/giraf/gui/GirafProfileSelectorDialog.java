@@ -140,7 +140,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
                 // Add a button that ends the selection
                 GirafButton selectButton = new GirafButton(getActivity(), getActivity().getResources().getDrawable(R.drawable.icon_accept), "Vælg");
 
-                // When the button is clicked called the interfac method to return checked profiles
+                // When the button is clicked called the interface method to return checked profiles
                 selectButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
