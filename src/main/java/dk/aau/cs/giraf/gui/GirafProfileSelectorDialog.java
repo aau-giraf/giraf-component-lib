@@ -297,6 +297,19 @@ public class GirafProfileSelectorDialog extends GirafDialog {
 
         profileGrid.setEmptyView(gridContainer.findViewById(R.id.loading_profiles_indicator));
 
+        // Create the cancel button
+        GirafButton cancelButton = new GirafButton(getActivity(),getActivity().getResources().getDrawable(R.drawable.icon_cancel),"Luk");
+
+        // Make the dialog dissmiss when clicking on the cancel button
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
+        addButton(cancelButton);
+
         new LoadUsers(profileIds, profilesCheckedStatus, selectMultipleProfiles, dialogIdentifier).execute();
 
         return dialog;
