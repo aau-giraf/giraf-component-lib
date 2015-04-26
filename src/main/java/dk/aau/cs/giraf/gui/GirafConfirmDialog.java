@@ -124,7 +124,7 @@ public class GirafConfirmDialog extends GirafDialog {
 
         // Create the noButton
         String denyText = args.getString(DENY_TEXT, null);
-        if(acceptText == null) {
+        if(denyText == null) {
             denyText = this.getActivity().getResources().getString(R.string.giraf_confirm_dialog_no_button_text);
         }
 
