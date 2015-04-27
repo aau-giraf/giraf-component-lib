@@ -1,7 +1,7 @@
 package dk.aau.cs.giraf.utilities;
 
 /**
- * This class contains keys and values for inserting and retrieving data in intents.
+ * This class contains keys and values for inserting and retrieving data in intents. 
  */
 
 public final class IntentConstants {
