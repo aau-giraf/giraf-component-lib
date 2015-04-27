@@ -28,8 +28,8 @@ public class GMultiProfileSelector extends GDialog{
     protected GList theList;
     private GVerifyButton verifyButton;
     private GCancelButton cancelButton;
-    List<Integer> allProfileindexes = new ArrayList<Integer>();
-    List<Integer> selectedProfileindexes = new ArrayList<Integer>();
+    List<Long> allProfileindexes = new ArrayList<Long>();
+    List<Long> selectedProfileindexes = new ArrayList<Long>();
     ProfileController profileController;
     private onCloseListener myOnCloseListener;
 

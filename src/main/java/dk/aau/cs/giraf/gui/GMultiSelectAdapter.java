@@ -2,18 +2,12 @@ package dk.aau.cs.giraf.gui;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ToggleButton;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 
 import dk.aau.cs.giraf.dblib.controllers.ProfileController;
@@ -25,38 +19,35 @@ public class GMultiSelectAdapter extends BaseAdapter {
 
     //Fields
     private Activity activity;
-    private static LayoutInflater inflater=null;
+    private static LayoutInflater inflater = null;
     private ProfileController profileController;
 
     public List<MultiSelectDataWrapper> data = new ArrayList<MultiSelectDataWrapper>();
 
     //Constructor
-    public GMultiSelectAdapter(Activity a, List<Integer> indexes, List<Integer> toggledIndexes) {
+    public GMultiSelectAdapter(Activity a, List<Long> indexes, List<Long> toggledIndexes) {
         //Store the activity and Create the controller handling of database
         activity = a;
         profileController = new ProfileController(a.getApplicationContext());
 
         //Fetch the id's from the indexes List and transform them to MultiSelectDataWrapper
         //(containing index number in list, id for a profile and toggle status)
-        for(int i = 0; i < indexes.size(); i++)
-        {
+        for (int i = 0; i < indexes.size(); i++) {
             data.add(new MultiSelectDataWrapper(i, indexes.get(i)));
             //If there is some ids in the toggledIndexes find which corrospond to the one's in the data list and toggle.
-            if(toggledIndexes != null)
-            {
-                for(int x = 0; x < toggledIndexes.size(); x++)
-                {
+            if (toggledIndexes != null) {
+                for (int x = 0; x < toggledIndexes.size(); x++) {
 
-                    if(toggledIndexes.get(x).intValue() == indexes.get(i).intValue())
-                    {
+                    if (toggledIndexes.get(x).longValue() == indexes.get(i).longValue()) {
                         data.get(i).setToggled(true);
                     }
                 }
             }
         }
 
-        inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
     public int getCount() {
         return data.size();
     }
@@ -72,24 +63,20 @@ public class GMultiSelectAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi = convertView;
         //Inflate our view (gshowrow) if it's null
-        if(convertView==null)
-        {
+        if (convertView == null) {
             //if the view is null instantiate a GToggleButton and attach a listener
             vi = new GToggleButton(activity.getApplicationContext());
             ((GToggleButton) vi).setToggled(true);
-             vi.setOnClickListener(new View.OnClickListener() {
+            vi.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(((GToggleButton) v).isToggled())
-                    {
+                    if (((GToggleButton) v).isToggled()) {
                         //Get position of the toggled toggleButton and store in data
-                        int i = ((GList)v.getParent()).getPositionForView(v);
-                       data.get(i).setToggled(true);
-                    }
-                    else
-                    {
+                        int i = ((GList) v.getParent()).getPositionForView(v);
+                        data.get(i).setToggled(true);
+                    } else {
                         //Get position of the detoggled toggleButton and store in data
-                        int i = ((GList)v.getParent()).getPositionForView(v);
+                        int i = ((GList) v.getParent()).getPositionForView(v);
                         data.get(i).setToggled(false);
                     }
                 }
@@ -99,50 +86,41 @@ public class GMultiSelectAdapter extends BaseAdapter {
         //Set the Text of the ToggleButtons to the Profiles name
         ((GToggleButton) vi).setText(profileController.getProfileById(data.get(position).getId()).getName());
         //Toggle the ToggleButton if the data says is should be toggled.
-        if(data.get(position).getToggled())
-        {
-            ((GToggleButton)vi).setToggled(true);
-        }
-        else
-        {
-            ((GToggleButton)vi).setToggled(false);
+        if (data.get(position).getToggled()) {
+            ((GToggleButton) vi).setToggled(true);
+        } else {
+            ((GToggleButton) vi).setToggled(false);
         }
 
 
         return vi;
     }
 
-//Wrapper class for the data
-    public class MultiSelectDataWrapper
-    {
+    //Wrapper class for the data
+    public class MultiSelectDataWrapper {
         //Contains a index in the list, id of the profile, and if the given is toggled.
         int index;
-        int id;
+        long id;
         boolean toggled = false;
 
-        public MultiSelectDataWrapper(int index, int id)
-        {
+        public MultiSelectDataWrapper(int index, long id) {
             this.index = index;
-            this.id =  id;
+            this.id = id;
         }
 
-        public int getIndex()
-        {
+        public int getIndex() {
             return index;
         }
 
-        public int getId()
-        {
+        public long getId() {
             return id;
         }
 
-        public boolean getToggled()
-        {
+        public boolean getToggled() {
             return toggled;
         }
 
-        public void setToggled(boolean setState)
-        {
+        public void setToggled(boolean setState) {
             toggled = setState;
         }
     }
