@@ -208,11 +208,13 @@ public class GirafButton extends LinearLayout {
             iconView.setAlpha(0x59);
         }
 
+        // Add the icon of the button
+        this.addView(iconView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
         // Add the textView to the GirafButton
         this.addView(textView, textViewParams);
 
-        // Add the icon of the button
-        this.addView(iconView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
     }
     public void setIcon(final Drawable icon){
         iconView.setImageDrawable(icon);
