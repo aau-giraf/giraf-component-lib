@@ -71,7 +71,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
      * it also sets the adapter and builds listeners on the profile grid
      */
     private class LoadUsers extends AsyncTask<Void, Void, List<Profile>> {
-        private int[] profileIds;
+        private long[] profileIds;
         private boolean[] profilesCheckedStatus;
         private boolean selectMultipleProfiles;
         private int dialogIdentifier;
@@ -84,7 +84,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
          * @param selectMultipleProfiles         indicates if the dialog should select multiple profiles
          * @param dialogIdentifier      the identifier of the dialog
          */
-        public LoadUsers(int[] profileIds, boolean[] profilesCheckedStatus, boolean selectMultipleProfiles, int dialogIdentifier) {
+        public LoadUsers(long[] profileIds, boolean[] profilesCheckedStatus, boolean selectMultipleProfiles, int dialogIdentifier) {
             this.profileIds = profileIds;
             this.profilesCheckedStatus = profilesCheckedStatus;
             this.selectMultipleProfiles = selectMultipleProfiles;
@@ -97,7 +97,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
             ArrayList<Profile> profiles = new ArrayList<Profile>();
 
             // Fill the list of profiles using the helper and the ids
-            for (int profileId : profileIds) {
+            for (long profileId : profileIds) {
                 profiles.add(helper.profilesHelper.getById(profileId));
             }
             return profiles;
@@ -231,7 +231,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
         GirafProfileSelectorDialog girafProfileSelectorDialog = new GirafProfileSelectorDialog();
 
         // Store the identifier of the profiles to make it parcelable
-        int[] profileIds = new int[profileCheckList.size()];
+        long[] profileIds = new long[profileCheckList.size()];
         boolean[] profilesCheckedStatus = new boolean[profileCheckList.size()];
 
 
@@ -244,7 +244,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
         Bundle args = new Bundle();
 
         // Store the arguments into the bundle
-        args.putIntArray(PROFILE_IDS_TAG, profileIds);
+        args.putLongArray(PROFILE_IDS_TAG, profileIds);
         args.putBooleanArray(PROFILE_CHECK_STATUS_TAG, profilesCheckedStatus);
         args.putBoolean(IS_MULTI_SELECT_TAG, selectMultipleProfiles);
         args.putString(DESCRIPTION_TAG, description);
@@ -277,7 +277,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
         boolean selectMultipleProfiles = args.getBoolean(IS_MULTI_SELECT_TAG);
         String description = args.getString(DESCRIPTION_TAG);
         final int dialogIdentifier = args.getInt(DIALOG_IDENTIFIER_TAG);
-        int[] profileIds = args.getIntArray(PROFILE_IDS_TAG);
+        long[] profileIds = args.getLongArray(PROFILE_IDS_TAG);
         boolean[] profilesCheckedStatus = args.getBooleanArray(PROFILE_CHECK_STATUS_TAG);
 
 
