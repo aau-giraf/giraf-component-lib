@@ -201,7 +201,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
      * @param dialogIdentifier a unique identifier of the dialog
      * @return a GirafProfileSelector
      */
-    public static GirafProfileSelectorDialog newInstance(Context context, int guardianID, boolean includeGuardian, boolean selectMultipleProfiles, String description, int dialogIdentifier) {
+    public static GirafProfileSelectorDialog newInstance(Context context, long guardianID, boolean includeGuardian, boolean selectMultipleProfiles, String description, int dialogIdentifier) {
         Helper helper = new Helper(context);
         Profile guardian = helper.profilesHelper.getById(guardianID);
         List<Profile> profiles = helper.profilesHelper.getChildrenByGuardian(guardian);
