@@ -9,7 +9,9 @@
     <string name="app_activity_name">appActivityName</string>
     <string name="app_color">appBackgroundColor</string>
     <string name="download_showanimation">downloadShowAnimiation</string>
-
+    
+    <integer name="no_child_selected_id">-1</integer>
+    
     <!-- Keys for pictosearch -->
     <string name="purpose">purpose</string>
     <string name="cat">CAT</string>
