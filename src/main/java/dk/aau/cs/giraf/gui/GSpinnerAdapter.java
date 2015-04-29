@@ -7,7 +7,8 @@ import java.lang.reflect.GenericArrayType;
 import java.util.List;
 
 /**
- * Created by Jelly on 28-03-14.
+ * <p></p>
+ * @deprecated Old adapter {@link dk.aau.cs.giraf.gui.GirafSpinnerAdapter} instead.
  */
 public class GSpinnerAdapter extends ArrayAdapter {
 

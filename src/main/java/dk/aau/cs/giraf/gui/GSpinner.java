@@ -7,7 +7,8 @@ import android.util.AttributeSet;
 import android.widget.Spinner;
 
 /**
- * Created by Jelly on 28-03-14.
+ * <p></p>
+ * @deprecated Old spinner {@link dk.aau.cs.giraf.gui.GirafSpinner} instead.
  */
 public class GSpinner extends Spinner {
 

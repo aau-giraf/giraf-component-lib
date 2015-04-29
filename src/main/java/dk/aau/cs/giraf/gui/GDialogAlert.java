@@ -7,7 +7,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * Created by Malakahh on 3/25/14.
+ * <p></p>
+ * @deprecated Old dialog use {@link dk.aau.cs.giraf.gui.GirafNotifyDialog} instead.
  */
 public class GDialogAlert extends GDialog {
 

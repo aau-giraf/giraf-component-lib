@@ -13,7 +13,8 @@ import java.util.List;
 import dk.aau.cs.giraf.dblib.controllers.ProfileController;
 
 /**
- * Created by AndersBender on 12-05-14.
+ * <p></p>
+ * @deprecated Old adapter use {@link dk.aau.cs.giraf.gui.GirafProfileSelectorAdapter} instead.
  */
 public class GMultiSelectAdapter extends BaseAdapter {
 
