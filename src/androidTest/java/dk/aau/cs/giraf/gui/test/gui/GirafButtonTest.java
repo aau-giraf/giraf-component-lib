@@ -50,4 +50,39 @@ public class GirafButtonTest extends ApplicationTestCase<Application> {
         Assert.assertNotNull(button);
     }
 
+    public void testGirafButtonCheckedChanges() {
+        final boolean checked = true;
+        GirafButton button = new GirafButton(getContext(), buttonIcon, buttonText);
+
+        // Set the checked status of the button
+        button.setChecked(checked);
+
+        Assert.assertEquals(checked, button.isChecked());
+    }
+
+    public void testGirafButtonCheckedFalseDefault() {
+        final boolean checked = false;
+        GirafButton button = new GirafButton(getContext(), buttonIcon, buttonText);
+
+        Assert.assertEquals(checked, button.isChecked());
+    }
+
+    public void testGirafButtonToggleChecked() {
+        GirafButton button = new GirafButton(getContext(), buttonIcon, buttonText);
+
+        // Toggle the button
+        button.setChecked(true);
+        button.toggle();
+
+        // The button should not be checked at this point
+        Assert.assertEquals(false, button.isChecked());
+
+        // Toggle the button back
+
+        button.toggle();
+
+        // The button should be checked at this point
+        Assert.assertEquals(true, button.isChecked());
+    }
+
 }
