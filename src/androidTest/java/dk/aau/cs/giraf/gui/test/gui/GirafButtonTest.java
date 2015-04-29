@@ -85,4 +85,19 @@ public class GirafButtonTest extends ApplicationTestCase<Application> {
         Assert.assertEquals(true, button.isChecked());
     }
 
+    public void testGirafButtonCheckedBackgroundChanges() {
+        GirafButton button = new GirafButton(getContext(), buttonIcon, buttonText);
+
+        // Toggle the state back and forth and 'record' the backgrounds
+        Drawable background = button.getBackground();
+        button.setChecked(true);
+        Drawable newBackground = button.getBackground();
+        button.setChecked(false);
+        Drawable newNewBackground = button.getBackground();
+
+        // Test if the backgrounds changes correctly
+        Assert.assertNotSame(background, newBackground);
+        Assert.assertNotSame(newBackground, newNewBackground);
+    }
+
 }
