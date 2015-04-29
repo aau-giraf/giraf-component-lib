@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Checkable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,8 +31,9 @@ import dk.aau.cs.giraf.utilities.GirafScalingUtilities;
  *      app:icon="@drawable/icon_camera" />
  *
  * </LinearLayout>}</pre>
+ *
  */
-public class GirafButton extends LinearLayout {
+public class GirafButton extends LinearLayout implements Checkable {
 
     private TextView textView;
     private LinearLayout.LayoutParams textViewParams;
@@ -40,6 +42,7 @@ public class GirafButton extends LinearLayout {
     private Drawable icon;
     private String buttonText;
     private ImageView iconView;
+    private boolean isChecked = false;
 
     // Sets the max width and height of the button
     private final int ICON_MAX_WIDTH = (int) GirafScalingUtilities.convertDpToPixel(this.getContext(), 45);
@@ -240,4 +243,43 @@ public class GirafButton extends LinearLayout {
         this.onDisabledClickCallBack = listener;
     }
 
+    /**
+     * Methods for handling the imeplementation of Checkable
+     */
+
+    /**
+     * Set if the button should be checked or not
+     * @param checked is the newly checked state of the button
+     */
+    public void setChecked(boolean checked) {
+        // If it is already in the correct checkstates
+        if(checked == isChecked) {
+            return;
+        }
+
+        // Set the background to look "pressed" if checked is true otherwise set the default background
+        if(checked) {
+            this.setBackgroundResource(R.drawable.giraf_button_background_checked);
+        } else {
+            this.setBackgroundResource(R.drawable.giraf_button_background);
+        }
+
+        // Set the internal boolean
+        isChecked = checked;
+    }
+
+    /**
+     * Get the checkstate
+     * @return true of it is checked else false
+     */
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    /**
+     * Toggles if the button is checked
+     */
+    public void toggle() {
+        setChecked(!isChecked);
+    }
 }
