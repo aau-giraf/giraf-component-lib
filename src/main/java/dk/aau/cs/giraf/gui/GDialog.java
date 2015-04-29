@@ -9,7 +9,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 /**
- * Created by Malakahh & JLY on 3/21/14.
+ * <p></p>
+ * @deprecated Old dialog use an child of {@link dk.aau.cs.giraf.gui.GirafDialog} instead. Eg. {@link dk.aau.cs.giraf.gui.GirafNotifyDialog}.
  */
 public class GDialog extends Dialog {
 

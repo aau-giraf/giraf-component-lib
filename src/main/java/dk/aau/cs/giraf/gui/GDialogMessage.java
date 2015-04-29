@@ -7,7 +7,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * Created by Malakahh on 3/24/14.
+ * <p></p>
+ * @deprecated Old dialog of {@link dk.aau.cs.giraf.gui.GirafConfirmDialog} instead
  */
 
 public class GDialogMessage extends GDialog

@@ -19,7 +19,8 @@ import dk.aau.cs.giraf.dblib.controllers.ProfileController;
 import dk.aau.cs.giraf.dblib.models.Profile;
 
 /**
- * Created by AndersBender on 12-05-14.
+ * <p></p>
+ * @deprecated Old selector use {@link dk.aau.cs.giraf.gui.GirafProfileSelectorDialog} instead.
  */
 public class GMultiProfileSelector extends GDialog{
 

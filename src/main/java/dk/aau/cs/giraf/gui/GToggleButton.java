@@ -8,7 +8,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 /**
- * Created by Jelly on 25-03-14.
+ * <p></p>
+ * @deprecated Old button use {@link dk.aau.cs.giraf.gui.GirafButton} instead. Remember to use the methods of Checkable interface
  */
 public class GToggleButton extends GButton {
 

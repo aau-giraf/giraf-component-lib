@@ -16,7 +16,8 @@ import dk.aau.cs.giraf.dblib.controllers.ProfileController;
 import dk.aau.cs.giraf.dblib.models.Profile;
 
 /**
- * Created by AndersBender on 08-05-14.
+ * <p></p>
+ * @deprecated Old button use {@link dk.aau.cs.giraf.gui.GirafButton} instead. Remember to set the change user icon
  */
 public class GButtonProfileSelect extends GButton {
     //Default Icon

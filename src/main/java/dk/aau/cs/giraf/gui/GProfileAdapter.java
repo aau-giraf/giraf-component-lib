@@ -15,6 +15,10 @@ import java.util.List;
 
 import dk.aau.cs.giraf.dblib.models.Profile;
 
+/**
+ * <p></p>
+ * @deprecated Old adapter use {@link dk.aau.cs.giraf.gui.GirafProfileSelectorAdapter} instead.
+ */
 public class GProfileAdapter extends BaseAdapter {
 	
 	private Activity activity;
