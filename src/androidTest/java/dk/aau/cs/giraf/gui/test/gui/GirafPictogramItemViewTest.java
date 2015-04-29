@@ -205,4 +205,24 @@ public class GirafPictogramItemViewTest extends ApplicationTestCase<Application>
         Assert.assertNotNull(iconImageView);
         Assert.assertNull(iconImageView.getDrawable());
     }
+
+    public void testSetPictogramTwice() throws InterruptedException {
+        // Instantiate variables used in test
+        imageModel.setImage(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.icon_copy));
+        view = new GirafPictogramItemView(getContext(), imageModel);
+
+        // Find the views in the inflated layout
+        ImageView iconImageView = (ImageView) view.findViewById(R.id.pictogram_icon);
+
+        // Set the pictogram twice (while setting the first, the other set will interrupt the first)
+        view.setImageModel(imageModel);
+        view.setImageModel(imageModel);
+
+        // Give the UI-thread some time to reset the pictogram
+        Thread.sleep(loadTimeout);
+
+        // Test if the pictogram was actually reset
+        Assert.assertNotNull(iconImageView);
+        Assert.assertNotNull(iconImageView.getDrawable());
+    }
 }
