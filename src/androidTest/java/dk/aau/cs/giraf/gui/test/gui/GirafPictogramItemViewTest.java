@@ -181,4 +181,26 @@ public class GirafPictogramItemViewTest extends ApplicationTestCase<Application>
         // Test if the two backgrounds are different
         Assert.assertNotSame(originalBackground, newBackground);
     }
+
+    public void testResetPictogram() throws InterruptedException {
+        // Instantiate variables used in test
+        imageModel.setImage(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.icon_copy));
+        view = new GirafPictogramItemView(getContext(), imageModel);
+
+        // Find the views in the inflated layout
+        ImageView iconImageView = (ImageView) view.findViewById(R.id.pictogram_icon);
+
+        // Give the UI-thread some time to load the pictogram
+        Thread.sleep(loadTimeout);
+
+        // Reset the pictogram view
+        view.resetPictogramView();
+
+        // Give the UI-thread some time to reset the pictogram
+        Thread.sleep(loadTimeout);
+
+        // Test if the pictogram was actually reset
+        Assert.assertNotNull(iconImageView);
+        Assert.assertNull(iconImageView.getDrawable());
+    }
 }
