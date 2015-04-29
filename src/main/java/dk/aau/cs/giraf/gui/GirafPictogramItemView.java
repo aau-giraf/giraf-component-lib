@@ -92,6 +92,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
 
     public GirafPictogramItemView(final Context context, final BasicImageModel imageModel, final Drawable fallback, final String title) {
         super(context);
+
         initialize(imageModel, fallback, title, null);
     }
     //</editor-fold>
@@ -109,6 +110,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflatedView = inflater.inflate(R.layout.giraf_pictogram, this);
 
+        // Find views that will be used throughout the class
         pictogramIconContainer = (RelativeLayout) inflatedView.findViewById(R.id.pictogram_icon_container);
         iconImageView = (ImageView) pictogramIconContainer.findViewById(R.id.pictogram_icon);
 
@@ -139,14 +141,14 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         titleContainer = (TextView) inflatedView.findViewById(R.id.pictogram_title);
         setTitle(title);
 
+        // Check if any 'custom' attributes are set by the user (for instance in xml)
         if (attrs != null) {
             final TypedArray girafPictogramItemViewAttributes = getContext().obtainStyledAttributes(attrs, R.styleable.GirafPictogramItemView);
-
             isEditable = girafPictogramItemViewAttributes.getBoolean(R.styleable.GirafPictogramItemView_editable, false);
-
             girafPictogramItemViewAttributes.recycle();
         }
 
+        // Code to handle the edit-triangle
         editableIndicatorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         editableIndicatorPaint.setStrokeWidth(2);
         editableIndicatorPaint.setColor(Color.LTGRAY);
@@ -158,7 +160,6 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
      * Reset the view (Checked state and imageModel image)
      */
     public synchronized void resetPictogramView() {
-
         // Hide the layout until it is loaded correctly
         inflatedView.setVisibility(INVISIBLE);
 
@@ -179,7 +180,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
      * Will update the view with the provided imageModel. Uses the provided fallback if no image could be loaded
      *
      * @param imageModel the imageModel to update based upon
-     * @param fallback fallback drawable to use if no image could be loaded
+     * @param fallback   fallback drawable to use if no image could be loaded
      */
     public synchronized void setImageModel(final BasicImageModel imageModel, final Drawable fallback) {
 
@@ -259,18 +260,24 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         loadPictogramImage.execute();
     }
 
-    // Will convert any drawable into a bitmap
-    private Bitmap drawableToBitmap(Drawable drawable) {
-
-        if(drawable == null)
-        {
+    /**
+     * Will convert any drawable into a bitmap
+     *
+     * @param drawable the drawable to convert
+     * @return a bitmap representing the given drawable
+     */
+    private Bitmap drawableToBitmap(final Drawable drawable) {
+        // Check if the input if null. If this is the case we cannot do anything with it! Return the null back to the caller
+        if (drawable == null) {
             return null;
         }
 
+        // Check if the input is an instance of BitmapDrawable - this will make the conversion way easier
         if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
+            return ((BitmapDrawable) drawable).getBitmap();
         }
 
+        // There is no easy way to convert this drawable - Let's do it the hard way
         Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -312,6 +319,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
      * Methods and variables used to implement the interface Checkable below:
      */
 
+    // Temp variable which will be used in the methods below
     private boolean checked = false;
 
     /**
@@ -354,7 +362,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     /**
      * Set if this GirafPictogramItemView should draw a small triangle to indicate that it is editable
      *
-     * @param editable
+     * @param editable true if the view should appear as editable (small triangle)
      */
     public void setEditable(final boolean editable) {
         this.isEditable = editable;
