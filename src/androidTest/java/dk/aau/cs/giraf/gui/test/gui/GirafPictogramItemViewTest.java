@@ -25,7 +25,7 @@ public class GirafPictogramItemViewTest extends ApplicationTestCase<Application>
     private BasicImageModel imageModel;
     private GirafPictogramItemView view;
 
-    private final int loadTimeout = 1000;
+    private final int loadTimeout = 200;
 
     public GirafPictogramItemViewTest() {
         super(Application.class);
