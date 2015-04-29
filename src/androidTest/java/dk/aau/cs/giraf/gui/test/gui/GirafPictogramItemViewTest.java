@@ -225,4 +225,22 @@ public class GirafPictogramItemViewTest extends ApplicationTestCase<Application>
         Assert.assertNotNull(iconImageView);
         Assert.assertNotNull(iconImageView.getDrawable());
     }
+
+    public void testSetPictogramWithNull() throws InterruptedException {
+        // Instantiate variables used in test
+        view = new GirafPictogramItemView(getContext(), imageModel);
+
+        // Find the views in the inflated layout
+        ImageView iconImageView = (ImageView) view.findViewById(R.id.pictogram_icon);
+
+        // Try to set the image to null
+        view.setImageModel(null);
+
+        // Give the UI-thread some time to reset the pictogram
+        Thread.sleep(loadTimeout);
+
+        // Test if the pictogram was actually reset
+        Assert.assertNotNull(iconImageView);
+        Assert.assertNull(iconImageView.getDrawable());
+    }
 }
