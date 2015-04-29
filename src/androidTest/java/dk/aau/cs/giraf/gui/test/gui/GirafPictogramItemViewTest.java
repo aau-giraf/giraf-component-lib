@@ -126,4 +126,40 @@ public class GirafPictogramItemViewTest extends ApplicationTestCase<Application>
         Assert.assertNotNull(iconImageView.getDrawable());
         Assert.assertEquals(title, textView.getText());
     }
+
+    public void testSetCheckedTrue() {
+        // Instantiate variables used in test
+        final boolean checked = true;
+        view = new GirafPictogramItemView(getContext(), imageModel);
+
+        // Set the view to be checked
+        view.setChecked(checked);
+
+        // Test if the view was actually checked
+        Assert.assertEquals(checked, view.isChecked());
+    }
+
+    public void testSetCheckedTrueThenCheckedFalse() {
+        // Instantiate variables used in test
+        final boolean checked = true;
+        view = new GirafPictogramItemView(getContext(), imageModel);
+
+        // Set the view to be checked
+        view.setChecked(checked);
+
+        // Toggle the checked state (un-check)
+        view.toggle();
+
+        // Test if the view was actually unchecked again
+        Assert.assertEquals(!checked, view.isChecked());
+    }
+
+    public void testCheckedDefaultFalse() {
+        // Instantiate variables used in test
+        final boolean checked = false;
+        view = new GirafPictogramItemView(getContext(), imageModel);
+
+        // Test if the view is checked
+        Assert.assertEquals(checked, view.isChecked());
+    }
 }
