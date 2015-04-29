@@ -169,6 +169,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         }
 
         iconImageView.setImageDrawable(null);
+
         setChecked(false);
     }
 
@@ -216,9 +217,11 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
                     return null;
                 }
 
+                final Bitmap image = b.getImage();
+
                 // Find the imageModel to show
                 // Notice that we create a copy to avoid memory leak (See implementation of getImage on imageModel)
-                return b.getImage() != null ? b.getImage() : drawableToBitmap(fallback);
+                return image != null ? image : drawableToBitmap(fallback);
             }
 
             @Override
