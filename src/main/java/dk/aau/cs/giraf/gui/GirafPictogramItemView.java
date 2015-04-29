@@ -163,7 +163,12 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         // Hide the layout until it is loaded correctly
         inflatedView.setVisibility(INVISIBLE);
 
-        iconImageView.setImageBitmap(null);
+        // Cancel any currently loading imageModel tasks
+        if (loadPictogramImage != null) {
+            loadPictogramImage.cancel(true);
+        }
+
+        iconImageView.setImageDrawable(null);
         setChecked(false);
     }
 
