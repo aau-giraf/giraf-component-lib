@@ -2,6 +2,8 @@ package dk.aau.cs.giraf.gui.test.gui;
 
 import android.app.Application;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.test.ApplicationTestCase;
 import android.widget.ImageView;
@@ -161,5 +163,22 @@ public class GirafPictogramItemViewTest extends ApplicationTestCase<Application>
 
         // Test if the view is checked
         Assert.assertEquals(checked, view.isChecked());
+    }
+
+    public void testCheckedStateChangeStyle() {
+        // Instantiate variables used in test
+        final boolean checked = true;
+        view = new GirafPictogramItemView(getContext(), imageModel);
+
+        // Find the original color of the background
+        Drawable originalBackground = view.getBackground();
+
+        // Set the view to be checked
+        view.setChecked(checked);
+
+        Drawable newBackground = view.getBackground();
+
+        // Test if the two backgrounds are different
+        Assert.assertNotSame(originalBackground, newBackground);
     }
 }
