@@ -162,7 +162,6 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     public synchronized void resetPictogramView() {
         // Hide the layout until it is loaded correctly
         inflatedView.setVisibility(INVISIBLE);
-
         iconImageView.setImageBitmap(null);
         setChecked(false);
     }
@@ -172,7 +171,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
      *
      * @param imageModel the imageModel to update based upon
      */
-    public synchronized void setImageModel(final BasicImageModel imageModel) {
+    public void setImageModel(final BasicImageModel imageModel) {
         setImageModel(imageModel, null);
     }
 
@@ -211,9 +210,11 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
                     return null;
                 }
 
+                final Bitmap image = b.getImage();
+
                 // Find the imageModel to show
                 // Notice that we create a copy to avoid memory leak (See implementation of getImage on imageModel)
-                return b.getImage() != null ? b.getImage() : drawableToBitmap(fallback);
+                return image != null ? image : drawableToBitmap(fallback);
             }
 
             @Override
