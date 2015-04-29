@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.test.ApplicationTestCase;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import junit.framework.Assert;
 
@@ -52,8 +53,77 @@ public class GirafPictogramItemViewTest extends ApplicationTestCase<Application>
         // Give the UI-thread some time to load the pictogram
         Thread.sleep(loadTimeout);
 
-        // Test if the pictogram was actually set. Note that it is 'impossible' to check if the icon is the correct icon without comparing it visually
+        // Test if the pictogram was actually set.
+        // Note that it is 'impossible' to check if the icon is the correct icon without comparing it visually
         Assert.assertNotNull(iconImageView);
         Assert.assertNotNull(iconImageView.getDrawable());
+    }
+
+    public void testSimpleConstructorWithTitle() {
+        // Instantiate variables used in test
+        final String title = "title";
+        view = new GirafPictogramItemView(getContext(), imageModel, title);
+
+        // Find the views in the inflated layout
+        TextView textView = (TextView) view.findViewById(R.id.pictogram_title);
+
+        // Test if the title was actually set.
+        Assert.assertNotNull(textView);
+        Assert.assertEquals(title, textView.getText());
+    }
+
+    public void testConstructorWithFallbackAndActualPictogram() throws InterruptedException {
+        // Instantiate variables used in test
+        Drawable fallback = getContext().getResources().getDrawable(R.drawable.icon_accept);
+        imageModel.setImage(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.icon_copy));
+        view = new GirafPictogramItemView(getContext(), imageModel, fallback);
+
+        // Find the views in the inflated layout
+        ImageView iconImageView = (ImageView) view.findViewById(R.id.pictogram_icon);
+
+        // Give the UI-thread some time to load the pictogram
+        Thread.sleep(loadTimeout);
+
+        // Test if the pictogram was actually set.
+        // Note that it is 'impossible' to check if the icon is the correct icon without comparing it visually
+        Assert.assertNotNull(iconImageView);
+        Assert.assertNotNull(iconImageView.getDrawable());
+    }
+
+    public void testConstructorWithFallbackAndEmptyPictogram() throws InterruptedException {
+        // Instantiate variables used in test
+        Drawable fallback = getContext().getResources().getDrawable(R.drawable.icon_accept);
+        view = new GirafPictogramItemView(getContext(), imageModel, fallback);
+
+        // Find the views in the inflated layout
+        ImageView iconImageView = (ImageView) view.findViewById(R.id.pictogram_icon);
+
+        // Give the UI-thread some time to load the pictogram
+        Thread.sleep(loadTimeout);
+
+        // Test if the pictogram was actually set.
+        // Note that it is 'impossible' to check if the icon is the correct icon without comparing it visually
+        Assert.assertNotNull(iconImageView);
+        Assert.assertNotNull(iconImageView.getDrawable());
+    }
+
+    public void testConstructorWithFallbackAndTitle() throws InterruptedException {
+        // Instantiate variables used in test
+        final String title = "title";
+        Drawable fallback = getContext().getResources().getDrawable(R.drawable.icon_accept);
+        view = new GirafPictogramItemView(getContext(), imageModel, fallback, title);
+
+        // Find the views in the inflated layout
+        ImageView iconImageView = (ImageView) view.findViewById(R.id.pictogram_icon);
+        TextView textView = (TextView) view.findViewById(R.id.pictogram_title);
+
+        // Give the UI-thread some time to load the pictogram
+        Thread.sleep(loadTimeout);
+
+        // Test if the pictogram and title was actually set.
+        // Note that it is 'impossible' to check if the icon is the correct icon without comparing it visually
+        Assert.assertNotNull(iconImageView);
+        Assert.assertNotNull(iconImageView.getDrawable());
+        Assert.assertEquals(title, textView.getText());
     }
 }
