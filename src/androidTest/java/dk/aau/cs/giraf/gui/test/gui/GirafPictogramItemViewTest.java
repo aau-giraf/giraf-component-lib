@@ -2,12 +2,10 @@ package dk.aau.cs.giraf.gui.test.gui;
 
 import android.app.Application;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.test.ApplicationTestCase;
+import android.util.AttributeSet;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import junit.framework.Assert;
@@ -36,6 +34,10 @@ public class GirafPictogramItemViewTest extends ApplicationTestCase<Application>
         super.setUp();
 
         imageModel = new Pictogram();
+    }
+
+    public void testSimpleConstructor() {
+        view = new GirafPictogramItemView(getContext(), (AttributeSet) null);
     }
 
     public void testSimpleConstructorNullPictogram() {
