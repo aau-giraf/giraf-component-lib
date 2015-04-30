@@ -2,12 +2,10 @@ package dk.aau.cs.giraf.gui.test.gui;
 
 import android.app.Application;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.test.ApplicationTestCase;
+import android.util.AttributeSet;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import junit.framework.Assert;
@@ -25,7 +23,7 @@ public class GirafPictogramItemViewTest extends ApplicationTestCase<Application>
     private BasicImageModel imageModel;
     private GirafPictogramItemView view;
 
-    private final int loadTimeout = 1000;
+    private final int loadTimeout = 200;
 
     public GirafPictogramItemViewTest() {
         super(Application.class);
@@ -36,6 +34,10 @@ public class GirafPictogramItemViewTest extends ApplicationTestCase<Application>
         super.setUp();
 
         imageModel = new Pictogram();
+    }
+
+    public void testSimpleConstructor() {
+        view = new GirafPictogramItemView(getContext(), (AttributeSet) null);
     }
 
     public void testSimpleConstructorNullPictogram() {
@@ -202,5 +204,25 @@ public class GirafPictogramItemViewTest extends ApplicationTestCase<Application>
         // Test if the pictogram was actually reset
         Assert.assertNotNull(iconImageView);
         Assert.assertNull(iconImageView.getDrawable());
+    }
+
+    public void testSetPictogramTwice() throws InterruptedException {
+        // Instantiate variables used in test
+        imageModel.setImage(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.icon_copy));
+        view = new GirafPictogramItemView(getContext(), imageModel);
+
+        // Find the views in the inflated layout
+        ImageView iconImageView = (ImageView) view.findViewById(R.id.pictogram_icon);
+
+        // Set the pictogram twice (while setting the first, the other set will interrupt the first)
+        view.setImageModel(imageModel);
+        view.setImageModel(imageModel);
+
+        // Give the UI-thread some time to reset the pictogram
+        Thread.sleep(loadTimeout);
+
+        // Test if the pictogram was actually reset
+        Assert.assertNotNull(iconImageView);
+        Assert.assertNotNull(iconImageView.getDrawable());
     }
 }

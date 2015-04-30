@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<!-- General keys -->
+    <!-- General keys -->
     <string name="current_guardian_id">currentGuardianID</string>
     <string name="current_child_id">currentChildID</string>
 
@@ -9,6 +9,9 @@
     <string name="app_activity_name">appActivityName</string>
     <string name="app_color">appBackgroundColor</string>
     <string name="download_showanimation">downloadShowAnimiation</string>
+
+    <!-- This should be cast to long when used -->
+    <integer name="no_child_selected_id">-1</integer>
 
     <!-- Keys for pictosearch -->
     <string name="purpose">purpose</string>
