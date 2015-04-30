@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -150,9 +151,8 @@ public class GirafActivity extends FragmentActivity {
     public int getThemeId() {
         int theme = 0; //0==not set
         try {
-            String packageName = getClass().getPackage().getName();
-            PackageInfo packageInfo = getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA);
-            theme = packageInfo.applicationInfo.theme;
+            theme = getPackageManager().getActivityInfo(getComponentName(), 0).theme;
+
         } catch (Exception e) {
             e.printStackTrace();
         }
