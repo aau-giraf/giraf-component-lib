@@ -2,11 +2,9 @@ package dk.aau.cs.giraf.activity;
 
 import android.app.ActionBar;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -134,7 +132,7 @@ public class GirafActivity extends FragmentActivity {
         */
 
         // Check if the GirafTheme is used, otherwise throw an exception
-        if (getThemeId() != R.style.GirafTheme) {
+        if (!(getThemeId() == R.style.GirafTheme || getThemeId() == R.style.GirafTheme_NoTitleBar)) {
             throw new UnsupportedOperationException("You should be using the GirafTheme for your GirafActivity subclass");
         }
 
