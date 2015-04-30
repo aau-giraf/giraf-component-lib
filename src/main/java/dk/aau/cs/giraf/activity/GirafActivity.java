@@ -2,7 +2,11 @@ package dk.aau.cs.giraf.activity;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -107,8 +111,32 @@ public class GirafActivity extends FragmentActivity {
      * @param savedInstanceState
      */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /*
+        final boolean isDebuggable = (0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
+
+        if (isDebuggable) {
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                    .detectDiskReads()
+                    .detectDiskWrites()
+                    .detectNetwork()   // or .detectAll() for all detectable problems
+                    .penaltyLog()
+                    .build());
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                    .detectLeakedSqlLiteObjects()
+                    .detectLeakedClosableObjects()
+                    .penaltyLog()
+                    .penaltyDeath()
+                    .build());
+        }
+        */
+
+        // Check if the GirafTheme is used, otherwise throw an exception
+        if (getThemeId() != R.style.GirafTheme) {
+            throw new UnsupportedOperationException("You should be using the GirafTheme for your GirafActivity subclass");
+        }
 
         // Fetch the action bar
         actionBar = this.getActionBar();
@@ -119,6 +147,18 @@ public class GirafActivity extends FragmentActivity {
             actionBar.setCustomView(createActionBarView()); // Set the custom view to the action bar
             actionBar.setDisplayShowCustomEnabled(true); // Show the custom custom view of the action bar
         }
+    }
+
+    public int getThemeId() {
+        int theme = 0; //0==not set
+        try {
+            String packageName = getClass().getPackage().getName();
+            PackageInfo packageInfo = getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA);
+            theme = packageInfo.applicationInfo.theme;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return theme;
     }
 
     /**
