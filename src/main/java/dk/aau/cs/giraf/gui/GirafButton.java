@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import android.widget.Checkable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import dk.aau.cs.giraf.utilities.GirafScalingUtilities;
 
@@ -35,12 +38,12 @@ import dk.aau.cs.giraf.utilities.GirafScalingUtilities;
  */
 public class GirafButton extends LinearLayout implements Checkable {
 
-    private TextView textView;
     private LinearLayout.LayoutParams textViewParams;
 
     // The content of the inner view of the GirafButton
     private Drawable icon;
     private String buttonText;
+    private TextView textView;
     private ImageView iconView;
     private boolean isChecked = false;
 
@@ -81,7 +84,7 @@ public class GirafButton extends LinearLayout implements Checkable {
         super(context);
         this.icon = icon; // Set the icon to the property
         this.buttonText = buttonText; // Set the text to the property
-        initializeButton(null); // Use the dynamic icon from code
+        initializeButton(context, null); // Use the dynamic icon from code
     }
 
     /**
@@ -92,7 +95,7 @@ public class GirafButton extends LinearLayout implements Checkable {
      */
     public GirafButton(final Context context, final AttributeSet attrs) {
         super(context, attrs);
-        initializeButton(attrs);
+        initializeButton(context, attrs);
     }
 
     /**
@@ -104,7 +107,7 @@ public class GirafButton extends LinearLayout implements Checkable {
      */
     public GirafButton(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
-        initializeButton(attrs);
+        initializeButton(context, attrs);
     }
 
     // Boolean to check if it is the first time onLayout is called
@@ -142,7 +145,14 @@ public class GirafButton extends LinearLayout implements Checkable {
      *
      * @param attrs the attributes from the xml-declaration
      */
-    private void initializeButton(final AttributeSet attrs) {
+    private void initializeButton(Context context, final AttributeSet attrs) {
+
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.giraf_button,this);
+        textView = (TextView) this.findViewById(R.id.text_view);
+        iconView = (ImageView) this.findViewById(R.id.icon_view);
+
+        textViewParams = (LinearLayout.LayoutParams) textView.getLayoutParams();
 
         // Set the orientation of the layout
         this.setOrientation(LinearLayout.HORIZONTAL);
@@ -151,8 +161,6 @@ public class GirafButton extends LinearLayout implements Checkable {
         this.setPadding(BUTTON_PADDING, BUTTON_PADDING, BUTTON_PADDING, BUTTON_PADDING);
         this.setGravity(Gravity.CENTER);
 
-        // Make instance of the icon (iconView) and the text (textView) of the button
-        iconView = new ImageView(this.getContext());
         // Adjusts the size after matching the actual size values
         iconView.setAdjustViewBounds(true);
 
@@ -191,16 +199,10 @@ public class GirafButton extends LinearLayout implements Checkable {
             iconView.setImageDrawable(icon); // Sets the icon into the ImageView
         }
 
-        // Initialize the textView
-        textView = new TextView(this.getContext());
-
         textView.setText(buttonText); // Set the text of the textView
         textView.setGravity(Gravity.CENTER); // Center the textView in the button
         textView.setPadding(0, 0, 0, 0); // Remove padding fromt he textView
 
-
-        // Create layout parameters for the textview
-        textViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         // Set the background of the button (with all sates)
         this.setBackgroundResource(R.drawable.giraf_button_background);
@@ -210,14 +212,6 @@ public class GirafButton extends LinearLayout implements Checkable {
         if (!this.isEnabled()) {
             iconView.setAlpha(0x59);
         }
-
-        // Add the icon of the button
-        this.addView(iconView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-        // Add the textView to the GirafButton
-        this.addView(textView, textViewParams);
-
-
     }
     public void setIcon(final Drawable icon){
         iconView.setImageDrawable(icon);
