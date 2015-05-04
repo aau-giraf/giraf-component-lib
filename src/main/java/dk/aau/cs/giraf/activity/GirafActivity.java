@@ -25,9 +25,10 @@ import dk.aau.cs.giraf.utilities.GirafScalingUtilities;
  */
 public class GirafActivity extends FragmentActivity {
 
-    private final float ACTION_BAR_SPACING_LEFT_RIGHT = 15; // Spacing in the action bar (left and right)
-    private final float ACTION_BAR_SPACING_TOP_BOTTOM = 6; // Spacing in the action bar (top and bot)
-    private final float ACTION_BAR_TEXT_PADDING = 4 * ACTION_BAR_SPACING_TOP_BOTTOM; // Padding on text
+    private static final float ACTION_BAR_PADDING = 6;
+    private static final float ACTION_BAR_SPACING_LEFT_RIGHT = 15; // Spacing in the action bar (left and right)
+    private static final float ACTION_BAR_SPACING_TOP_BOTTOM = 6; // Spacing in the action bar (top and bot)
+    private static final float ACTION_BAR_TEXT_PADDING = 4 * ACTION_BAR_SPACING_TOP_BOTTOM; // Padding on text
     private ActionBar actionBar; // The action bar of the activity
     private RelativeLayout actionBarCustomView; // The custom action bar view
     private LeftActionBarLayout actionBarCustomViewLeft; // The left side of the action bar that can be customized
@@ -69,7 +70,7 @@ public class GirafActivity extends FragmentActivity {
          */
         public void addGirafButton(final GirafButton girafButton) {
             final LinearLayout.LayoutParams buttonParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            buttonParams.rightMargin = (int) GirafScalingUtilities.convertDpToPixel(getContext(), ACTION_BAR_SPACING_LEFT_RIGHT);
+            buttonParams.leftMargin = (int) GirafScalingUtilities.convertDpToPixel(getContext(), ACTION_BAR_SPACING_LEFT_RIGHT);
             this.addView(girafButton, buttonParams);
         }
     }
@@ -98,7 +99,7 @@ public class GirafActivity extends FragmentActivity {
          */
         public void addGirafButton(final GirafButton girafButton) {
             final LinearLayout.LayoutParams buttonParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            buttonParams.leftMargin = (int) GirafScalingUtilities.convertDpToPixel(getContext(), ACTION_BAR_SPACING_LEFT_RIGHT);
+            buttonParams.rightMargin = (int) GirafScalingUtilities.convertDpToPixel(getContext(), ACTION_BAR_SPACING_LEFT_RIGHT);
             this.addView(girafButton, buttonParams);
         }
     }
@@ -221,37 +222,13 @@ public class GirafActivity extends FragmentActivity {
         );
 
         // Calculate the padding of the actionBarLayout
-        final int paddingLeftRight = (int) GirafScalingUtilities.convertDpToPixel(this, ACTION_BAR_SPACING_LEFT_RIGHT);
-        final int paddingTopBottom = (int) GirafScalingUtilities.convertDpToPixel(this, ACTION_BAR_SPACING_TOP_BOTTOM);
+        final int actionBarPadding = (int) GirafScalingUtilities.convertDpToPixel(this, ACTION_BAR_PADDING);
 
         // Set padding on actionBarLayout
-        actionBarCustomView.setPadding(paddingLeftRight, paddingTopBottom, paddingLeftRight, paddingTopBottom);
+        actionBarCustomView.setPadding(actionBarPadding, actionBarPadding, actionBarPadding, actionBarPadding);
 
         // Set the background of the actionBarLayout
         actionBarCustomView.setBackgroundResource(R.drawable.top_bar_background);
-
-        // The backButton of the actionBarLayout
-        final GirafButton backButton = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_back));
-
-        backButton.setId(R.id.giraf_action_bar_back_button); // Set the ID of the backButton
-
-        // Finish the activity when clicking the backButton
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                GirafActivity.this.onBackPressed();
-            }
-        });
-
-        // The layout params for the backButton pararms
-        final RelativeLayout.LayoutParams backButtonParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
-        // Align the button to the left of the parrent
-        backButtonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-
-        // Add the backButton to the actionBarLayout
-        actionBarCustomView.addView(backButton, backButtonParams);
 
         // The titleView of the actionBarLayout
         actionBarTitleView = new TextView(this);
@@ -279,14 +256,30 @@ public class GirafActivity extends FragmentActivity {
         // Align the text in the center of the actionBarLayout
         titleParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 
-        // Add the backButton to the actionBarLayout
+        // Add the title to the actionBarLayout
         actionBarCustomView.addView(actionBarTitleView, titleParams);
 
         // Add the left customizable layout of the action bar
         actionBarCustomViewLeft = new LeftActionBarLayout(this);
         RelativeLayout.LayoutParams leftActionBarLayoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        leftActionBarLayoutParams.addRule(RelativeLayout.RIGHT_OF, R.id.giraf_action_bar_back_button);
+        leftActionBarLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         actionBarCustomView.addView(actionBarCustomViewLeft, leftActionBarLayoutParams);
+
+        // The backButton of the actionBarLayout
+        final GirafButton backButton = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_back));
+
+        backButton.setId(R.id.giraf_action_bar_back_button); // Set the ID of the backButton
+
+        // Finish the activity when clicking the backButton
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                GirafActivity.this.onBackPressed();
+            }
+        });
+
+        actionBarCustomViewLeft.addGirafButton(backButton);
 
         // Add the left customizable layout of the action bar
         actionBarCustomViewRight = new RightActionBarLayout(this);
