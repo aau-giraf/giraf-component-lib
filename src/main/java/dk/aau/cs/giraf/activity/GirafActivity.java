@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -133,8 +132,8 @@ public class GirafActivity extends FragmentActivity {
         */
 
         // Check if the GirafTheme is used, otherwise throw an exception
-        if (!(getThemeId() == R.style.GirafTheme || getThemeId() == R.style.GirafTheme_NoTitleBar)) {
-            throw new UnsupportedOperationException("You should be using the GirafTheme for your GirafActivity subclass");
+        if (!(getActivityThemeId() == R.style.GirafTheme || getActivityThemeId() == R.style.GirafTheme_NoTitleBar || getApplicationThemeId() == R.style.GirafTheme || getApplicationThemeId() == R.style.GirafTheme_NoTitleBar)) {
+            throw new UnsupportedOperationException("You should be using the GirafTheme or GirafTheme.NoTitleBar for your GirafActivity or your Application in your manifest");
         }
 
         // Fetch the action bar
@@ -148,7 +147,7 @@ public class GirafActivity extends FragmentActivity {
         }
     }
 
-    public int getThemeId() {
+    public int getActivityThemeId() {
         int theme = 0; //0==not set
         try {
             theme = getPackageManager().getActivityInfo(getComponentName(), 0).theme;
@@ -158,6 +157,20 @@ public class GirafActivity extends FragmentActivity {
         }
         return theme;
     }
+
+    public int getApplicationThemeId() {
+        int theme = 0; //0==not set
+        try {
+            String packageName = getClass().getPackage().getName();
+            PackageInfo packageInfo = getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA);
+            theme = packageInfo.applicationInfo.theme;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return theme;
+    }
+
 
     /**
      * * Adds an {@link dk.aau.cs.giraf.gui.GirafButton} to a side of the action bar
