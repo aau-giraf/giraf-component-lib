@@ -145,6 +145,13 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         if (attrs != null) {
             final TypedArray girafPictogramItemViewAttributes = getContext().obtainStyledAttributes(attrs, R.styleable.GirafPictogramItemView);
             isEditable = girafPictogramItemViewAttributes.getBoolean(R.styleable.GirafPictogramItemView_editable, false);
+
+            final int drawableId = girafPictogramItemViewAttributes.getInt(R.styleable.GirafPictogramItemView_indicatorOverlayDrawable, -1);
+
+            if (drawableId != -1) {
+                setIndicatorOverlayDrawable(getContext().getResources().getDrawable(drawableId));
+            }
+
             girafPictogramItemViewAttributes.recycle();
         }
 
@@ -374,31 +381,39 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
      */
     public void setEditable(final boolean editable) {
         this.isEditable = editable;
+        this.indicatorOverlayDrawable = null;
 
         // Make the view redraw on the GUI thread
         postInvalidate();
+    }
+
+    private Drawable indicatorOverlayDrawable;
+
+    public void setIndicatorOverlayDrawable(Drawable indicatorOverlayDrawable) {
+        this.indicatorOverlayDrawable = indicatorOverlayDrawable;
+        isEditable = false;
     }
 
     @Override
     public void draw(final Canvas canvas) {
         super.draw(canvas);
 
+        // Get the relative right and bottom coordinate of iconImageView from this GirafPictogramItemView
+        final int[] relativeRightAndBottom = getRelativeRightAndBottom(iconImageView);
+
+        // Use the relativeRightAndBottom as xEnd and yEnd
+        final int xEnd = relativeRightAndBottom[0];
+        final int yEnd = relativeRightAndBottom[1];
+
+        // Calculate xStart and yStart from end points minus 1/4 of the ImageView width and height
+        final int xStart = xEnd - (int) Math.ceil(iconImageView.getMeasuredWidth() / 4.0d);
+        final int yStart = yEnd - (int) Math.ceil(iconImageView.getMeasuredHeight() / 4.0d);
+
         /*
          * Only draw editable-triangle if the view is set to be editable in either xml
          * using the attribute "editable" or using the method setEditable
          */
-        if (isEditable) {
-
-            // Get the relative right and bottom coordinate of iconImageView from this GirafPictogramItemView
-            final int[] relativeRightAndBottom = getRelativeRightAndBottom(iconImageView);
-
-            // Use the relativeRightAndBottom as xEnd and yEnd
-            final int xEnd = relativeRightAndBottom[0];
-            final int yEnd = relativeRightAndBottom[1];
-
-            // Calculate xStart and yStart from end points minus 1/4 of the ImageView width and height
-            final int xStart = xEnd - (int) Math.ceil(iconImageView.getMeasuredWidth() / 4.0d);
-            final int yStart = yEnd - (int) Math.ceil(iconImageView.getMeasuredHeight() / 4.0d);
+        if (isEditable && this.indicatorOverlayDrawable == null) {
 
             // Set 3 points in a triangle
             point1_draw.set(xEnd, yEnd);
@@ -416,7 +431,15 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
 
             // Draw triangle
             canvas.drawPath(path, editableIndicatorPaint);
+
+        } else if (indicatorOverlayDrawable != null) {
+
+            // int left, int top, int right, int bottom
+            indicatorOverlayDrawable.setBounds(xStart, yStart, xEnd, yEnd);
+            indicatorOverlayDrawable.draw(canvas);
         }
+
+
     }
 
     /**
