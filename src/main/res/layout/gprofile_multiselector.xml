@@ -31,12 +31,12 @@
         android:layout_below="@id/upperLayer"
         android:layout_marginTop="5dp"
         android:layout_centerHorizontal="true">
-        <dk.aau.cs.giraf.gui.GVerifyButton
+        <dk.aau.cs.giraf.gui.GirafButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/verifyButton"
             android:layout_marginRight="5dp"/>
-        <dk.aau.cs.giraf.gui.GCancelButton
+        <dk.aau.cs.giraf.gui.GirafButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/cancelButton"

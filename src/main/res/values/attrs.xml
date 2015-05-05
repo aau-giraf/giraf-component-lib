@@ -21,5 +21,6 @@
     </declare-styleable>
     <declare-styleable name="GirafPictogramItemView">
         <attr name="editable" format="boolean"/>
+        <attr name="indicatorOverlayDrawable" format="integer"/>
     </declare-styleable>
 </resources>
