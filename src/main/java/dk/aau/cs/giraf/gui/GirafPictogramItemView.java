@@ -423,6 +423,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
          * Only draw editable-triangle if the view is set to be editable in either xml
          * using the attribute "editable" or using the method setEditable
          */
+
         if (isEditable) {
 
             // Set 3 points in a triangle
