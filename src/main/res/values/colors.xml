@@ -5,6 +5,9 @@
     <color name="giraf_background">#e9e9e9</color>
     <color name="giraf_window_background">#000000</color>
 
+    <!-- Text color -->
+    <color name="giraf_text">#000000</color>
+
     <!-- Base color for buttons -->
     <color name="giraf_button_fill_start">#ffcd59</color>
     <color name="giraf_button_fill_end">#ff9d00</color>
