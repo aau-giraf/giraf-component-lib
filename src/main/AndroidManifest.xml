@@ -9,6 +9,10 @@
         android:targetSdkVersion="19" />
 
     <application>
+        <activity
+            android:name="dk.aau.cs.giraf.activity.GirafBugSplashActivity"
+            android:theme="@style/GirafTheme"
+            android:label="Fejlrapport"/>
     </application>
 
 </manifest>
