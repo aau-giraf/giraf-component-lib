@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
@@ -136,6 +137,50 @@ public class GirafActivity extends FragmentActivity {
         if (!(getActivityThemeId() == R.style.GirafTheme || getActivityThemeId() == R.style.GirafTheme_NoTitleBar || getApplicationThemeId() == R.style.GirafTheme || getApplicationThemeId() == R.style.GirafTheme_NoTitleBar)) {
             throw new UnsupportedOperationException("You should be using the GirafTheme or GirafTheme.NoTitleBar for your GirafActivity or your Application in your manifest");
         }
+
+        final Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
+
+        Thread.currentThread().setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread thread, final Throwable ex) {
+                // Create the intent to start the new activity
+                Intent intent = new Intent(getApplicationContext(), GirafBugSplashActivity.class);
+
+                // Set a special flag that will start the splash activity correctly
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                // Put the exception into a bundle and parse it into the intent
+                intent.putExtra(GirafBugSplashActivity.EXCEPTION_MESSAGE_TAG, ex.getMessage());
+                intent.putExtra(GirafBugSplashActivity.EXCEPTION_STACKTRACE_TAG, getStackTraceArray(ex));
+
+                // Start the activity
+                startActivity(intent);
+
+                // Let the os handle the exception further
+                defaultUncaughtExceptionHandler.uncaughtException(thread, ex);
+
+                // Finish the current activity
+                finish();
+            }
+
+            private String getStackTraceArray(Throwable e) {
+                StackTraceElement[] stackTraceElements = e.getStackTrace();
+                String[] stackTraceLines = new String[stackTraceElements.length];
+
+                int i = 0;
+                for (StackTraceElement se : stackTraceElements) {
+                    stackTraceLines[i++] = se.toString();
+                }
+
+                StringBuilder builder = new StringBuilder();
+                for (String s : stackTraceLines) {
+                    builder.append(s);
+                    builder.append("\n");
+                }
+
+                return builder.toString();
+            }
+        });
 
         // Fetch the action bar
         actionBar = this.getActionBar();
