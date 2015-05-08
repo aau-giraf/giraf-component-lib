@@ -8,7 +8,8 @@
         android:minSdkVersion="15"
         android:targetSdkVersion="19" />
 
-    <application>
+    <application
+        android:killAfterRestore="true">
         <activity
             android:name="dk.aau.cs.giraf.activity.GirafBugSplashActivity"
             android:theme="@style/GirafTheme"
