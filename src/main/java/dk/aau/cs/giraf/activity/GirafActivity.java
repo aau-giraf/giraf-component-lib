@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
@@ -106,8 +107,6 @@ public class GirafActivity extends FragmentActivity {
 
     /**
      * Creates the GirafActivity
-     *
-     * @param savedInstanceState
      */
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -136,6 +135,50 @@ public class GirafActivity extends FragmentActivity {
         if (!(getActivityThemeId() == R.style.GirafTheme || getActivityThemeId() == R.style.GirafTheme_NoTitleBar || getApplicationThemeId() == R.style.GirafTheme || getApplicationThemeId() == R.style.GirafTheme_NoTitleBar)) {
             throw new UnsupportedOperationException("You should be using the GirafTheme or GirafTheme.NoTitleBar for your GirafActivity or your Application in your manifest");
         }
+
+        final Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
+
+        Thread.currentThread().setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread thread, final Throwable ex) {
+                // Create the intent to start the new activity
+                Intent intent = new Intent(getApplicationContext(), GirafBugSplashActivity.class);
+
+                // Set a special flag that will start the splash activity correctly
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                // Put the exception into a bundle and parse it into the intent
+                intent.putExtra(GirafBugSplashActivity.EXCEPTION_MESSAGE_TAG, ex.getMessage());
+                intent.putExtra(GirafBugSplashActivity.EXCEPTION_STACKTRACE_TAG, getStackTraceArray(ex));
+
+                // Start the activity
+                startActivity(intent);
+
+                // Let the os handle the exception further
+                defaultUncaughtExceptionHandler.uncaughtException(thread, ex);
+
+                // Finish the current activity
+                finish();
+            }
+
+            private String getStackTraceArray(Throwable e) {
+                StackTraceElement[] stackTraceElements = e.getStackTrace();
+                String[] stackTraceLines = new String[stackTraceElements.length];
+
+                int i = 0;
+                for (StackTraceElement se : stackTraceElements) {
+                    stackTraceLines[i++] = se.toString();
+                }
+
+                StringBuilder builder = new StringBuilder();
+                for (String s : stackTraceLines) {
+                    builder.append(s);
+                    builder.append("\n");
+                }
+
+                return builder.toString();
+            }
+        });
 
         // Fetch the action bar
         actionBar = this.getActionBar();
@@ -182,7 +225,7 @@ public class GirafActivity extends FragmentActivity {
     public void addGirafButtonToActionBar(GirafButton girafButton, int side) {
 
 
-        // If the theme of the activity wants no titlebar tell the developer that it is not going to be shown
+        // If the theme of the activity wants no title bar tell the developer that it is not going to be shown
         if (actionBar == null) {
             throw new IllegalStateException("You cannot add a GirafButton to GirafActivity with \"GirafTheme.NoTitleBar\" use \"GirafTheme\" instead ");
         }
@@ -216,7 +259,7 @@ public class GirafActivity extends FragmentActivity {
         // Create the actionBarLayout
         actionBarCustomView = new RelativeLayout(this);
 
-        // Make the actionBarLayout match its parrents dimensions
+        // Make the actionBarLayout match its parents dimensions
         actionBarCustomView.setLayoutParams(
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         );
@@ -232,6 +275,7 @@ public class GirafActivity extends FragmentActivity {
 
         // The titleView of the actionBarLayout
         actionBarTitleView = new TextView(this);
+        actionBarTitleView.setTextColor(this.getResources().getColor(R.color.giraf_text));
 
         // Set default title of the action bar
         String title;
@@ -243,9 +287,9 @@ public class GirafActivity extends FragmentActivity {
             title = "Unknown title";
         }
 
-        actionBarTitleView.setText(this.getTitle()); // Set the tile of the titleView
+        actionBarTitleView.setText(title); // Set the tile of the titleView
         actionBarTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, calculateActionBarTextSize());
-        actionBarTitleView.setGravity(Gravity.CENTER); // Set the text to be in the cetner of the titleView
+        actionBarTitleView.setGravity(Gravity.CENTER); // Set the text to be in the center of the titleView
 
         // Remove the padding on the font
         actionBarTitleView.setIncludeFontPadding(false);
