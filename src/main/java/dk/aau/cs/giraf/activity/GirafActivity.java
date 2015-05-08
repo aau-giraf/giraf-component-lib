@@ -277,6 +277,7 @@ public class GirafActivity extends FragmentActivity {
 
         // The titleView of the actionBarLayout
         actionBarTitleView = new TextView(this);
+        actionBarTitleView.setTextColor(this.getResources().getColor(R.color.giraf_text));
 
         // Set default title of the action bar
         String title;
