@@ -25,9 +25,9 @@ public class GirafConfirmDialog extends GirafDialog {
     public interface Confirmation {
         /**
          * Method for switching between methods called when pressing the acceptance buttons
-         * @param methodID identifier of the method
+         * @param dialogIdentifier identifier of the dialog
          */
-        public void confirmDialog (int methodID);
+        public void confirmDialog (int dialogIdentifier);
     }
 
     // An instance of the confirmation interface user
