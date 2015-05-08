@@ -289,7 +289,7 @@ public class GirafActivity extends FragmentActivity {
             title = "Unknown title";
         }
 
-        actionBarTitleView.setText(this.getTitle()); // Set the tile of the titleView
+        actionBarTitleView.setText(title); // Set the tile of the titleView
         actionBarTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, calculateActionBarTextSize());
         actionBarTitleView.setGravity(Gravity.CENTER); // Set the text to be in the cetner of the titleView
 
