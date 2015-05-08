@@ -22,9 +22,9 @@ public class GirafNotifyDialog extends GirafDialog {
     public interface Notification {
         /**
          * Method for swtiching between methods called when pressing the button
-         * @param methodID identifier of the method
+         * @param dialogIdentifier identifier of the dialog
          */
-        public void noticeDialog (int methodID);
+        public void noticeDialog (int dialogIdentifier);
     }
 
     // An instance of the confirmation interface user
