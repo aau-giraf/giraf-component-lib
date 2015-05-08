@@ -107,8 +107,6 @@ public class GirafActivity extends FragmentActivity {
 
     /**
      * Creates the GirafActivity
-     *
-     * @param savedInstanceState
      */
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -227,7 +225,7 @@ public class GirafActivity extends FragmentActivity {
     public void addGirafButtonToActionBar(GirafButton girafButton, int side) {
 
 
-        // If the theme of the activity wants no titlebar tell the developer that it is not going to be shown
+        // If the theme of the activity wants no title bar tell the developer that it is not going to be shown
         if (actionBar == null) {
             throw new IllegalStateException("You cannot add a GirafButton to GirafActivity with \"GirafTheme.NoTitleBar\" use \"GirafTheme\" instead ");
         }
@@ -261,7 +259,7 @@ public class GirafActivity extends FragmentActivity {
         // Create the actionBarLayout
         actionBarCustomView = new RelativeLayout(this);
 
-        // Make the actionBarLayout match its parrents dimensions
+        // Make the actionBarLayout match its parents dimensions
         actionBarCustomView.setLayoutParams(
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         );
@@ -291,7 +289,7 @@ public class GirafActivity extends FragmentActivity {
 
         actionBarTitleView.setText(title); // Set the tile of the titleView
         actionBarTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, calculateActionBarTextSize());
-        actionBarTitleView.setGravity(Gravity.CENTER); // Set the text to be in the cetner of the titleView
+        actionBarTitleView.setGravity(Gravity.CENTER); // Set the text to be in the center of the titleView
 
         // Remove the padding on the font
         actionBarTitleView.setIncludeFontPadding(false);
