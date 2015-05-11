@@ -41,4 +41,16 @@ public class GirafBugSplashActivity extends GirafActivity {
         homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(homeIntent);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        onDestroy();
+    }
+
+    @Override
+    protected void onDestroy() {
+        android.os.Process.killProcess(android.os.Process.myPid());
+        super.onDestroy();
+    }
 }
