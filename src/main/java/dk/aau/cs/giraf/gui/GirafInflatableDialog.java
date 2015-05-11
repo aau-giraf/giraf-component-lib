@@ -28,7 +28,7 @@ public class GirafInflatableDialog extends GirafDialog {
     private Activity caller;
 
     /**
-     * An interface to perform the confirm action for a GirafNotifyDialog
+     * An interface to perform the confirm action for a GirafInflatable
      */
     public interface OnCustomViewCreatedListener {
         public void editCustomView(ViewGroup customView, int dialogIdentifier);
@@ -114,15 +114,6 @@ public class GirafInflatableDialog extends GirafDialog {
         } else if (onCustomViewCreatedCallback == null && dialogIdentifier != null && dialogIdentifier != DIALOG_ID_DEFAULT) {
             throw new ClassCastException(caller.toString() + " must implement OnCustomViewCreatedListener interface. If you create a GirafInflatableDialog using an dialog identifier.");
         }
-    }
-
-    /**
-     * Gets the customView of the GirafDialog
-     *
-     * @return the customView
-     */
-    public ViewGroup getCustomView() {
-        return customView;
     }
 
 }
