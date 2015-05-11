@@ -176,6 +176,8 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         }
 
         iconImageView.setImageDrawable(null);
+        indicatorOverlayDrawable = null;
+
 
         setChecked(false);
     }
