@@ -67,6 +67,12 @@ public class GirafProfileSelectorAdapter extends BaseAdapter {
             itemView.setTitle(profile.getName());
         }
 
+        if (profile.getRole().ordinal() < Profile.Roles.CHILD.ordinal()) {
+            itemView.setIndicatorOverlayDrawable(
+                    context.getResources().getDrawable(R.drawable.icon_guardian_shield)
+            );
+        }
+
         itemView.setChecked(profilePair.second);
 
         return itemView;
