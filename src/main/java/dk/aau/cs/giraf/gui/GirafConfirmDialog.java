@@ -143,8 +143,9 @@ public class GirafConfirmDialog extends GirafDialog {
         });
 
         // Add the buttons to the dialog
-        addButton(yesButton);
         addButton(noButton);
+        addButton(yesButton);
+
         return dialog;
     }
 }
