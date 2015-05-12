@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dk.aau.cs.giraf.dblib.Helper;
+import dk.aau.cs.giraf.dblib.models.Department;
 import dk.aau.cs.giraf.dblib.models.Profile;
 
 /**
@@ -203,8 +204,14 @@ public class GirafProfileSelectorDialog extends GirafDialog {
      */
     public static GirafProfileSelectorDialog newInstance(Context context, long guardianID, boolean includeGuardian, boolean selectMultipleProfiles, String description, int dialogIdentifier) {
         Helper helper = new Helper(context);
+
+        // Find the guardian
         Profile guardian = helper.profilesHelper.getById(guardianID);
-        List<Profile> profiles = helper.profilesHelper.getChildrenByGuardian(guardian);
+        // Find the department of the guardian
+        Department guardianDepartment = helper.departmentsHelper.getDepartmentsByProfile(guardian);
+
+        // Find the profiles of the citizens of a department and sub departments
+        List<Profile> profiles = helper.profilesHelper.getChildrenByDepartmentAndSubDepartments(guardianDepartment);
         List<Pair<Profile, Boolean>> profileCheckList = new ArrayList<Pair<Profile, Boolean>>();
 
         if (includeGuardian) {
