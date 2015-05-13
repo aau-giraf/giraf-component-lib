@@ -9,4 +9,5 @@
     <dimen name="giraf_dialog_description_text_size">20dp</dimen>
     <dimen name="giraf_spinner_text_size">25sp</dimen>
     <dimen name="giraf_contextual_bottom_bar_spacing">10dp</dimen>
+    <dimen name="giraf_button_padding">10dp</dimen>
 </resources>
