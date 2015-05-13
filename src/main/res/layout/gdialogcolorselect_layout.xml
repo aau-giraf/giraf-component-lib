@@ -16,8 +16,7 @@
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_centerHorizontal="true"
-            android:paddingBottom="8dp"
-            >
+            android:paddingBottom="8dp">
             <RelativeLayout
                 android:id="@+id/GDialogColorSelect_PrevColorContainer"
                 android:layout_width="60dp"
