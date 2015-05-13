@@ -95,7 +95,6 @@ public class GirafButton extends LinearLayout implements Checkable {
      */
     public GirafButton(final Context context, final AttributeSet attrs) {
         super(context, attrs);
-        initializeButton(context, attrs);
     }
 
     /**
@@ -129,7 +128,7 @@ public class GirafButton extends LinearLayout implements Checkable {
                 }
 
                 // Set the textSize of the textView dynamically of the height button
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, this.getHeight() - (int)(2.5 * BUTTON_PADDING));
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, this.getHeight() - (int)(2.5 * BUTTON_PADDING) + 100);
 
                 // Remove the padding on the font
                 textView.setIncludeFontPadding(false);

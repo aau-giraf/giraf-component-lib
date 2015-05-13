@@ -18,6 +18,8 @@
     <declare-styleable name="GirafButton">
         <attr name="icon" format="integer"/>
         <attr name="text" format="string"/>
+        <attr name="enabled" format="boolean"/>
+        <attr name="scale_text" format="boolean"/>
     </declare-styleable>
     <declare-styleable name="GirafPictogramItemView">
         <attr name="editable" format="boolean"/>
