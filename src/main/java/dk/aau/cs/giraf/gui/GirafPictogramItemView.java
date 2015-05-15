@@ -82,42 +82,87 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     }
 
     //<editor-fold desc="constructors">
+
+    /**
+     * Constructor for GirafPictogramItemView
+     * @param imageEntity the imageEntity to base the view upon
+     */
     public GirafPictogramItemView(final Context context, final ImageEntity imageEntity) {
         this(context, imageEntity, null, null);
     }
 
+    /**
+     * Constructor for GirafPictogramItemView
+     * @param imageEntity the imageEntity to base the view upon
+     * @param title the title to display below the view
+     */
     public GirafPictogramItemView(final Context context, final ImageEntity imageEntity, final String title) {
         this(context, imageEntity, null, title);
     }
 
+    /**
+     * Constructor for GirafPictogramItemView
+     * @param imageEntity the imageEntity to base the view upon
+     * @param fallback a fallback drawable in case that the provided ImageEntity does not contain an image
+     */
     public GirafPictogramItemView(final Context context, final ImageEntity imageEntity, final Drawable fallback) {
         this(context, imageEntity, fallback, null);
     }
 
+    /**
+     * Constructor for GirafPictogramItemView
+     * @param imageEntity the imageEntity to base the view upon
+     * @param fallback a fallback drawable in case that the provided ImageEntity does not contain an image
+     * @param title the title to display below the view
+     */
     public GirafPictogramItemView(final Context context, final ImageEntity imageEntity, final Drawable fallback, final String title) {
         super(context);
 
         initialize(imageEntity, fallback, title, null);
     }
 
+    /**
+     * Constructor for GirafPictogramItemView
+     * @param imageEntity the imageEntity to base the view upon
+     * @param useGrayScale indicate if the image should be displayed as gray scaled. True if so, false if not. Defaults to false
+     */
     public GirafPictogramItemView(final Context context, final ImageEntity imageEntity, final boolean useGrayScale) {
         this(context, imageEntity, null, null);
 
         this.useGrayScale = useGrayScale;
     }
 
+    /**
+     * Constructor for GirafPictogramItemView
+     * @param imageEntity the imageEntity to base the view upon
+     * @param title the title to display below the view
+     * @param useGrayScale indicate if the image should be displayed as gray scaled. True if so, false if not. Defaults to false
+     */
     public GirafPictogramItemView(final Context context, final ImageEntity imageEntity, final String title, final boolean useGrayScale) {
         this(context, imageEntity, null, title);
 
         this.useGrayScale = useGrayScale;
     }
 
+    /**
+     * Constructor for GirafPictogramItemView
+     * @param imageEntity the the imageEntity to base the view upon
+     * @param fallback a fallback drawable in case that the provided ImageEntity does not contain an image
+     * @param useGrayScale indicate if the image should be displayed as gray scaled. True if so, false if not. Defaults to false
+     */
     public GirafPictogramItemView(final Context context, final ImageEntity imageEntity, final Drawable fallback, final boolean useGrayScale) {
         this(context, imageEntity, fallback, null);
 
         this.useGrayScale = useGrayScale;
     }
 
+    /**
+     * Constructor for GirafPictogramItemView
+     * @param imageEntity the imageEntity to base the view upon
+     * @param fallback a fallback drawable in case that the provided ImageEntity does not contain an image
+     * @param title the title to display below the view
+     * @param useGrayScale indicate if the image should be displayed as gray scaled. True if so, false if not. Defaults to false
+     */
     public GirafPictogramItemView(final Context context, final ImageEntity imageEntity, final Drawable fallback, final String title, final boolean useGrayScale) {
         this(context, imageEntity, fallback, title);
 
