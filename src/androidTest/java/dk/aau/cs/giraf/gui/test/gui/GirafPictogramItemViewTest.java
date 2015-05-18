@@ -95,7 +95,7 @@ public class GirafPictogramItemViewTest extends ApplicationTestCase<Application>
         Assert.assertNotNull(iconImageView.getDrawable());
     }*/
 
-    public void testConstructorWithFallbackAndEmptyPictogram() throws InterruptedException {
+    /*public void testConstructorWithFallbackAndEmptyPictogram() throws InterruptedException {
         // Instantiate variables used in test
         Drawable fallback = getContext().getResources().getDrawable(R.drawable.icon_accept);
         view = new GirafPictogramItemView(getContext(), imageModel, fallback);
@@ -110,9 +110,9 @@ public class GirafPictogramItemViewTest extends ApplicationTestCase<Application>
         // Note that it is 'impossible' to check if the icon is the correct icon without comparing it visually
         Assert.assertNotNull(iconImageView);
         Assert.assertNotNull(iconImageView.getDrawable());
-    }
+    }*/
 
-    public void testConstructorWithFallbackAndTitle() throws InterruptedException {
+    /*public void testConstructorWithFallbackAndTitle() throws InterruptedException {
         // Instantiate variables used in test
         final String title = "title";
         Drawable fallback = getContext().getResources().getDrawable(R.drawable.icon_accept);
@@ -130,7 +130,7 @@ public class GirafPictogramItemViewTest extends ApplicationTestCase<Application>
         Assert.assertNotNull(iconImageView);
         Assert.assertNotNull(iconImageView.getDrawable());
         Assert.assertEquals(title, textView.getText());
-    }
+    }*/
 
     public void testSetCheckedTrue() {
         // Instantiate variables used in test
