@@ -444,6 +444,9 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
 
         this.indicatorOverlayDrawable = indicatorOverlayDrawable;
         isEditable = false;
+
+        // Make the view redraw on the GUI thread
+        postInvalidate();
     }
 
     @Override
