@@ -8,12 +8,15 @@
         android:minSdkVersion="15"
         android:targetSdkVersion="19" />
 
-    <application
-        android:killAfterRestore="true">
+    <application android:killAfterRestore="true">
         <activity
             android:name="dk.aau.cs.giraf.activity.GirafBugSplashActivity"
+            android:label="Fejlrapport"
+            android:launchMode="singleInstance"
+            android:noHistory="true"
+            android:stateNotNeeded="true"
             android:theme="@style/GirafTheme"
-            android:label="Fejlrapport"/>
+            android:excludeFromRecents="true"/>
     </application>
 
 </manifest>
