@@ -24,7 +24,7 @@ public class GirafSpinner extends Spinner {
     }
 
     private void initializeSpinner(AttributeSet attrs) {
-        this.setBackgroundResource(R.drawable.giraf_button_background);
+        this.setBackgroundResource(R.drawable.giraf_spinner_background);
         this.setPadding(0,0,0,0);
         this.setGravity(Gravity.CENTER);
     }
