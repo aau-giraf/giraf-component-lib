@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
@@ -21,9 +23,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.lang.reflect.Field;
-
-import dk.aau.cs.giraf.dblib.models.BasicImageModel;
+import dk.aau.cs.giraf.dblib.controllers.BaseImageControllerHelper;
+import dk.aau.cs.giraf.dblib.controllers.ImageEntity;
 import dk.aau.cs.giraf.dblib.models.Pictogram;
 
 /**
@@ -60,6 +61,9 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     // For the conversion to relative bottom right position
     final int[] bottomRightLocation = new int[2];
 
+    // Used to indicate if the image should be gray scaled
+    private boolean useGrayScale = false;
+
     /**
      * Do not use this constructor in code. It should only be used to inflate it from xml!
      */
@@ -72,41 +76,110 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         }
 
         Pictogram sample = new Pictogram();
-        sample.setName("Sample imageModel");
+        sample.setName("Sample imageEntity");
         sample.setImage(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_copy));
         initialize(sample, null, sample.getName(), attrs);
     }
 
     //<editor-fold desc="constructors">
-    public GirafPictogramItemView(final Context context, final BasicImageModel imageModel) {
-        this(context, imageModel, null, null);
+
+    /**
+     * Constructor for GirafPictogramItemView
+     * @param imageEntity the imageEntity to base the view upon
+     */
+    public GirafPictogramItemView(final Context context, final ImageEntity imageEntity) {
+        this(context, imageEntity, null, null);
     }
 
-    public GirafPictogramItemView(final Context context, final BasicImageModel imageModel, final String title) {
-        this(context, imageModel, null, title);
+    /**
+     * Constructor for GirafPictogramItemView
+     * @param imageEntity the imageEntity to base the view upon
+     * @param title the title to display below the view
+     */
+    public GirafPictogramItemView(final Context context, final ImageEntity imageEntity, final String title) {
+        this(context, imageEntity, null, title);
     }
 
-    public GirafPictogramItemView(final Context context, final BasicImageModel imageModel, final Drawable fallback) {
-        this(context, imageModel, fallback, null);
+    /**
+     * Constructor for GirafPictogramItemView
+     * @param imageEntity the imageEntity to base the view upon
+     * @param fallback a fallback drawable in case that the provided ImageEntity does not contain an image
+     */
+    public GirafPictogramItemView(final Context context, final ImageEntity imageEntity, final Drawable fallback) {
+        this(context, imageEntity, fallback, null);
     }
 
-    public GirafPictogramItemView(final Context context, final BasicImageModel imageModel, final Drawable fallback, final String title) {
+    /**
+     * Constructor for GirafPictogramItemView
+     * @param imageEntity the imageEntity to base the view upon
+     * @param fallback a fallback drawable in case that the provided ImageEntity does not contain an image
+     * @param title the title to display below the view
+     */
+    public GirafPictogramItemView(final Context context, final ImageEntity imageEntity, final Drawable fallback, final String title) {
         super(context);
 
-        initialize(imageModel, fallback, title, null);
+        initialize(imageEntity, fallback, title, null);
+    }
+
+    /**
+     * Constructor for GirafPictogramItemView
+     * @param imageEntity the imageEntity to base the view upon
+     * @param useGrayScale indicate if the image should be displayed as gray scaled. True if so, false if not. Defaults to false
+     */
+    public GirafPictogramItemView(final Context context, final ImageEntity imageEntity, final boolean useGrayScale) {
+        this(context, imageEntity, null, null);
+
+        this.useGrayScale = useGrayScale;
+    }
+
+    /**
+     * Constructor for GirafPictogramItemView
+     * @param imageEntity the imageEntity to base the view upon
+     * @param title the title to display below the view
+     * @param useGrayScale indicate if the image should be displayed as gray scaled. True if so, false if not. Defaults to false
+     */
+    public GirafPictogramItemView(final Context context, final ImageEntity imageEntity, final String title, final boolean useGrayScale) {
+        this(context, imageEntity, null, title);
+
+        this.useGrayScale = useGrayScale;
+    }
+
+    /**
+     * Constructor for GirafPictogramItemView
+     * @param imageEntity the the imageEntity to base the view upon
+     * @param fallback a fallback drawable in case that the provided ImageEntity does not contain an image
+     * @param useGrayScale indicate if the image should be displayed as gray scaled. True if so, false if not. Defaults to false
+     */
+    public GirafPictogramItemView(final Context context, final ImageEntity imageEntity, final Drawable fallback, final boolean useGrayScale) {
+        this(context, imageEntity, fallback, null);
+
+        this.useGrayScale = useGrayScale;
+    }
+
+    /**
+     * Constructor for GirafPictogramItemView
+     * @param imageEntity the imageEntity to base the view upon
+     * @param fallback a fallback drawable in case that the provided ImageEntity does not contain an image
+     * @param title the title to display below the view
+     * @param useGrayScale indicate if the image should be displayed as gray scaled. True if so, false if not. Defaults to false
+     */
+    public GirafPictogramItemView(final Context context, final ImageEntity imageEntity, final Drawable fallback, final String title, final boolean useGrayScale) {
+        this(context, imageEntity, fallback, title);
+
+        this.useGrayScale = useGrayScale;
     }
     //</editor-fold>
 
     /**
      * Initialized the different components
      */
-    private void initialize(final BasicImageModel imageModel, final Drawable fallback, final String title, final AttributeSet attrs) {
+    private void initialize(final ImageEntity imageEntity, final Drawable fallback, final String title, final AttributeSet attrs) {
 
         // Disable layout optimization in order to enable this views onDraw method to be called by its parent
         // NOTICE: This is require to draw the edit-triangle
         setWillNotDraw(false);
 
-        // Find the XML for the imageModel and load it into the view
+        // Find the XML for the imageEntity and load it into the view
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflatedView = inflater.inflate(R.layout.giraf_pictogram, this);
 
@@ -121,7 +194,6 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         updateSizeAndSetVisible = new Runnable() {
             @Override
             public void run() {
-
                 // Generate new layout params
                 LinearLayout.LayoutParams newParams = (LinearLayout.LayoutParams) pictogramIconContainer.getLayoutParams();
                 newParams.height = pictogramIconContainer.getMeasuredWidth();
@@ -134,8 +206,8 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
             }
         };
 
-        // Set the imageModel (image) for the view (Will be done as an ASyncTask)
-        setImageModel(imageModel, fallback);
+        // Set the imageEntity (image) for the view (Will be done as an ASyncTask)
+        setImageModel(imageEntity, fallback);
 
         // Set the name of pictogram
         titleContainer = (TextView) inflatedView.findViewById(R.id.pictogram_title);
@@ -164,13 +236,13 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     }
 
     /**
-     * Reset the view (Checked state and imageModel image)
+     * Reset the view (Checked state and imageEntity image)
      */
     public synchronized void resetPictogramView() {
         // Hide the layout until it is loaded correctly
         inflatedView.setVisibility(INVISIBLE);
 
-        // Cancel any currently loading imageModel tasks
+        // Cancel any currently loading imageEntity tasks
         if (loadPictogramImage != null) {
             loadPictogramImage.cancel(true);
         }
@@ -183,53 +255,46 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     }
 
     /**
-     * Will update the view with the provided imageModel
+     * Will update the view with the provided imageEntity
      *
-     * @param imageModel the imageModel to update based upon
+     * @param imageEntity the imageEntity to update based upon
      */
-    public synchronized void setImageModel(final BasicImageModel imageModel) {
-        setImageModel(imageModel, null);
+    public synchronized void setImageModel(final ImageEntity imageEntity) {
+        setImageModel(imageEntity, null);
+    }
+
+    public synchronized void setImageModel(final ImageEntity imageEntity, final boolean useGrayScale) {
+        this.useGrayScale = useGrayScale;
+
+        setImageModel(imageEntity);
     }
 
     /**
-     * Will update the view with the provided imageModel. Uses the provided fallback if no image could be loaded
+     * Will update the view with the provided imageEntity. Uses the provided fallback if no image could be loaded
      *
-     * @param imageModel the imageModel to update based upon
-     * @param fallback   fallback drawable to use if no image could be loaded
+     * @param imageEntity the imageEntity to update based upon
+     * @param fallback    fallback drawable to use if no image could be loaded
      */
-    public synchronized void setImageModel(final BasicImageModel imageModel, final Drawable fallback) {
-
+    public synchronized void setImageModel(final ImageEntity imageEntity, final Drawable fallback) {
         // If provided with null, do not update!
-        if (imageModel == null) {
+        if (imageEntity == null) {
             return;
         }
 
-        // Cancel any currently loading imageModel tasks (This will ensure that we do not try and load two different pictograms)
+        // Cancel any currently loading imageEntity tasks (This will ensure that we do not try and load two different pictograms)
         if (loadPictogramImage != null) {
             loadPictogramImage.cancel(true);
         }
 
-        // This class will be used to load the imageModel (image) from the database and "insert" it into the view
+        // This class will be used to load the imageEntity (image) from the database and "insert" it into the view
         loadPictogramImage = new AsyncTask<Void, Void, Bitmap>() {
-
             @Override
             protected Bitmap doInBackground(Void... params) {
-                /**
-                 * We create a temporary reference to a imageModel because the current model objects saves a permanent reference to
-                 * their bitmaps once they are loaded once.
-                 * This creates memory overflows because we keep a list of all imageModel objects in memory
-                 */
-                final BasicImageModel b = (BasicImageModel) clone(imageModel);
+                BaseImageControllerHelper imageControllerHelper = new BaseImageControllerHelper(getContext());
+                final Bitmap image = useGrayScale ? imageControllerHelper.getBlackWhiteBitmap(imageEntity) : imageControllerHelper.getImage(imageEntity);
 
-                // Check if the temp could not be found (This means that no bitmap could be found)
-                if (b == null) {
-                    return null;
-                }
-
-                final Bitmap image = b.getImage();
-
-                // Find the imageModel to show
-                // Notice that we create a copy to avoid memory leak (See implementation of getImage on imageModel)
+                // Find the imageEntity to show
+                // Notice that we create a copy to avoid memory leak (See implementation of getImage on imageEntity)
                 return image != null ? image : drawableToBitmap(fallback);
             }
 
@@ -240,41 +305,16 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
                 // Register the runnable and invalidate (so that it will be updated)
                 inflatedView.post(updateSizeAndSetVisible);
             }
-
-            // This method will be used to clone the the BasicImageModel to avoid memory leak. See doInBackground
-            public Object clone(Object o) {
-                Object clone = null;
-
-                try {
-                    clone = o.getClass().newInstance();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-
-                // Walk up the superclass hierarchy
-                for (Class obj = o.getClass();
-                     !obj.equals(Object.class);
-                     obj = obj.getSuperclass()) {
-                    Field[] fields = obj.getDeclaredFields();
-                    for (int i = 0; i < fields.length; i++) {
-                        fields[i].setAccessible(true);
-                        try {
-                            // for each class/superclass, copy all fields
-                            // from this object to the clone
-                            fields[i].set(clone, fields[i].get(o));
-                        } catch (IllegalArgumentException e) {
-                        } catch (IllegalAccessException e) {
-                        }
-                    }
-                }
-                return clone;
-            }
         };
 
-        // Start loading the image of the imageModel
+        // Start loading the image of the imageEntity
         loadPictogramImage.execute();
+    }
+
+    public synchronized void setImageModel(final ImageEntity imageEntity, final Drawable fallback, final boolean useGrayScale) {
+        this.useGrayScale = useGrayScale;
+
+        setImageModel(imageEntity, fallback);
     }
 
     /**
@@ -319,14 +359,14 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     }
 
     /**
-     * Will hide the title of the imageModel
+     * Will hide the title of the imageEntity
      */
     public void hideTitle() {
         titleContainer.setVisibility(GONE);
     }
 
     /**
-     * Will show the title of the imageModel
+     * Will show the title of the imageEntity
      */
     public void showTitle() {
         titleContainer.setVisibility(VISIBLE);
@@ -340,7 +380,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     private boolean checked = false;
 
     /**
-     * Will set the checked state of the imageModel. This will only change the appearance of the view.
+     * Will set the checked state of the imageEntity. This will only change the appearance of the view.
      * True for a selected style, false for normal view.
      *
      * @param checked if true, the view will be updated to look selected/checked
@@ -359,7 +399,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     }
 
     /**
-     * Returns the checked state of the imageModel
+     * Returns the checked state of the imageEntity
      *
      * @return true if checked (selected), false is not
      */
@@ -369,7 +409,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     }
 
     /**
-     * Will toggle the selected/checked state of the imageModel
+     * Will toggle the selected/checked state of the imageEntity
      */
     @Override
     public void toggle() {
@@ -404,6 +444,9 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
 
         this.indicatorOverlayDrawable = indicatorOverlayDrawable;
         isEditable = false;
+
+        // Make the view redraw on the GUI thread
+        postInvalidate();
     }
 
     @Override
