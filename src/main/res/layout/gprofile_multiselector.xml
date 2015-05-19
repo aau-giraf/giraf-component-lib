@@ -26,17 +26,19 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
         android:layout_height="wrap_content"
         android:layout_below="@id/upperLayer"
         android:layout_marginTop="5dp"
+        android:orientation="horizontal"
         android:layout_centerHorizontal="true">
-        <dk.aau.cs.giraf.gui.GirafButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <dk.aau.cs.giraf.gui.GirafButtonNew
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:id="@+id/verifyButton"
             android:layout_marginRight="5dp"/>
-        <dk.aau.cs.giraf.gui.GirafButton
+        <dk.aau.cs.giraf.gui.GirafButtonNew
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/cancelButton"

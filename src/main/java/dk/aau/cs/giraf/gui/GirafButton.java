@@ -167,7 +167,6 @@ public class GirafButton extends LinearLayout implements Checkable {
         iconView.setMaxWidth(ICON_MAX_WIDTH);
         iconView.setMaxHeight(ICON_MAX_HEIGHT);
 
-
         // If attributes given in xml use them if the one given in the constructor is not set
         if (attrs != null) {
 
