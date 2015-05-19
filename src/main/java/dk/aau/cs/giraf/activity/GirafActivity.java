@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.gui.R;
@@ -144,25 +146,24 @@ public class GirafActivity extends FragmentActivity {
                 // Create the intent to start the new activity
                 Intent intent = new Intent(getApplicationContext(), GirafBugSplashActivity.class);
 
+                // Finish the current activity
+                finish();
+
                 // Set a special flag that will start the splash activity correctly
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 // Put the exception into a bundle and parse it into the intent
                 intent.putExtra(GirafBugSplashActivity.EXCEPTION_MESSAGE_TAG, ex.getMessage());
-                intent.putExtra(GirafBugSplashActivity.EXCEPTION_STACKTRACE_TAG, getStackTraceArray(ex));
+                intent.putExtra(GirafBugSplashActivity.EXCEPTION_STACKTRACE_TAG, getStackTraceArray(ex.getStackTrace()));
 
                 // Start the activity
                 startActivity(intent);
 
                 // Let the os handle the exception further
                 defaultUncaughtExceptionHandler.uncaughtException(thread, ex);
-
-                // Finish the current activity
-                finish();
             }
 
-            private String getStackTraceArray(Throwable e) {
-                StackTraceElement[] stackTraceElements = e.getStackTrace();
+            private String getStackTraceArray(StackTraceElement[] stackTraceElements) {
                 String[] stackTraceLines = new String[stackTraceElements.length];
 
                 int i = 0;
