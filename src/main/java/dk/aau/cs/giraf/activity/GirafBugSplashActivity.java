@@ -1,8 +1,10 @@
 package dk.aau.cs.giraf.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import dk.aau.cs.giraf.gui.R;
 
@@ -35,11 +37,8 @@ public class GirafBugSplashActivity extends GirafActivity {
 
     @Override
     public void onBackPressed() {
-        // When the back-button is pressed, stop this activity and launch the systems default launcher
-        Intent homeIntent = new Intent(Intent.ACTION_MAIN);
-        homeIntent.addCategory(Intent.CATEGORY_HOME);
-        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(homeIntent);
+        // When the back-button is pressed, stop this activity
+        finish();
     }
 
     @Override
