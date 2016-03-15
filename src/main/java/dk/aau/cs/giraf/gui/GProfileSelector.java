@@ -3,7 +3,6 @@ package dk.aau.cs.giraf.gui;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +13,7 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import dk.aau.cs.giraf.dblib.controllers.BaseImageControllerHelper;
 import dk.aau.cs.giraf.dblib.controllers.ProfileController;
 import dk.aau.cs.giraf.dblib.models.Profile;
 
@@ -29,6 +29,7 @@ public class GProfileSelector extends GDialog {
     private Profile currentProfile;
     private boolean placeGuardianInList = true;
     private Context context;
+    private BaseImageControllerHelper helper;
 
     public GProfileSelector(Context context, Profile guardianProfile, Profile currentProfile)
     {
@@ -63,22 +64,23 @@ public class GProfileSelector extends GDialog {
         LinearLayout profileLayout = (LinearLayout) currentProfileView.findViewById(R.id.profile_pic);
         ImageView profilePicture = (ImageView) profileLayout.findViewById(R.id.imageview_profilepic);
         GTextView currentPersonTextView = (GTextView) currentProfileView.findViewById(R.id.profile_name);
+        helper = new BaseImageControllerHelper(context);
 
         //Checks to see whether the profile is guardian or a child (if the current profile == null it's a guardian)
         if(currentProfile == null)
         {
             currentPersonTextView.setText(guardianProfile.getName());
-            if(guardianProfile.getImage() != null)
+            if(helper.getImage(guardianProfile) != null)
             {
-                profilePicture.setImageBitmap(guardianProfile.getImage());
+                profilePicture.setImageBitmap(helper.getImage(guardianProfile));
             }
         }
         else
         {
             currentPersonTextView.setText(currentProfile.getName());
-            if(currentProfile.getImage() != null)
+            if(helper.getImage(currentProfile) != null)
             {
-                profilePicture.setImageBitmap(currentProfile.getImage());
+                profilePicture.setImageBitmap(helper.getImage(currentProfile));
             }
         }
 

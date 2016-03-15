@@ -1,17 +1,14 @@
 package dk.aau.cs.giraf.gui.test.gui;
 
 import android.app.Application;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.test.ApplicationTestCase;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import junit.framework.Assert;
 
 import dk.aau.cs.giraf.dblib.controllers.ImageEntity;
-import dk.aau.cs.giraf.dblib.models.BasicImageModel;
 import dk.aau.cs.giraf.dblib.models.Pictogram;
 import dk.aau.cs.giraf.gui.GirafPictogramItemView;
 import dk.aau.cs.giraf.gui.R;
