@@ -34,6 +34,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
 
     // The inflated view (See constructors)
     private View inflatedView;
+    private BaseImageControllerHelper imageControllerHelper;
 
     private RelativeLayout pictogramIconContainer;
     private ImageView iconImageView;
@@ -77,7 +78,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
 
         Pictogram sample = new Pictogram();
         sample.setName("Sample imageEntity");
-        sample.setImage(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_copy));
+        imageControllerHelper.setImage(sample,BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_copy));
         initialize(sample, null, sample.getName(), attrs);
     }
 
@@ -178,6 +179,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         // Disable layout optimization in order to enable this views onDraw method to be called by its parent
         // NOTICE: This is require to draw the edit-triangle
         setWillNotDraw(false);
+        imageControllerHelper = new BaseImageControllerHelper(getContext());
 
         // Find the XML for the imageEntity and load it into the view
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -290,7 +292,6 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         loadPictogramImage = new AsyncTask<Void, Void, Bitmap>() {
             @Override
             protected Bitmap doInBackground(Void... params) {
-                BaseImageControllerHelper imageControllerHelper = new BaseImageControllerHelper(getContext());
                 final Bitmap image = useGrayScale ? imageControllerHelper.getBlackWhiteBitmap(imageEntity) : imageControllerHelper.getImage(imageEntity);
 
                 // Find the imageEntity to show

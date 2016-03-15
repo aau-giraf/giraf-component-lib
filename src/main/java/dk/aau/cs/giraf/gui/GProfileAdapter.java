@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
-import android.util.StateSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import android.widget.ImageView;
 
 import java.util.List;
 
+import dk.aau.cs.giraf.dblib.controllers.BaseImageControllerHelper;
 import dk.aau.cs.giraf.dblib.models.Profile;
 
 /**
@@ -27,10 +27,12 @@ public class GProfileAdapter extends BaseAdapter {
     protected GradientDrawable stylePressed;
     protected GradientDrawable styleUnPressed;
     protected GradientDrawable picBackground;
-    
+    private BaseImageControllerHelper helper;
+
     public GProfileAdapter(Activity a, List<Profile> d) {
         activity = a;
         data=d;
+        helper = new BaseImageControllerHelper(a);
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 	
@@ -53,9 +55,9 @@ public class GProfileAdapter extends BaseAdapter {
 
         ImageView profilePicture = (ImageView)vi.findViewById(R.id.imageview_profilepic);
 
-            if(data.get(position).getImage() != null)
+            if(helper.getImage(data.get(position)) != null)
             {
-                profilePicture.setImageBitmap(data.get(position).getImage());
+                profilePicture.setImageBitmap(helper.getImage(data.get(position)));
             }
 
         StateListDrawable stateListDrawable = new StateListDrawable();
