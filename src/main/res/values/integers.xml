@@ -15,4 +15,5 @@
     <integer name="giraf_button_padding">11</integer>
     <integer name="giraf_button_corner_radius">10</integer>
     <integer name="giraf_button_stroke_width">2</integer>
+    <integer name="giraf_disabled_app_alpha">20</integer>
 </resources>
