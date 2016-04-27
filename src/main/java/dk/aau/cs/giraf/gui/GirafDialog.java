@@ -1,6 +1,8 @@
 package dk.aau.cs.giraf.gui;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -25,16 +27,16 @@ public abstract class GirafDialog extends DialogFragment {
     private AlertDialog.Builder dialogBuilder; // The Builder for the GirafDialog
 
     /**
-     * Sets the title of the {@link.dk.aau.cs.giraf.GirafDialog}
-     * @param title the title
+     * Sets the title of the {@link dk.aau.cs.giraf.gui.GirafDialog}
+     * @param title the title of the dialog
      */
     protected final void setTitle(final String title) {
         titleTextView.setText(title);
     }
 
     /**
-     * Sets the description of the {@link.dk.aau.cs.giraf.GirafDialog}
-     * @param description the description
+     * Sets the description of the {@link dk.aau.cs.giraf.gui.GirafDialog}
+     * @param description the description of the dialog
      */
     protected final void setDescription(final String description) {
         descriptionTextView.setText(description);
@@ -42,7 +44,7 @@ public abstract class GirafDialog extends DialogFragment {
     }
 
     /**
-     * Sets a custom layout into the {@link.dk.aau.cs.giraf.GirafDialog}
+     * Sets a custom layout into the {@link dk.aau.cs.giraf.gui.GirafDialog}
      * @param viewGroup the custom layout
      */
     protected final void setCustomView(final ViewGroup viewGroup) {
@@ -51,8 +53,8 @@ public abstract class GirafDialog extends DialogFragment {
     }
 
     /**
-     * Adds a button to the bottom of the {@link.dk.aau.cs.giraf.GirafDialog}
-     * @param girafButton a {@link.dk.aau.cs.giraf.GirafButton}
+     * Adds a button to the bottom of the {@link dk.aau.cs.giraf.gui.GirafDialog}
+     * @param girafButton a {@link dk.aau.cs.giraf.gui.GirafButton}
      */
     protected final void addButton(final GirafButton girafButton) {
         // Add the button with the static params
@@ -88,5 +90,21 @@ public abstract class GirafDialog extends DialogFragment {
 
         // Return the created dialog
         return dialogBuilder.create();
+    }
+
+    /**
+     * Is called whenever a {@link dk.aau.cs.giraf.gui.GirafDialog} is dismissed.
+     * It calls the onDismiss() method of the parent activity, if that activity
+     * implements {@link android.content.DialogInterface.OnDismissListener OnDismissListener}
+     * @param dialog that is dismissed
+     */
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+
+        Activity activity = getActivity();
+        if (activity != null && activity instanceof DialogInterface.OnDismissListener) {
+            ((DialogInterface.OnDismissListener) activity).onDismiss(dialog);
+        }
     }
 }
