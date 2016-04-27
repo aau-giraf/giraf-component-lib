@@ -45,7 +45,7 @@ public abstract class GirafDialog extends DialogFragment {
 
     /**
      * Sets a custom layout into the {@link dk.aau.cs.giraf.gui.GirafDialog}
-     * @param viewGroup the custom layout
+     * @param viewGroup the custom layout of the dialog
      */
     protected final void setCustomView(final ViewGroup viewGroup) {
         customView.addView(viewGroup);
