@@ -84,6 +84,10 @@ public class GirafProfileSelectorAdapter extends BaseAdapter {
         checkedProfileList.set(position, newProfilePair);
     }
 
+    public boolean getItemChecked(int position) {
+        return checkedProfileList.get(position).second;
+    }
+
     public void toggleItemChecked(int position) {
         Pair<Profile,Boolean> oldProfilePair = checkedProfileList.get(position);
         Pair<Profile,Boolean> newProfilePair = new Pair<Profile,Boolean>(oldProfilePair.first,!oldProfilePair.second);

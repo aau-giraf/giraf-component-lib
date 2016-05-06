@@ -22,6 +22,7 @@ public abstract class GirafDialog extends DialogFragment {
     private LinearLayout dialogLayout; // The layout containing the dialog
     private TextView titleTextView; // The textView of the title
     private TextView descriptionTextView; // The textView of the description
+    private TextView warningTextView; // The textView of the description
     private FrameLayout customView; // The container for some custom layout
     private LinearLayout buttonContainer; // A container for the buttons in the bottom
     private AlertDialog.Builder dialogBuilder; // The Builder for the GirafDialog
@@ -41,6 +42,28 @@ public abstract class GirafDialog extends DialogFragment {
     protected final void setDescription(final String description) {
         descriptionTextView.setText(description);
         descriptionTextView.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Sets warning view text. IMPORTANT: showWarning has to be called separately to actually show the warning
+     * @param warning the warning text
+     */
+    protected final void setWarningText(final String warning) {
+        warningTextView.setText(warning);
+    }
+
+    /**
+     * Shows the warning text view
+     */
+    protected final void showWarning () {
+        warningTextView.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Hides the warning text view
+     */
+    protected final void hideWarning () {
+        warningTextView.setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -83,6 +106,7 @@ public abstract class GirafDialog extends DialogFragment {
         // Create views from withing outer layout
         titleTextView =  (TextView) dialogLayout.findViewById(R.id.title);
         descriptionTextView =  (TextView) dialogLayout.findViewById(R.id.description);
+        warningTextView =  (TextView) dialogLayout.findViewById(R.id.warning);
         customView = (FrameLayout) dialogLayout.findViewById(R.id.custom_view);
 
         // Set the view of the dialogBuilder to the custom created view

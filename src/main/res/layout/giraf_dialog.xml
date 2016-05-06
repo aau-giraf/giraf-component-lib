@@ -25,16 +25,31 @@
         android:layout_below="@+id/title"
         android:layout_weight="0"
         android:gravity="center_horizontal"
-        android:padding="@dimen/giraf_dialog_description_text_padding"
+        android:paddingLeft="@dimen/giraf_dialog_description_text_padding"
+        android:paddingRight="@dimen/giraf_dialog_description_text_padding"
+        android:paddingTop="@dimen/giraf_dialog_description_text_padding"
+        android:paddingBottom="@dimen/giraf_dialog_description_text_paddingBottom"
         android:textSize="@dimen/giraf_dialog_description_text_size"
         android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/warning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/description"
+        android:layout_weight="0"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/giraf_dialog_warning_text_padding"
+        android:textSize="@dimen/giraf_dialog_warning_text_size"
+        android:visibility="invisible"
+        android:textColor="@color/giraf_warning_text" />
 
     <FrameLayout
         android:id="@+id/custom_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/warning"
         android:layout_above="@+id/button_container"
-        android:layout_below="@+id/description"
         android:layout_marginBottom="@dimen/giraf_dialog_item_spacing"
         android:layout_marginTop="@dimen/giraf_dialog_item_spacing"
         android:layout_weight="1"
