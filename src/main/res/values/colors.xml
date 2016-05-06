@@ -7,6 +7,7 @@
 
     <!-- Text color -->
     <color name="giraf_text">#000000</color>
+    <color name="giraf_warning_text">#ff0000</color>
 
     <!-- Base color for buttons -->
     <color name="giraf_button_fill_start">#ffcd59</color>
