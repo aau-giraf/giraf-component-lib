@@ -1,0 +1,9 @@
+[submodule "submodules/db-lib"]
+	path = submodules/db-lib
+	url = http://git.giraf.cs.aau.dk/Giraf17-AndroidLibs/db-lib
+[submodule "submodules/meta-database-lib"]
+	path = submodules/meta-database-lib
+	url = http://git.giraf.cs.aau.dk/Giraf17-AndroidLibs/meta-database-lib
+[submodule "submodules/local-db"]
+	path = submodules/local-db
+	url = http://git.giraf.cs.aau.dk/Giraf/local-db
