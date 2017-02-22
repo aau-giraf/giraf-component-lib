@@ -4,5 +4,5 @@ project(':oasisLib').projectDir = new File("submodule/db-lib")
 
 project(':meta-database').projectDir = new File("submodule/meta-database-lib")
 
-project(':localDb').projectDir = new File("submodule/db-lib")
+project(':localDb').projectDir = new File("submodule/local-db")
 
