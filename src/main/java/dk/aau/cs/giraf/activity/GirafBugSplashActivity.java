@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.analytics.tracking.android.EasyTracker;
 
 import dk.aau.cs.giraf.gui.R;
 
@@ -15,7 +16,7 @@ public class GirafBugSplashActivity extends GirafActivity {
 
     public static final String EXCEPTION_MESSAGE_TAG = "EXCEPTION_MESSAGE_TAG";
     public static final String EXCEPTION_STACKTRACE_TAG = "EXCEPTION_STACKTRACE_TAG";
-
+    private EasyTracker easytracker = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +34,8 @@ public class GirafBugSplashActivity extends GirafActivity {
         // FInd and set the stacktrace message
         TextView stacktraceView = (TextView) findViewById(R.id.stacktrace);
         stacktraceView.setText(stacktrace);
+
+        easytracker = new EasyTracker.getInstance(this);
     }
 
     @Override
@@ -47,6 +50,17 @@ public class GirafBugSplashActivity extends GirafActivity {
         onDestroy();
     }
 
+    @Override
+    public onStart(){
+        super.onStart();
+        easytracker.getInstance(this).activityStart(this);
+    }
+
+    @Override
+    public onStop(){
+        super.onStop();
+        easytracker.getInstance(this).activityStop(this);
+    }
     @Override
     protected void onDestroy() {
         android.os.Process.killProcess(android.os.Process.myPid());
