@@ -2,12 +2,13 @@
 buildscript {
     repositories {
         mavenCentral()
+        jcenter()
         maven {
             url 'http://jenkins.giraf.cs.aau.dk:8080/artifactory/libraries'
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.android.tools.build:gradle:2.2.3'
         classpath 'dk.aau.cs.giraf:giraf-library:2.0.2'
     }
 }
@@ -23,6 +24,7 @@ apply plugin: 'dk.giraf.lib'
 
 repositories {
     mavenCentral()
+    jcenter()
     maven {
         url 'http://jenkins.giraf.cs.aau.dk:8080/artifactory/libraries'
     }
@@ -33,8 +35,7 @@ dependencies {
     compile(group: 'dk.aau.cs.giraf', name: 'oasisLib', version: '9.0.2', ext: 'aar')
     compile(group: 'dk.aau.cs.giraf', name: 'localDb', version: '5.1.5', ext: 'aar')
     compile(group: 'dk.aau.cs.giraf', name: 'meta-database', version: '3.2.3')
-    compile files('libs/nineoldandroids-2.4.0.jar')
-    compile fileTree(dir: 'libs', include: '*.jar')
+    compile files('libs/libGoogleAnalyticsServices.jar')
 }
 
 android {
