@@ -2,9 +2,9 @@ package dk.aau.cs.giraf.activity;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
@@ -22,8 +22,11 @@ import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.gui.R;
 import dk.aau.cs.giraf.utilities.GirafScalingUtilities;
 
+import java.io.Serializable;
+
 /**
  * Created on 17/03/15.
+ * Modified on 29/03/17
  * An activity that allows for a shared action bar.
  */
 public class GirafActivity extends FragmentActivity {
@@ -37,13 +40,13 @@ public class GirafActivity extends FragmentActivity {
     private LeftActionBarLayout actionBarCustomViewLeft; // The left side of the action bar that can be customized
     private RightActionBarLayout actionBarCustomViewRight; // The right side of the action bar that can be customized
     private TextView actionBarTitleView; // The view to contain the title of the action bar
-
+    private String trackingId = "UA-48608499-1"; //Default tracking id for google analytics, it is the launcher id
     // Constants to use when inserting buttons to the action bar
     public static final int LEFT = 0;
     public static final int RIGHT = 1;
 
     /**
-     * Layout placed to the right in the action bar
+     * Layout placed to the right in the action bar.
      */
     private class RightActionBarLayout extends LinearLayout {
 
@@ -72,14 +75,16 @@ public class GirafActivity extends FragmentActivity {
          * @param girafButton a button to be added
          */
         public void addGirafButton(final GirafButton girafButton) {
-            final LinearLayout.LayoutParams buttonParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            buttonParams.leftMargin = (int) GirafScalingUtilities.convertDpToPixel(getContext(), ACTION_BAR_SPACING_LEFT_RIGHT);
+            final LinearLayout.LayoutParams buttonParams = new LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            buttonParams.leftMargin = (int) GirafScalingUtilities.convertDpToPixel(getContext(),
+                ACTION_BAR_SPACING_LEFT_RIGHT);
             this.addView(girafButton, buttonParams);
         }
     }
 
     /**
-     * Layout placed to the left in the action bar
+     * Layout placed to the left in the action bar.
      */
     private class LeftActionBarLayout extends LinearLayout {
 
@@ -101,14 +106,16 @@ public class GirafActivity extends FragmentActivity {
          * @param girafButton a button to be added
          */
         public void addGirafButton(final GirafButton girafButton) {
-            final LinearLayout.LayoutParams buttonParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            buttonParams.rightMargin = (int) GirafScalingUtilities.convertDpToPixel(getContext(), ACTION_BAR_SPACING_LEFT_RIGHT);
+            final LinearLayout.LayoutParams buttonParams = new LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            buttonParams.rightMargin = (int) GirafScalingUtilities.convertDpToPixel(getContext(),
+                ACTION_BAR_SPACING_LEFT_RIGHT);
             this.addView(girafButton, buttonParams);
         }
     }
 
     /**
-     * Creates the GirafActivity
+     * Creates the GirafActivity.
      */
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -134,11 +141,15 @@ public class GirafActivity extends FragmentActivity {
         */
 
         // Check if the GirafTheme is used, otherwise throw an exception
-        if (!(getActivityThemeId() == R.style.GirafTheme || getActivityThemeId() == R.style.GirafTheme_NoTitleBar || getApplicationThemeId() == R.style.GirafTheme || getApplicationThemeId() == R.style.GirafTheme_NoTitleBar)) {
-            throw new UnsupportedOperationException("You should be using the GirafTheme or GirafTheme.NoTitleBar for your GirafActivity or your Application in your manifest");
+        if (!(getActivityThemeId() == R.style.GirafTheme || getActivityThemeId() == R.style.GirafTheme_NoTitleBar ||
+            getApplicationThemeId() == R.style.GirafTheme || getApplicationThemeId() == R.style.GirafTheme_NoTitleBar))
+        {
+            throw new UnsupportedOperationException("You should be using the GirafTheme or GirafTheme.NoTitleBar" +
+                " for your GirafActivity or your Application in your manifest");
         }
 
-        final Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
+        final Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandler =
+            Thread.getDefaultUncaughtExceptionHandler();
 
         Thread.currentThread().setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
@@ -152,32 +163,15 @@ public class GirafActivity extends FragmentActivity {
                 // Set a special flag that will start the splash activity correctly
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                // Put the exception into a bundle and parse it into the intent
-                intent.putExtra(GirafBugSplashActivity.EXCEPTION_MESSAGE_TAG, ex.getMessage());
-                intent.putExtra(GirafBugSplashActivity.EXCEPTION_STACKTRACE_TAG, getStackTraceArray(ex.getStackTrace()));
+                // Put the exception and the tracking Id into a bundle and parse it into the intent
+                intent.putExtra(GirafBugSplashActivity.EXCEPTION_TAG, ex);
+                intent.putExtra(GirafBugSplashActivity.TRACKING_ID_TAG, trackingId);
 
                 // Start the activity
                 startActivity(intent);
 
                 // Let the os handle the exception further
                 defaultUncaughtExceptionHandler.uncaughtException(thread, ex);
-            }
-
-            private String getStackTraceArray(StackTraceElement[] stackTraceElements) {
-                String[] stackTraceLines = new String[stackTraceElements.length];
-
-                int i = 0;
-                for (StackTraceElement se : stackTraceElements) {
-                    stackTraceLines[i++] = se.toString();
-                }
-
-                StringBuilder builder = new StringBuilder();
-                for (String s : stackTraceLines) {
-                    builder.append(s);
-                    builder.append("\n");
-                }
-
-                return builder.toString();
             }
         });
 
@@ -190,6 +184,10 @@ public class GirafActivity extends FragmentActivity {
             actionBar.setCustomView(createActionBarView()); // Set the custom view to the action bar
             actionBar.setDisplayShowCustomEnabled(true); // Show the custom custom view of the action bar
         }
+    }
+
+    public void setTrackingId(String trackingId) {
+        this.trackingId = trackingId;
     }
 
     public int getActivityThemeId() {
@@ -228,7 +226,8 @@ public class GirafActivity extends FragmentActivity {
 
         // If the theme of the activity wants no title bar tell the developer that it is not going to be shown
         if (actionBar == null) {
-            throw new IllegalStateException("You cannot add a GirafButton to GirafActivity with \"GirafTheme.NoTitleBar\" use \"GirafTheme\" instead ");
+            throw new IllegalStateException("You cannot add a GirafButton to " +
+                "GirafActivity with \"GirafTheme.NoTitleBar\" use \"GirafTheme\" instead ");
         }
 
         // Place the button on the wanted side of the actionBar
@@ -237,13 +236,14 @@ public class GirafActivity extends FragmentActivity {
         } else if (side == RIGHT) {
             actionBarCustomViewRight.addGirafButton(girafButton);
         } else {
-            throw new IllegalArgumentException("You have to give LEFT or RIGHT side when adding a button to the actionbar");
+            throw new IllegalArgumentException("You have to give LEFT or RIGHT " +
+                "side when adding a button to the actionbar");
         }
 
     }
 
     /**
-     * Sets the title of the action bar
+     * Sets the title of the action bar.
      *
      * @param title the title of the action bar
      */
@@ -252,7 +252,7 @@ public class GirafActivity extends FragmentActivity {
     }
 
     /**
-     * Creates the view of the actionbar
+     * Creates the view of the actionbar.
      *
      * @return the custom view to be set in the action bar
      */
@@ -296,7 +296,8 @@ public class GirafActivity extends FragmentActivity {
         actionBarTitleView.setIncludeFontPadding(false);
 
         // The layout params for the titleView
-        final RelativeLayout.LayoutParams titleParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        final RelativeLayout.LayoutParams titleParams =
+            new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         // Align the text in the center of the actionBarLayout
         titleParams.addRule(RelativeLayout.CENTER_IN_PARENT);
@@ -306,12 +307,14 @@ public class GirafActivity extends FragmentActivity {
 
         // Add the left customizable layout of the action bar
         actionBarCustomViewLeft = new LeftActionBarLayout(this);
-        RelativeLayout.LayoutParams leftActionBarLayoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        RelativeLayout.LayoutParams leftActionBarLayoutParams = new RelativeLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
         leftActionBarLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         actionBarCustomView.addView(actionBarCustomViewLeft, leftActionBarLayoutParams);
 
         // The backButton of the actionBarLayout
-        final GirafButton backButton = new GirafButton(this, this.getResources().getDrawable(R.drawable.icon_back));
+        final GirafButton backButton = new GirafButton(this,
+            this.getResources().getDrawable(R.drawable.icon_back));
 
         backButton.setId(R.id.giraf_action_bar_back_button); // Set the ID of the backButton
 
@@ -328,7 +331,8 @@ public class GirafActivity extends FragmentActivity {
 
         // Add the left customizable layout of the action bar
         actionBarCustomViewRight = new RightActionBarLayout(this);
-        RelativeLayout.LayoutParams rightActionBarLayoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        RelativeLayout.LayoutParams rightActionBarLayoutParams =
+            new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
         rightActionBarLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         actionBarCustomView.addView(actionBarCustomViewRight, rightActionBarLayoutParams);
 
@@ -336,7 +340,7 @@ public class GirafActivity extends FragmentActivity {
     }
 
     /**
-     * Calculates the text size of the actionBar
+     * Calculates the text size of the actionBar.
      *
      * @return the wanted text size of the actionBar
      */
