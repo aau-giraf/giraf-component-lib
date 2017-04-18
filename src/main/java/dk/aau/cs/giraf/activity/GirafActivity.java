@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
@@ -18,6 +19,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.analytics.tracking.android.GoogleAnalytics;
+import com.google.analytics.tracking.android.MapBuilder;
+import com.google.analytics.tracking.android.StandardExceptionParser;
+import com.google.analytics.tracking.android.Tracker;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.gui.R;
 import dk.aau.cs.giraf.utilities.GirafScalingUtilities;
@@ -154,6 +159,19 @@ public class GirafActivity extends FragmentActivity {
         Thread.currentThread().setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread thread, final Throwable ex) {
+
+                // Sends the exception to google analytics
+                sendExceptionToGoogleAnalytics(ex);
+
+                // Restarts the activity Todo find out if it restarts the launcher or at least work
+                if (Build.VERSION.SDK_INT >= 11) {
+                    recreate();
+                } else {
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+                }
+                /*
                 // Create the intent to start the new activity
                 Intent intent = new Intent(getApplicationContext(), GirafBugSplashActivity.class);
 
@@ -172,6 +190,7 @@ public class GirafActivity extends FragmentActivity {
 
                 // Let the os handle the exception further
                 defaultUncaughtExceptionHandler.uncaughtException(thread, ex);
+                */
             }
         });
 
@@ -184,6 +203,13 @@ public class GirafActivity extends FragmentActivity {
             actionBar.setCustomView(createActionBarView()); // Set the custom view to the action bar
             actionBar.setDisplayShowCustomEnabled(true); // Show the custom custom view of the action bar
         }
+    }
+
+    private void sendExceptionToGoogleAnalytics(Throwable ex){
+        Tracker tracker = GoogleAnalytics.getInstance(this).getTracker(trackingId);
+        tracker.send(MapBuilder.createException(new StandardExceptionParser(this,null)
+            .getDescription(Thread.currentThread().getName(),ex),true)
+            .build());
     }
 
     public void setTrackingId(String trackingId) {
