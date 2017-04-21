@@ -12,7 +12,7 @@ import static android.view.View.LAYER_TYPE_HARDWARE;
  * Created by Christoffer D. Mouritzen on 12-04-2017.
  */
 public class GrayScaleHelper {
-    public static void setGrey(View view, boolean state){
+    public static void setGray(View view, boolean state){
         ColorMatrix cm = new ColorMatrix();
         if(state) {
             cm.setSaturation(0);
@@ -20,9 +20,9 @@ public class GrayScaleHelper {
         else{
             cm.setSaturation(100);
         }
-        Paint greyscalePaint = new Paint();
-        greyscalePaint.setColorFilter(new ColorMatrixColorFilter(cm));
+        Paint grayscalePaint = new Paint();
+        grayscalePaint.setColorFilter(new ColorMatrixColorFilter(cm));
         // Create a hardware layer with the greyscale paint
-        view.setLayerType(LAYER_TYPE_HARDWARE, greyscalePaint);
+        view.setLayerType(LAYER_TYPE_HARDWARE, grayscalePaint);
     }
 }
