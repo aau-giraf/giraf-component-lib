@@ -14,9 +14,8 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import dk.aau.cs.giraf.dblib.Helper;
-import dk.aau.cs.giraf.dblib.models.Department;
-import dk.aau.cs.giraf.dblib.models.Profile;
+import dk.aau.cs.giraf.models.core.Department;
+import dk.aau.cs.giraf.models.core.User;
 
 public class GirafProfileSelectorDialog extends GirafDialog {
 
@@ -41,7 +40,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
          *
          * @param dialogIdentifier the identifier of the dialog
          */
-        public void onProfileSelected(int dialogIdentifier, Profile profile);
+        public void onProfileSelected(int dialogIdentifier, User profile);
 
     }
 
@@ -57,7 +56,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
          *
          * @param dialogIdentifier the identifier of the dialog
          */
-        public void onProfilesSelected(int dialogIdentifier,List<Pair<Profile, Boolean>> checkedProfileList);
+        public void onProfilesSelected(int dialogIdentifier,List<Pair<User, Boolean>> checkedProfileList);
 
     }
 
@@ -68,7 +67,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
      * An async task that fetches profiles from the database given ids,
      * it also sets the adapter and builds listeners on the profile grid
      */
-    private class LoadUsers extends AsyncTask<Void, Void, List<Profile>> {
+    private class LoadUsers extends AsyncTask<Void, Void, List<User>> {
         private long[] profileIds;
         private boolean[] profilesCheckedStatus;
         private boolean selectMultipleProfiles;
@@ -93,9 +92,11 @@ public class GirafProfileSelectorDialog extends GirafDialog {
         }
 
         @Override
-        protected List<Profile> doInBackground(Void... params) {
+        protected List<User> doInBackground(Void... params) {
             // A list of profiles
-            ArrayList<Profile> profiles = new ArrayList<Profile>();
+            ArrayList<User> profiles = new ArrayList<User>();
+
+
 
             // Fill the list of profiles using the helper and the ids
             for (long profileId : profileIds) {
@@ -105,7 +106,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
         }
 
         @Override
-        protected void onPostExecute(List<Profile> profiles) {
+        protected void onPostExecute(List<User> profiles) {
             super.onPostExecute(profiles);
 
             // Create the adapter using the profiles found in doInBackground
@@ -196,7 +197,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
                         }
 
                         // Find the selectedProfile
-                        Profile selectedProfile = (Profile) profileGrid.getAdapter().getItem(position);
+                        User selectedProfile = (User) profileGrid.getAdapter().getItem(position);
 
                         // Call the method in the activity that returns the selected profile
                         profileListener.onProfileSelected(dialogIdentifier, selectedProfile);
@@ -245,20 +246,20 @@ public class GirafProfileSelectorDialog extends GirafDialog {
         Helper helper = new Helper(context);
 
         // Find the guardian
-        Profile guardian = helper.profilesHelper.getById(guardianID);
+        User guardian = helper.profilesHelper.getById(guardianID);
         // Find the department of the guardian
         Department guardianDepartment = helper.departmentsHelper.getDepartmentsByProfile(guardian);
 
         // Find the profiles of the citizens of a department and sub departments
-        List<Profile> profiles = helper.profilesHelper.getChildrenByDepartmentAndSubDepartments(guardianDepartment);
-        List<Pair<Profile, Boolean>> profileCheckList = new ArrayList<Pair<Profile, Boolean>>();
+        List<User> profiles = helper.profilesHelper.getChildrenByDepartmentAndSubDepartments(guardianDepartment);
+        List<Pair<User, Boolean>> profileCheckList = new ArrayList<Pair<User, Boolean>>();
 
         if (includeGuardian) {
             profiles.add(0, guardian);
         }
 
-        for (Profile profile : profiles) {
-            profileCheckList.add(new Pair<Profile, Boolean>(profile, false));
+        for (User profile : profiles) {
+            profileCheckList.add(new Pair<User, Boolean>(profile, false));
         }
 
         return newInstance(profileCheckList, selectMultipleProfiles, description, warning, dialogIdentifier, selectedCitizenId);
@@ -273,7 +274,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
      * @param dialogIdentifier a unique identifier of the dialog
      * @return a GirafProfileSelector
      */
-    public static GirafProfileSelectorDialog newInstance(List<Pair<Profile, Boolean>> profileCheckList,
+    public static GirafProfileSelectorDialog newInstance(List<Pair<User, Boolean>> profileCheckList,
                                                          boolean selectMultipleProfiles, String description, String warning,
                                                          int dialogIdentifier, long selectedCitizenId) {
         GirafProfileSelectorDialog girafProfileSelectorDialog = new GirafProfileSelectorDialog();
