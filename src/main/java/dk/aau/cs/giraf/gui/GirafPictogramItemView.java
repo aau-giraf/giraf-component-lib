@@ -23,9 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import dk.aau.cs.giraf.dblib.controllers.BaseImageControllerHelper;
-import dk.aau.cs.giraf.dblib.controllers.ImageEntity;
-import dk.aau.cs.giraf.dblib.models.Pictogram;
+import dk.aau.cs.giraf.models.core.Pictogram;
 
 /**
  * Created on 14/04/2015.

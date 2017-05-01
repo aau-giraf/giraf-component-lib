@@ -8,11 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import dk.aau.cs.giraf.models.core.User;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import dk.aau.cs.giraf.dblib.models.Pictogram;
-import dk.aau.cs.giraf.dblib.models.Profile;
 
 /**
  * Created by on 22/04/15.
@@ -20,16 +19,16 @@ import dk.aau.cs.giraf.dblib.models.Profile;
 public class GirafProfileSelectorAdapter extends BaseAdapter {
 
     private final Context context;
-    private List<Pair<Profile,Boolean>> checkedProfileList;
+    private List<Pair<User,Boolean>> checkedProfileList;
 
     // private final LayoutInflater inflater;
 
-    public GirafProfileSelectorAdapter(Context context, List<Profile> profileList) {
+    public GirafProfileSelectorAdapter(Context context, List<User> profileList) {
 
-        this.checkedProfileList = new ArrayList<Pair<Profile, Boolean>>();
+        this.checkedProfileList = new ArrayList<Pair<User, Boolean>>();
 
-        for(Profile profile : profileList) {
-            this.checkedProfileList.add(new Pair<Profile, Boolean>(profile, false));
+        for(User profile : profileList) {
+            this.checkedProfileList.add(new Pair<User, Boolean>(profile, false));
         }
 
         this.context = context;
@@ -41,7 +40,7 @@ public class GirafProfileSelectorAdapter extends BaseAdapter {
     }
 
     @Override
-    public Profile getItem(int position) {
+    public User getItem(int position) {
         return checkedProfileList.get(position).first;
     }
 
@@ -53,12 +52,12 @@ public class GirafProfileSelectorAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Pair<Profile,Boolean> profilePair = checkedProfileList.get(position);
-        Profile profile = profilePair.first;
+        Pair<User,Boolean> profilePair = checkedProfileList.get(position);
+        User profile = profilePair.first;
         GirafPictogramItemView itemView;
 
         if(convertView == null) {
-            itemView = new GirafPictogramItemView(context, profile, context.getResources().getDrawable(R.drawable.no_profile_pic), profile.getName());
+            itemView = new GirafPictogramItemView(context, profile, context.getResources().getDrawable(R.drawable.no_profile_pic), profile.getUsername());
         } else {
             itemView = (GirafPictogramItemView)convertView;
             itemView.resetPictogramView();
@@ -79,8 +78,8 @@ public class GirafProfileSelectorAdapter extends BaseAdapter {
     }
 
     public void setItemChecked(int position, boolean checked) {
-        Pair<Profile,Boolean> oldProfilePair = checkedProfileList.get(position);
-        Pair<Profile,Boolean> newProfilePair = new Pair<Profile,Boolean>(oldProfilePair.first,checked);
+        Pair<User,Boolean> oldProfilePair = checkedProfileList.get(position);
+        Pair<User,Boolean> newProfilePair = new Pair<User,Boolean>(oldProfilePair.first,checked);
         checkedProfileList.set(position, newProfilePair);
     }
 
@@ -89,21 +88,21 @@ public class GirafProfileSelectorAdapter extends BaseAdapter {
     }
 
     public void toggleItemChecked(int position) {
-        Pair<Profile,Boolean> oldProfilePair = checkedProfileList.get(position);
-        Pair<Profile,Boolean> newProfilePair = new Pair<Profile,Boolean>(oldProfilePair.first,!oldProfilePair.second);
+        Pair<User,Boolean> oldProfilePair = checkedProfileList.get(position);
+        Pair<User,Boolean> newProfilePair = new Pair<User,Boolean>(oldProfilePair.first,!oldProfilePair.second);
 
         checkedProfileList.remove(position);
         checkedProfileList.add(position, newProfilePair);
     }
 
-    public List<Pair<Profile,Boolean>> getCheckedProfileList() {
+    public List<Pair<User,Boolean>> getCheckedProfileList() {
         return checkedProfileList;
     }
 
-    public List<Profile> getSelectedProfiles() {
-        ArrayList<Profile> profiles = new ArrayList<Profile>();
+    public List<User> getSelectedProfiles() {
+        ArrayList<User> profiles = new ArrayList<User>();
 
-        for (Pair<Profile, Boolean> pair : checkedProfileList) {
+        for (Pair<User, Boolean> pair : checkedProfileList) {
             if (pair.second) {
                 profiles.add(pair.first);
             }

@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
-import dk.aau.cs.giraf.dblib.models.Profile;
 
 /**
  * Created by AndersBender on 08-05-14.

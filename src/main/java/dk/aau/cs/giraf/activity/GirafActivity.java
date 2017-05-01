@@ -171,26 +171,6 @@ public class GirafActivity extends FragmentActivity {
                     finish();
                     startActivity(intent);
                 }
-                /*
-                // Create the intent to start the new activity
-                Intent intent = new Intent(getApplicationContext(), GirafBugSplashActivity.class);
-
-                // Finish the current activity
-                finish();
-
-                // Set a special flag that will start the splash activity correctly
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                // Put the exception and the tracking Id into a bundle and parse it into the intent
-                intent.putExtra(GirafBugSplashActivity.EXCEPTION_TAG, ex);
-                intent.putExtra(GirafBugSplashActivity.TRACKING_ID_TAG, trackingId);
-
-                // Start the activity
-                startActivity(intent);
-
-                // Let the os handle the exception further
-                defaultUncaughtExceptionHandler.uncaughtException(thread, ex);
-                */
             }
         });
 

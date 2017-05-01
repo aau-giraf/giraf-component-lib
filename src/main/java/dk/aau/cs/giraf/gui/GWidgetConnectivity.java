@@ -7,8 +7,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import dk.aau.cs.giraf.dblib.Helper;
-
 public class GWidgetConnectivity extends ImageView implements IGWidget {
 
 	private final String mPreString;
