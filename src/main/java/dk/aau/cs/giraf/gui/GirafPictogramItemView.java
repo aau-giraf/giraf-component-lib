@@ -84,86 +84,86 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
 
     /**
      * Constructor for GirafPictogramItemView
-     * @param imageEntity the imageEntity to base the view upon
+     * @param pictogram the imageEntity to base the view upon
      */
-    public GirafPictogramItemView(final Context context, final ImageEntity imageEntity) {
-        this(context, imageEntity, null, null);
+    public GirafPictogramItemView(final Context context, final Pictogram pictogram) {
+        this(context, pictogram, null, null);
     }
 
     /**
      * Constructor for GirafPictogramItemView
-     * @param imageEntity the imageEntity to base the view upon
+     * @param pictogram the imageEntity to base the view upon
      * @param title the title to display below the view
      */
-    public GirafPictogramItemView(final Context context, final ImageEntity imageEntity, final String title) {
-        this(context, imageEntity, null, title);
+    public GirafPictogramItemView(final Context context, final Pictogram pictogram, final String title) {
+        this(context, pictogram, null, title);
     }
 
     /**
      * Constructor for GirafPictogramItemView
-     * @param imageEntity the imageEntity to base the view upon
+     * @param pictogram the imageEntity to base the view upon
      * @param fallback a fallback drawable in case that the provided ImageEntity does not contain an image
      */
-    public GirafPictogramItemView(final Context context, final ImageEntity imageEntity, final Drawable fallback) {
-        this(context, imageEntity, fallback, null);
+    public GirafPictogramItemView(final Context context, final Pictogram pictogram, final Drawable fallback) {
+        this(context, pictogram, fallback, null);
     }
 
     /**
      * Constructor for GirafPictogramItemView
-     * @param imageEntity the imageEntity to base the view upon
+     * @param pictogram the imageEntity to base the view upon
      * @param fallback a fallback drawable in case that the provided ImageEntity does not contain an image
      * @param title the title to display below the view
      */
-    public GirafPictogramItemView(final Context context, final ImageEntity imageEntity, final Drawable fallback, final String title) {
+    public GirafPictogramItemView(final Context context, final Pictogram pictogram, final Drawable fallback, final String title) {
         super(context);
 
-        initialize(imageEntity, fallback, title, null);
+        initialize(pictogram, fallback, title, null);
     }
 
     /**
      * Constructor for GirafPictogramItemView
-     * @param imageEntity the imageEntity to base the view upon
+     * @param pictogram the imageEntity to base the view upon
      * @param useGrayScale indicate if the image should be displayed as gray scaled. True if so, false if not. Defaults to false
      */
-    public GirafPictogramItemView(final Context context, final ImageEntity imageEntity, final boolean useGrayScale) {
-        this(context, imageEntity, null, null);
+    public GirafPictogramItemView(final Context context, final Pictogram pictogram, final boolean useGrayScale) {
+        this(context, pictogram, null, null);
 
         this.useGrayScale = useGrayScale;
     }
 
     /**
      * Constructor for GirafPictogramItemView
-     * @param imageEntity the imageEntity to base the view upon
+     * @param pictogram the imageEntity to base the view upon
      * @param title the title to display below the view
      * @param useGrayScale indicate if the image should be displayed as gray scaled. True if so, false if not. Defaults to false
      */
-    public GirafPictogramItemView(final Context context, final ImageEntity imageEntity, final String title, final boolean useGrayScale) {
-        this(context, imageEntity, null, title);
+    public GirafPictogramItemView(final Context context, final Pictogram pictogram, final String title, final boolean useGrayScale) {
+        this(context, pictogram, null, title);
 
         this.useGrayScale = useGrayScale;
     }
 
     /**
      * Constructor for GirafPictogramItemView
-     * @param imageEntity the the imageEntity to base the view upon
+     * @param pictogram the the imageEntity to base the view upon
      * @param fallback a fallback drawable in case that the provided ImageEntity does not contain an image
      * @param useGrayScale indicate if the image should be displayed as gray scaled. True if so, false if not. Defaults to false
      */
-    public GirafPictogramItemView(final Context context, final ImageEntity imageEntity, final Drawable fallback, final boolean useGrayScale) {
-        this(context, imageEntity, fallback, null);
+    public GirafPictogramItemView(final Context context, final Pictogram pictogram, final Drawable fallback, final boolean useGrayScale) {
+        this(context, pictogram, fallback, null);
 
         this.useGrayScale = useGrayScale;
     }
 
     /**
      * Constructor for GirafPictogramItemView
-     * @param imageEntity the imageEntity to base the view upon
+     * @param pictogram the imageEntity to base the view upon
      * @param fallback a fallback drawable in case that the provided ImageEntity does not contain an image
      * @param title the title to display below the view
      * @param useGrayScale indicate if the image should be displayed as gray scaled. True if so, false if not. Defaults to false
      */
-    public GirafPictogramItemView(final Context context, final ImageEntity imageEntity, final Drawable fallback, final String title, final boolean useGrayScale) {
-        this(context, imageEntity, fallback, title);
+    public GirafPictogramItemView(final Context context, final Pictogram pictogram, final Drawable fallback, final String title, final boolean useGrayScale) {
+        this(context, pictogram, fallback, title);
 
         this.useGrayScale = useGrayScale;
     }
@@ -172,7 +172,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     /**
      * Initialized the different components
      */
-    private void initialize(final ImageEntity imageEntity, final Drawable fallback, final String title, final AttributeSet attrs) {
+    private void initialize(final Pictogram pictogram, final Drawable fallback, final String title, final AttributeSet attrs) {
 
         // Disable layout optimization in order to enable this views onDraw method to be called by its parent
         // NOTICE: This is require to draw the edit-triangle
@@ -207,7 +207,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         };
 
         // Set the imageEntity (image) for the view (Will be done as an ASyncTask)
-        setImageModel(imageEntity, fallback);
+        setImageModel(pictogram, fallback);
 
         // Set the name of pictogram
         titleContainer = (TextView) inflatedView.findViewById(R.id.pictogram_title);
@@ -257,27 +257,27 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     /**
      * Will update the view with the provided imageEntity
      *
-     * @param imageEntity the imageEntity to update based upon
+     * @param pictogram the imageEntity to update based upon
      */
-    public synchronized void setImageModel(final ImageEntity imageEntity) {
-        setImageModel(imageEntity, null);
+    public synchronized void setImageModel(final Pictogram pictogram) {
+        setImageModel(pictogram, null);
     }
 
-    public synchronized void setImageModel(final ImageEntity imageEntity, final boolean useGrayScale) {
+    public synchronized void setImageModel(final Pictogram pictogram, final boolean useGrayScale) {
         this.useGrayScale = useGrayScale;
 
-        setImageModel(imageEntity);
+        setImageModel(pictogram);
     }
 
     /**
      * Will update the view with the provided imageEntity. Uses the provided fallback if no image could be loaded
      *
-     * @param imageEntity the imageEntity to update based upon
+     * @param pictogram the imageEntity to update based upon
      * @param fallback    fallback drawable to use if no image could be loaded
      */
-    public synchronized void setImageModel(final ImageEntity imageEntity, final Drawable fallback) {
+    public synchronized void setImageModel(final Pictogram pictogram, final Drawable fallback) {
         // If provided with null, do not update!
-        if (imageEntity == null) {
+        if (pictogram == null) {
             return;
         }
 
@@ -290,7 +290,8 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         loadPictogramImage = new AsyncTask<Void, Void, Bitmap>() {
             @Override
             protected Bitmap doInBackground(Void... params) {
-                final Bitmap image = useGrayScale ? imageControllerHelper.getBlackWhiteBitmap(imageEntity) : imageControllerHelper.getImage(imageEntity);
+                final Bitmap image = pictogram.getPictogramImage().filePath;
+                    //useGrayScale ? imageControllerHelper.getBlackWhiteBitmap(imageEntity) : imageControllerHelper.getImage(imageEntity);
 
                 // Find the imageEntity to show
                 // Notice that we create a copy to avoid memory leak (See implementation of getImage on imageEntity)
@@ -310,10 +311,10 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         loadPictogramImage.execute();
     }
 
-    public synchronized void setImageModel(final ImageEntity imageEntity, final Drawable fallback, final boolean useGrayScale) {
+    public synchronized void setImageModel(final Pictogram pictogram, final Drawable fallback, final boolean useGrayScale) {
         this.useGrayScale = useGrayScale;
 
-        setImageModel(imageEntity, fallback);
+        setImageModel(pictogram, fallback);
     }
 
     /**
