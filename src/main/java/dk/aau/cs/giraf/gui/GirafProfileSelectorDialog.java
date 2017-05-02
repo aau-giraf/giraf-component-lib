@@ -96,6 +96,8 @@ public class GirafProfileSelectorDialog extends GirafDialog {
             // A list of profiles
             ArrayList<User> profiles = new ArrayList<User>();
 
+
+
             // Fill the list of profiles using the helper and the ids
             for (long profileId : profileIds) {
                 profiles.add(helper.profilesHelper.getById(profileId));
@@ -104,7 +106,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
         }
 
         @Override
-        protected void onPostExecute(List<Profile> profiles) {
+        protected void onPostExecute(List<User> profiles) {
             super.onPostExecute(profiles);
 
             // Create the adapter using the profiles found in doInBackground
@@ -241,6 +243,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
     public static GirafProfileSelectorDialog newInstance(Context context, long guardianID, long selectedCitizenId,
                                                          boolean includeGuardian, boolean selectMultipleProfiles,
                                                          String description, String warning, int dialogIdentifier) {
+        Helper helper = new Helper(context);
 
         // Find the guardian
         User guardian = helper.profilesHelper.getById(guardianID);

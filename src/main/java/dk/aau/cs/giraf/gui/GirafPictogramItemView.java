@@ -23,7 +23,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import dk.aau.cs.giraf.models.core.AccessLevel;
 import dk.aau.cs.giraf.models.core.Pictogram;
+import dk.aau.cs.giraf.models.core.PictogramImage;
+import dk.aau.cs.giraf.models.core.User;
 
 /**
  * Created on 14/04/2015.
@@ -32,7 +35,6 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
 
     // The inflated view (See constructors)
     private View inflatedView;
-    private BaseImageControllerHelper imageControllerHelper;
 
     private RelativeLayout pictogramIconContainer;
     private ImageView iconImageView;
@@ -74,10 +76,8 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
             return;
         }
 
-        Pictogram sample = new Pictogram();
-        sample.setName("Sample imageEntity");
-        imageControllerHelper.setImage(sample,BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_copy));
-        initialize(sample, null, sample.getName(), attrs);
+        Pictogram sample = new Pictogram("Sample", AccessLevel.PRIVATE, new PictogramImage(), null);
+        initialize(sample, null, "Sample", attrs);
     }
 
     //<editor-fold desc="constructors">
