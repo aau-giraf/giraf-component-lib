@@ -55,16 +55,16 @@ public class GirafProfileSelectorAdapter extends BaseAdapter {
 
         Pair<User,Boolean> profilePair = checkedProfileList.get(position);
         User profile = profilePair.first;
-        GirafPictogramItemView itemView;
+        GirafUserItemView itemView;
 
         if(convertView == null) {
-            itemView = new GirafPictogramItemView(context, profile, context.getResources().getDrawable(R.drawable.no_profile_pic), profile.getUsername());
+            itemView = new GirafUserItemView(context, profile, context.getResources().getDrawable(R.drawable.no_profile_pic), profile.getScreenName());
         } else {
-            itemView = (GirafPictogramItemView)convertView;
+            itemView = (GirafUserItemView)convertView;
             itemView.resetPictogramView();
 
             itemView.setImageModel(profile, context.getResources().getDrawable(R.drawable.no_profile_pic));
-            itemView.setTitle(profile.getUsername());
+            itemView.setTitle(profile.getScreenName());
         }
 
         //if (profile.getRole().ordinal() < Profile.Roles.CHILD.ordinal()) {

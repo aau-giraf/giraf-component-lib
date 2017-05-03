@@ -14,8 +14,10 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import dk.aau.cs.giraf.librest.requests.GetRequest;
 import dk.aau.cs.giraf.models.core.Department;
 import dk.aau.cs.giraf.models.core.User;
+import dk.aau.cs.giraf.
 
 public class GirafProfileSelectorDialog extends GirafDialog {
 
@@ -246,6 +248,10 @@ public class GirafProfileSelectorDialog extends GirafDialog {
         Helper helper = new Helper(context);
 
         // Find the guardian
+        GetRequest<User> getUser = new GetRequest<User>(guardianID, User.class,
+            new Res)
+
+
         User guardian = helper.profilesHelper.getById(guardianID);
         // Find the department of the guardian
         Department guardianDepartment = helper.departmentsHelper.getDepartmentsByProfile(guardian);
