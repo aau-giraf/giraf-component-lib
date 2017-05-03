@@ -3,8 +3,11 @@ package dk.aau.cs.giraf.gui;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
@@ -21,13 +24,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import dk.aau.cs.giraf.models.core.AccessLevel;
+import dk.aau.cs.giraf.models.core.Department;
 import dk.aau.cs.giraf.models.core.Pictogram;
 import dk.aau.cs.giraf.models.core.PictogramImage;
+import dk.aau.cs.giraf.models.core.User;
+import dk.aau.cs.giraf.models.core.UserIcon;
 
 /**
- * Created on 14/04/2015.
+ * Created on 02/05/2017.
  */
-public class GirafPictogramItemView extends LinearLayout implements Checkable {
+public class GirafUserItemView extends LinearLayout implements Checkable {
 
     // The inflated view (See constructors)
     private View inflatedView;
@@ -36,7 +42,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     private ImageView iconImageView;
     private TextView titleContainer;
 
-    private AsyncTask<Void, Void, Bitmap> loadPictogramImage;
+    private AsyncTask<Void, Void, Bitmap> loadUserImage;
     private Runnable updateSizeAndSetVisible;
 
     /**
@@ -52,7 +58,8 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     // For the global top left position of @param view
     final int[] viewLocation = new int[2];
 
-    // For the global top left position of this GirafPictogramItemView
+    // For the global top left position of this GirafUserItemView
+
     final int[] thisLocation = new int[2];
 
     // For the conversion to relative bottom right position
@@ -64,7 +71,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     /**
      * Do not use this constructor in code. It should only be used to inflate it from xml!
      */
-    public GirafPictogramItemView(final Context context, final AttributeSet attrs) {
+    public GirafUserItemView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
 
         if (!isInEditMode()) {
@@ -72,94 +79,107 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
             return;
         }
 
-        Pictogram sample = new Pictogram("Sample", AccessLevel.PRIVATE, new PictogramImage(), null);
-        initialize(sample, null, "Sample", attrs);
+        User sampleUser = new User(new Department("sample"),"sample","sample");
+        initialize(sampleUser, null, "Sample", attrs);
     }
 
     //<editor-fold desc="constructors">
 
     /**
-     * Constructor for GirafPictogramItemView
-     * @param pictogram the imageEntity to base the view upon
+     * Constructor for GirafUserItemView
+     *
+     * @param user the imageEntity to base the view upon
      */
-    public GirafPictogramItemView(final Context context, final Pictogram pictogram) {
-        this(context, pictogram, null, null);
+    public GirafUserItemView(final Context context, final User user) {
+        this(context, user, null, null);
     }
 
     /**
-     * Constructor for GirafPictogramItemView
-     * @param pictogram the imageEntity to base the view upon
+     * Constructor for GirafUserItemView
+     *
+     * @param user the imageEntity to base the view upon
      * @param title the title to display below the view
      */
-    public GirafPictogramItemView(final Context context, final Pictogram pictogram, final String title) {
-        this(context, pictogram, null, title);
+    public GirafUserItemView(final Context context, final User user, final String title) {
+        this(context, user, null, title);
     }
 
     /**
-     * Constructor for GirafPictogramItemView
-     * @param pictogram the imageEntity to base the view upon
+     * Constructor for GirafUserItemView
+     *
+     * @param user the imageEntity to base the view upon
      * @param fallback a fallback drawable in case that the provided ImageEntity does not contain an image
      */
-    public GirafPictogramItemView(final Context context, final Pictogram pictogram, final Drawable fallback) {
-        this(context, pictogram, fallback, null);
+    public GirafUserItemView(final Context context, final User user, final Drawable fallback) {
+        this(context, user, fallback, null);
     }
 
     /**
-     * Constructor for GirafPictogramItemView
-     * @param pictogram the imageEntity to base the view upon
+     * Constructor for GirafUserItemView
+     *
+     * @param user the imageEntity to base the view upon
      * @param fallback a fallback drawable in case that the provided ImageEntity does not contain an image
      * @param title the title to display below the view
      */
-    public GirafPictogramItemView(final Context context, final Pictogram pictogram, final Drawable fallback, final String title) {
+    public GirafUserItemView
+    (final Context context, final User user, final Drawable fallback, final String title) {
         super(context);
 
-        initialize(pictogram, fallback, title, null);
+        initialize(user, fallback, title, null);
     }
 
     /**
-     * Constructor for GirafPictogramItemView
-     * @param pictogram the imageEntity to base the view upon
+     * Constructor for GirafUserItemView
+     *
+     * @param user the imageEntity to base the view upon
      * @param useGrayScale indicate if the image should be displayed as gray scaled. True if so, false if not. Defaults to false
      */
-    public GirafPictogramItemView(final Context context, final Pictogram pictogram, final boolean useGrayScale) {
-        this(context, pictogram, null, null);
+    public GirafUserItemView
+    (final Context context, final User user, final boolean useGrayScale) {
+        this(context, user, null, null);
 
         this.useGrayScale = useGrayScale;
     }
 
     /**
-     * Constructor for GirafPictogramItemView
-     * @param pictogram the imageEntity to base the view upon
+     * Constructor for GirafUserItemView
+     *
+     * @param user the imageEntity to base the view upon
      * @param title the title to display below the view
      * @param useGrayScale indicate if the image should be displayed as gray scaled. True if so, false if not. Defaults to false
      */
-    public GirafPictogramItemView(final Context context, final Pictogram pictogram, final String title, final boolean useGrayScale) {
-        this(context, pictogram, null, title);
+    public GirafUserItemView
+    (final Context context, final User user, final String title, final boolean useGrayScale) {
+        this(context, user, null, title);
 
         this.useGrayScale = useGrayScale;
     }
 
     /**
-     * Constructor for GirafPictogramItemView
-     * @param pictogram the the imageEntity to base the view upon
+     * Constructor for GirafUserItemView
+     *
+     * @param user the the imageEntity to base the view upon
      * @param fallback a fallback drawable in case that the provided ImageEntity does not contain an image
      * @param useGrayScale indicate if the image should be displayed as gray scaled. True if so, false if not. Defaults to false
      */
-    public GirafPictogramItemView(final Context context, final Pictogram pictogram, final Drawable fallback, final boolean useGrayScale) {
-        this(context, pictogram, fallback, null);
+    public GirafUserItemView
+    (final Context context, final User user, final Drawable fallback, final boolean useGrayScale) {
+        this(context, user, fallback, null);
 
         this.useGrayScale = useGrayScale;
     }
 
     /**
-     * Constructor for GirafPictogramItemView
-     * @param pictogram the imageEntity to base the view upon
+     * Constructor for GirafUserItemView
+     *
+     * @param user the imageEntity to base the view upon
      * @param fallback a fallback drawable in case that the provided ImageEntity does not contain an image
      * @param title the title to display below the view
      * @param useGrayScale indicate if the image should be displayed as gray scaled. True if so, false if not. Defaults to false
      */
-    public GirafPictogramItemView(final Context context, final Pictogram pictogram, final Drawable fallback, final String title, final boolean useGrayScale) {
-        this(context, pictogram, fallback, title);
+    public GirafUserItemView
+    (final Context context, final User user, final Drawable fallback, final String title, final boolean useGrayScale) {
+        this(context, user, fallback, title);
 
         this.useGrayScale = useGrayScale;
     }
@@ -168,11 +188,12 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     /**
      * Initialized the different components
      */
-    private void initialize(final Pictogram pictogram, final Drawable fallback, final String title, final AttributeSet attrs) {
+    private void initialize(final User user, final Drawable fallback, final String title, final AttributeSet attrs) {
 
         // Disable layout optimization in order to enable this views onDraw method to be called by its parent
         // NOTICE: This is require to draw the edit-triangle
         setWillNotDraw(false);
+        //imageControllerHelper = new BaseImageControllerHelper(getContext());
 
         // Find the XML for the imageEntity and load it into the view
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -202,7 +223,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         };
 
         // Set the imageEntity (image) for the view (Will be done as an ASyncTask)
-        setImageModel(pictogram, fallback);
+        setImageModel(user, fallback);
 
         // Set the name of pictogram
         titleContainer = (TextView) inflatedView.findViewById(R.id.pictogram_title);
@@ -210,16 +231,23 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
 
         // Check if any 'custom' attributes are set by the user (for instance in xml)
         if (attrs != null) {
-            final TypedArray girafPictogramItemViewAttributes = getContext().obtainStyledAttributes(attrs, R.styleable.GirafPictogramItemView);
-            isEditable = girafPictogramItemViewAttributes.getBoolean(R.styleable.GirafPictogramItemView_editable, false);
+            final TypedArray GirafUserItemView
+            Attributes = getContext().obtainStyledAttributes(attrs, R.styleable.GirafUserItemView
+            );
+            isEditable = GirafUserItemView
+            Attributes.getBoolean(R.styleable.GirafUserItemView
+                _editable, false);
 
-            final int drawableId = girafPictogramItemViewAttributes.getInt(R.styleable.GirafPictogramItemView_indicatorOverlayDrawable, -1);
+            final int drawableId = GirafUserItemView
+            Attributes.getInt(R.styleable.GirafUserItemView
+                _indicatorOverlayDrawable, -1);
 
             if (drawableId != -1) {
                 setIndicatorOverlayDrawable(getContext().getResources().getDrawable(drawableId));
             }
 
-            girafPictogramItemViewAttributes.recycle();
+            GirafUserItemView
+            Attributes.recycle();
         }
 
         // Code to handle the edit-triangle
@@ -252,16 +280,16 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     /**
      * Will update the view with the provided imageEntity
      *
-     * @param pictogram the imageEntity to update based upon
+     * @param user the imageEntity to update based upon
      */
-    public synchronized void setImageModel(final Pictogram pictogram) {
-        setImageModel(pictogram, null);
+    public synchronized void setImageModel(final User user) {
+        setImageModel(user, false);
     }
 
-    public synchronized void setImageModel(final Pictogram pictogram, final boolean useGrayScale) {
+    public synchronized void setImageModel(final User user, final boolean useGrayScale) {
         this.useGrayScale = useGrayScale;
 
-        setImageModel(pictogram);
+        setImageModel(user);
     }
 
     /**
@@ -270,7 +298,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
      * @param pictogram the imageEntity to update based upon
      * @param fallback    fallback drawable to use if no image could be loaded
      */
-    public synchronized void setImageModel(final Pictogram pictogram, final Drawable fallback) {
+    public synchronized void setImageModel(final User user, final Drawable fallback) {
         // If provided with null, do not update!
         if (pictogram == null) {
             return;
@@ -280,6 +308,27 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         if (loadPictogramImage != null) {
             loadPictogramImage.cancel(true);
         }
+
+        // This class will be used to load the imageEntity (image) from the database and "insert" it into the view
+        loadPictogramImage = new AsyncTask<Void, Void, Bitmap>() {
+            @Override
+            protected Bitmap doInBackground(Void... params) {
+                final Bitmap image = pictogram.getPictogramImage().filePath;
+                //useGrayScale ? imageControllerHelper.getBlackWhiteBitmap(imageEntity) : imageControllerHelper.getImage(imageEntity);
+
+                // Find the imageEntity to show
+                // Notice that we create a copy to avoid memory leak (See implementation of getImage on imageEntity)
+                return image != null ? image : drawableToBitmap(fallback);
+            }
+
+            @Override
+            protected void onPostExecute(final Bitmap pictogramImage) {
+                iconImageView.setImageBitmap(pictogramImage);
+
+                // Register the runnable and invalidate (so that it will be updated)
+                inflatedView.post(updateSizeAndSetVisible);
+            }
+        };
 
         // Start loading the image of the imageEntity
         loadPictogramImage.execute();
@@ -391,14 +440,16 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     }
 
     /**
-     * Set if this GirafPictogramItemView should draw a small triangle to indicate that it is editable
+     * Set if this GirafUserItemView
+     * should draw a small triangle to indicate that it is editable
      *
      * @param editable true if the view should appear as editable (small triangle)
      */
     public void setEditable(final boolean editable) {
 
         if (editable && this.indicatorOverlayDrawable != null) {
-            throw new UnsupportedOperationException("A GirafPictogramItemView cannot be Editable and have an indicatorOverlayDrawable at the same time");
+            throw new UnsupportedOperationException("A GirafUserItemView" +
+                " cannot be Editable and have an indicatorOverlayDrawable at the same time");
         }
 
         this.isEditable = editable;
@@ -413,7 +464,8 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     public void setIndicatorOverlayDrawable(Drawable indicatorOverlayDrawable) {
 
         if (isEditable && indicatorOverlayDrawable != null) {
-            throw new UnsupportedOperationException("A GirafPictogramItemView cannot have an indicatorOverlayDrawable and be Editable at the same time");
+            throw new UnsupportedOperationException("A GirafUserItemView" +
+                " cannot have an indicatorOverlayDrawable and be Editable at the same time");
         }
 
         this.indicatorOverlayDrawable = indicatorOverlayDrawable;
@@ -427,7 +479,8 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     public void draw(final Canvas canvas) {
         super.draw(canvas);
 
-        // Get the relative right and bottom coordinate of iconImageView from this GirafPictogramItemView
+        // Get the relative right and bottom coordinate of iconImageView from this GirafUserItemView
+
         final int[] relativeRightAndBottom = getRelativeRightAndBottom(iconImageView);
 
         // Use the relativeRightAndBottom as xEnd and yEnd
@@ -473,7 +526,8 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     }
 
     /**
-     * Gets the relative bottom right position of @param view relative to this GirafPictogramItemView
+     * Gets the relative bottom right position of @param view relative to this GirafUserItemView
+     *
      *
      * @param view
      * @return the relative bottom right position of @param view
@@ -483,7 +537,8 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
         // Get the global top left position of @param view
         view.getLocationInWindow(viewLocation);
 
-        // Get the global top left position of this GirafPictogramItemView
+        // Get the global top left position of this GirafUserItemView
+
         this.getLocationInWindow(thisLocation);
 
         // convert to relative bottom right position and return
