@@ -1,23 +1,31 @@
 package dk.aau.cs.giraf.gui;
 
 import android.app.Activity;
+import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import dk.aau.cs.giraf.librest.requests.GetArrayRequest;
 import dk.aau.cs.giraf.librest.requests.GetRequest;
+import dk.aau.cs.giraf.librest.requests.RequestQueueHandler;
 import dk.aau.cs.giraf.models.core.Department;
 import dk.aau.cs.giraf.models.core.User;
-import dk.aau.cs.giraf.
+
 
 public class GirafProfileSelectorDialog extends GirafDialog {
 
@@ -29,7 +37,8 @@ public class GirafProfileSelectorDialog extends GirafDialog {
     private static final String WARNING_TAG = "WARNING_TAG";
     private static final String PROFILE_CHECK_STATUS_TAG = "PROFILE_CHECK_STATUS_TAG";
 
-    private Helper helper; // A helper to access the database
+    private RequestQueue queue;
+
     private RelativeLayout gridContainer; // The customView of the dialog
     private Activity callBack;
 
@@ -96,13 +105,36 @@ public class GirafProfileSelectorDialog extends GirafDialog {
         @Override
         protected List<User> doInBackground(Void... params) {
             // A list of profiles
-            ArrayList<User> profiles = new ArrayList<User>();
-
-
+            final ArrayList<User> profiles = new ArrayList<User>();
 
             // Fill the list of profiles using the helper and the ids
-            for (long profileId : profileIds) {
-                profiles.add(helper.profilesHelper.getById(profileId));
+            for (final long profileId : profileIds) {
+
+
+
+
+                GetRequest<User> userGetRequest = new GetRequest<User>(profileId, User.class, new Response.Listener<User>() {
+                    @Override
+                    public void onResponse(User response) {
+                        // Get the row and column size for the grids in the AppViewPager
+                        profiles.add(response);
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if(error.networkResponse.statusCode == 404){
+                            Log.e("Giraf","User with id: " + profileId + " not found");
+                        }
+                        else if(error.networkResponse.statusCode == 401){
+                                Log.e("Giraf","Access denied while retrieving user " + profileId);
+
+                        }
+
+                    }
+                });
+
+                queue.add(userGetRequest);
             }
             return profiles;
         }
@@ -216,24 +248,24 @@ public class GirafProfileSelectorDialog extends GirafDialog {
      * Gets a new instance of the GirafProfileSelector
      *
      * @param context          the context of where the dialog appears
-     * @param guardianID       the identifier of the guardian of which citizens should be selectable
+     * @param guardianUser       the identifier of the guardian of which citizens should be selectable
      * @param includeGuardian  should the guardian with the given identifier be included in the list of selectable profiles
      * @param selectMultipleProfiles    should it be possible to select multiple profiles
      * @param description      the description on the dialog
      * @param dialogIdentifier a unique identifier of the dialog
      * @return a GirafProfileSelector
      */
-    public static GirafProfileSelectorDialog newInstance(Context context, long guardianID,
+    public static GirafProfileSelectorDialog newInstance(Context context, User guardianUser,
                                                          boolean includeGuardian, boolean selectMultipleProfiles,
-                                                         String description, int dialogIdentifier) {
-        return newInstance(context, guardianID, -1, includeGuardian, selectMultipleProfiles, description, "", dialogIdentifier);
+                                                         String description, int dialogIdentifier,RequestQueue queue) {
+        return newInstance(context, guardianUser, -1, includeGuardian, selectMultipleProfiles, description, "", dialogIdentifier, queue);
     }
 
     /**
      * Gets a new instance of the GirafProfileSelector
      *
      * @param context          the context of where the dialog appears
-     * @param guardianID       the identifier of the guardian of which citizens should be selectable
+     * @param guardianUser       the identifier of the guardian of which citizens should be selectable
      * @param selectedCitizenId        The current selected child, if any (default -1 if not set)
      * @param includeGuardian  should the guardian with the given identifier be included in the list of selectable profiles
      * @param selectMultipleProfiles    should it be possible to select multiple profiles
@@ -242,14 +274,36 @@ public class GirafProfileSelectorDialog extends GirafDialog {
      * @param dialogIdentifier a unique identifier of the dialog
      * @return a GirafProfileSelector
      */
-    public static GirafProfileSelectorDialog newInstance(Context context, long guardianID, long selectedCitizenId,
+    public static GirafProfileSelectorDialog newInstance(Context context, User guardianUser, long selectedCitizenId,
                                                          boolean includeGuardian, boolean selectMultipleProfiles,
-                                                         String description, String warning, int dialogIdentifier) {
-        Helper helper = new Helper(context);
+                                                         String description, String warning, int dialogIdentifier, RequestQueue queue) {
 
         // Find the guardian
-        GetRequest<User> getUser = new GetRequest<User>(guardianID, User.class,
-            new Res)
+
+
+
+        GetArrayRequest<List<User>> childListRequest = new GetRequest<List<User>>(guardianUser.getId(), User.class, new Response.Listener<User>() {
+            @Override
+            public void onResponse(User response) {
+                // Get the row and column size for the grids in the AppViewPager
+                guardian = response;
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if(error.networkResponse.statusCode == 404){
+                    Log.e("Giraf","User with id: " + profileId + " not found");
+                }
+                else if(error.networkResponse.statusCode == 401){
+                    Log.e("Giraf","Access denied while retrieving user " + profileId);
+
+                }
+
+            }
+        });
+
+        queue.add(userGetRequest);
 
 
         User guardian = helper.profilesHelper.getById(guardianID);
@@ -268,7 +322,11 @@ public class GirafProfileSelectorDialog extends GirafDialog {
             profileCheckList.add(new Pair<User, Boolean>(profile, false));
         }
 
-        return newInstance(profileCheckList, selectMultipleProfiles, description, warning, dialogIdentifier, selectedCitizenId);
+        return newInstance(profileCheckList, selectMultipleProfiles, description, warning, dialogIdentifier, selectedCitizenId, queue);
+    }
+
+    private void setQueue(RequestQueue requestQueue){
+        this.queue = requestQueue;
     }
 
     /**
@@ -282,8 +340,9 @@ public class GirafProfileSelectorDialog extends GirafDialog {
      */
     public static GirafProfileSelectorDialog newInstance(List<Pair<User, Boolean>> profileCheckList,
                                                          boolean selectMultipleProfiles, String description, String warning,
-                                                         int dialogIdentifier, long selectedCitizenId) {
+                                                         int dialogIdentifier, long selectedCitizenId, RequestQueue queue) {
         GirafProfileSelectorDialog girafProfileSelectorDialog = new GirafProfileSelectorDialog();
+        girafProfileSelectorDialog.setQueue(queue);
 
         // Store the identifier of the profiles to make it parcelable
         long[] profileIds = new long[profileCheckList.size()];
@@ -320,12 +379,14 @@ public class GirafProfileSelectorDialog extends GirafDialog {
         callBack = activity;
 
         // Sets the helper of the activity
-        helper = new Helper(callBack);
+        //helper = new Helper(callBack);
 
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+
 
         Dialog dialog = super.onCreateDialog(savedInstanceState);
 

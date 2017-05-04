@@ -22,11 +22,13 @@ import android.widget.TextView;
 
 import dk.aau.cs.giraf.models.core.AccessLevel;
 import dk.aau.cs.giraf.models.core.Pictogram;
-import dk.aau.cs.giraf.models.core.PictogramImage;
 
 /**
  * Created on 14/04/2015.
  */
+
+//Note: As of 2017, we no longer use ImageViews. Instead this class now uses Pictogram objects,
+// which themselves contain pictures.
 public class GirafPictogramItemView extends LinearLayout implements Checkable {
 
     // The inflated view (See constructors)
@@ -38,6 +40,10 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
 
     private AsyncTask<Void, Void, Bitmap> loadPictogramImage;
     private Runnable updateSizeAndSetVisible;
+
+    //Alternative to "fallback" as drawableToBitmap can't be called inside an async task.
+    // (How did the last student even do that in the first place?)
+    private Bitmap alternativeFallback = drawableToBitmap(this.getResources().getDrawable(R.drawable.no_profile_pic));
 
     /**
      * Used to implement edit triangle
@@ -58,7 +64,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
     // For the conversion to relative bottom right position
     final int[] bottomRightLocation = new int[2];
 
-    // Used to indicate if the image should be gray scaled
+    // Used to indicate if the image should be gray scaled (As of 2017, this is no longer used)
     private boolean useGrayScale = false;
 
     /**
@@ -72,7 +78,7 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
             return;
         }
 
-        Pictogram sample = new Pictogram("Sample", AccessLevel.PRIVATE, new PictogramImage(), null);
+        Pictogram sample = new Pictogram("Sample", AccessLevel.PRIVATE, drawableToBitmap(context.getResources().getDrawable(R.drawable.no_profile_pic)));
         initialize(sample, null, "Sample", attrs);
     }
 
@@ -281,6 +287,25 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
             loadPictogramImage.cancel(true);
         }
 
+        // This class will be used to load the imageEntity (image) from the database and "insert" it into the view
+        loadPictogramImage = new AsyncTask<Void, Void, Bitmap>() {
+            @Override
+            protected Bitmap doInBackground(Void... params) {
+                final Bitmap image = pictogram.getPictogramImage();
+                // Find the imageEntity to show
+                // Notice that we create a copy to avoid memory leak (See implementation of getImage on imageEntity)
+
+                // We cant use drawableToBitmap inside a non-UI thread, so instead of "fallback" we now use "alternativeFallback" and hope nothing breaks.
+                return image != null ? image : alternativeFallback;
+            }
+            @Override
+            protected void onPostExecute(final Bitmap pictogramImage) {
+                iconImageView.setImageBitmap(pictogramImage);
+                // Register the runnable and invalidate (so that it will be updated)
+                inflatedView.post(updateSizeAndSetVisible);
+            }
+        };
+
         // Start loading the image of the imageEntity
         loadPictogramImage.execute();
     }
@@ -290,6 +315,9 @@ public class GirafPictogramItemView extends LinearLayout implements Checkable {
 
         setImageModel(pictogram, fallback);
     }
+
+
+
 
     /**
      * Will convert any drawable into a bitmap
