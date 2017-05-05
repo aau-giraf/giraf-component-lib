@@ -164,13 +164,7 @@ public class GirafActivity extends FragmentActivity {
                 sendExceptionToGoogleAnalytics(ex);
 
                 // Restarts the activity Todo find out if it restarts the launcher or at least work
-                if (Build.VERSION.SDK_INT >= 11) {
-                    recreate();
-                } else {
-                    Intent intent = getIntent();
-                    finish();
-                    startActivity(intent);
-                }
+                recreate();
             }
         });
 
