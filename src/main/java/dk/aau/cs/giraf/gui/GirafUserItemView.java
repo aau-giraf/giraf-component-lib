@@ -3,16 +3,14 @@ package dk.aau.cs.giraf.gui;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.hardware.usb.UsbRequest;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -25,14 +23,14 @@ import android.widget.TextView;
 
 import dk.aau.cs.giraf.models.core.AccessLevel;
 import dk.aau.cs.giraf.models.core.Department;
-import dk.aau.cs.giraf.models.core.Pictogram;
-import dk.aau.cs.giraf.models.core.PictogramImage;
 import dk.aau.cs.giraf.models.core.User;
-import dk.aau.cs.giraf.models.core.UserIcon;
 
 /**
- * Created on 02/05/2017.
+ * Created on 08/05/2017.
  */
+
+//Note: As of 2017, we no longer use ImageViews. Instead this class now uses Pictogram objects,
+// which themselves contain pictures.
 public class GirafUserItemView extends LinearLayout implements Checkable {
 
     // The inflated view (See constructors)
@@ -42,8 +40,12 @@ public class GirafUserItemView extends LinearLayout implements Checkable {
     private ImageView iconImageView;
     private TextView titleContainer;
 
-    private AsyncTask<Void, Void, Bitmap> loadUserImage;
+    private AsyncTask<Void, Void, Bitmap> loadPictogramImage;
     private Runnable updateSizeAndSetVisible;
+
+    //Alternative to "fallback" as drawableToBitmap can't be called inside an async task.
+    // (How did the last student even do that in the first place?)
+    private Bitmap alternativeFallback = drawableToBitmap(this.getResources().getDrawable(R.drawable.no_profile_pic));
 
     /**
      * Used to implement edit triangle
@@ -59,13 +61,12 @@ public class GirafUserItemView extends LinearLayout implements Checkable {
     final int[] viewLocation = new int[2];
 
     // For the global top left position of this GirafUserItemView
-
     final int[] thisLocation = new int[2];
 
     // For the conversion to relative bottom right position
     final int[] bottomRightLocation = new int[2];
 
-    // Used to indicate if the image should be gray scaled
+    // Used to indicate if the image should be gray scaled (As of 2017, this is no longer used)
     private boolean useGrayScale = false;
 
     /**
@@ -79,15 +80,16 @@ public class GirafUserItemView extends LinearLayout implements Checkable {
             return;
         }
 
-        User sampleUser = new User(new Department("sample"),"sample","sample");
-        initialize(sampleUser, null, "Sample", attrs);
+        User sample = new User(new Department("sample"), "sampleName", "samplePassword");
+        Bitmap sampleIcon = drawableToBitmap(context.getResources().getDrawable(R.drawable.no_profile_pic));
+        sample.setIcon(sampleIcon);
+        initialize(sample, null, "Sample", attrs);
     }
 
     //<editor-fold desc="constructors">
 
     /**
      * Constructor for GirafUserItemView
-     *
      * @param user the imageEntity to base the view upon
      */
     public GirafUserItemView(final Context context, final User user) {
@@ -96,7 +98,6 @@ public class GirafUserItemView extends LinearLayout implements Checkable {
 
     /**
      * Constructor for GirafUserItemView
-     *
      * @param user the imageEntity to base the view upon
      * @param title the title to display below the view
      */
@@ -106,7 +107,6 @@ public class GirafUserItemView extends LinearLayout implements Checkable {
 
     /**
      * Constructor for GirafUserItemView
-     *
      * @param user the imageEntity to base the view upon
      * @param fallback a fallback drawable in case that the provided ImageEntity does not contain an image
      */
@@ -116,13 +116,11 @@ public class GirafUserItemView extends LinearLayout implements Checkable {
 
     /**
      * Constructor for GirafUserItemView
-     *
      * @param user the imageEntity to base the view upon
      * @param fallback a fallback drawable in case that the provided ImageEntity does not contain an image
      * @param title the title to display below the view
      */
-    public GirafUserItemView
-    (final Context context, final User user, final Drawable fallback, final String title) {
+    public GirafUserItemView(final Context context, final User user, final Drawable fallback, final String title) {
         super(context);
 
         initialize(user, fallback, title, null);
@@ -130,12 +128,10 @@ public class GirafUserItemView extends LinearLayout implements Checkable {
 
     /**
      * Constructor for GirafUserItemView
-     *
      * @param user the imageEntity to base the view upon
      * @param useGrayScale indicate if the image should be displayed as gray scaled. True if so, false if not. Defaults to false
      */
-    public GirafUserItemView
-    (final Context context, final User user, final boolean useGrayScale) {
+    public GirafUserItemView(final Context context, final User user, final boolean useGrayScale) {
         this(context, user, null, null);
 
         this.useGrayScale = useGrayScale;
@@ -143,13 +139,11 @@ public class GirafUserItemView extends LinearLayout implements Checkable {
 
     /**
      * Constructor for GirafUserItemView
-     *
      * @param user the imageEntity to base the view upon
      * @param title the title to display below the view
      * @param useGrayScale indicate if the image should be displayed as gray scaled. True if so, false if not. Defaults to false
      */
-    public GirafUserItemView
-    (final Context context, final User user, final String title, final boolean useGrayScale) {
+    public GirafUserItemView(final Context context, final User user, final String title, final boolean useGrayScale) {
         this(context, user, null, title);
 
         this.useGrayScale = useGrayScale;
@@ -157,13 +151,11 @@ public class GirafUserItemView extends LinearLayout implements Checkable {
 
     /**
      * Constructor for GirafUserItemView
-     *
      * @param user the the imageEntity to base the view upon
      * @param fallback a fallback drawable in case that the provided ImageEntity does not contain an image
      * @param useGrayScale indicate if the image should be displayed as gray scaled. True if so, false if not. Defaults to false
      */
-    public GirafUserItemView
-    (final Context context, final User user, final Drawable fallback, final boolean useGrayScale) {
+    public GirafUserItemView(final Context context, final User user, final Drawable fallback, final boolean useGrayScale) {
         this(context, user, fallback, null);
 
         this.useGrayScale = useGrayScale;
@@ -171,14 +163,12 @@ public class GirafUserItemView extends LinearLayout implements Checkable {
 
     /**
      * Constructor for GirafUserItemView
-     *
      * @param user the imageEntity to base the view upon
      * @param fallback a fallback drawable in case that the provided ImageEntity does not contain an image
      * @param title the title to display below the view
      * @param useGrayScale indicate if the image should be displayed as gray scaled. True if so, false if not. Defaults to false
      */
-    public GirafUserItemView
-    (final Context context, final User user, final Drawable fallback, final String title, final boolean useGrayScale) {
+    public GirafUserItemView(final Context context, final User user, final Drawable fallback, final String title, final boolean useGrayScale) {
         this(context, user, fallback, title);
 
         this.useGrayScale = useGrayScale;
@@ -193,7 +183,6 @@ public class GirafUserItemView extends LinearLayout implements Checkable {
         // Disable layout optimization in order to enable this views onDraw method to be called by its parent
         // NOTICE: This is require to draw the edit-triangle
         setWillNotDraw(false);
-        //imageControllerHelper = new BaseImageControllerHelper(getContext());
 
         // Find the XML for the imageEntity and load it into the view
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -231,23 +220,16 @@ public class GirafUserItemView extends LinearLayout implements Checkable {
 
         // Check if any 'custom' attributes are set by the user (for instance in xml)
         if (attrs != null) {
-            final TypedArray GirafUserItemView
-            Attributes = getContext().obtainStyledAttributes(attrs, R.styleable.GirafUserItemView
-            );
-            isEditable = GirafUserItemView
-            Attributes.getBoolean(R.styleable.GirafUserItemView
-                _editable, false);
+            final TypedArray GirafUserItemViewAttributes = getContext().obtainStyledAttributes(attrs, R.styleable.GirafPictogramItemView);
+            isEditable = GirafUserItemViewAttributes.getBoolean(R.styleable.GirafPictogramItemView_editable, false);
 
-            final int drawableId = GirafUserItemView
-            Attributes.getInt(R.styleable.GirafUserItemView
-                _indicatorOverlayDrawable, -1);
+            final int drawableId = GirafUserItemViewAttributes.getInt(R.styleable.GirafPictogramItemView_indicatorOverlayDrawable, -1);
 
             if (drawableId != -1) {
                 setIndicatorOverlayDrawable(getContext().getResources().getDrawable(drawableId));
             }
 
-            GirafUserItemView
-            Attributes.recycle();
+            GirafUserItemViewAttributes.recycle();
         }
 
         // Code to handle the edit-triangle
@@ -283,7 +265,7 @@ public class GirafUserItemView extends LinearLayout implements Checkable {
      * @param user the imageEntity to update based upon
      */
     public synchronized void setImageModel(final User user) {
-        setImageModel(user, false);
+        setImageModel(user, null);
     }
 
     public synchronized void setImageModel(final User user, final boolean useGrayScale) {
@@ -295,12 +277,12 @@ public class GirafUserItemView extends LinearLayout implements Checkable {
     /**
      * Will update the view with the provided imageEntity. Uses the provided fallback if no image could be loaded
      *
-     * @param pictogram the imageEntity to update based upon
+     * @param user the imageEntity to update based upon
      * @param fallback    fallback drawable to use if no image could be loaded
      */
     public synchronized void setImageModel(final User user, final Drawable fallback) {
         // If provided with null, do not update!
-        if (pictogram == null) {
+        if (user == null) {
             return;
         }
 
@@ -313,18 +295,16 @@ public class GirafUserItemView extends LinearLayout implements Checkable {
         loadPictogramImage = new AsyncTask<Void, Void, Bitmap>() {
             @Override
             protected Bitmap doInBackground(Void... params) {
-                final Bitmap image = pictogram.getPictogramImage().filePath;
-                //useGrayScale ? imageControllerHelper.getBlackWhiteBitmap(imageEntity) : imageControllerHelper.getImage(imageEntity);
-
+                final Bitmap image = user.getIcon();
                 // Find the imageEntity to show
                 // Notice that we create a copy to avoid memory leak (See implementation of getImage on imageEntity)
-                return image != null ? image : drawableToBitmap(fallback);
-            }
 
+                // We cant use drawableToBitmap inside a non-UI thread, so instead of "fallback" we now use "alternativeFallback" and hope nothing breaks.
+                return image != null ? image : alternativeFallback;
+            }
             @Override
             protected void onPostExecute(final Bitmap pictogramImage) {
                 iconImageView.setImageBitmap(pictogramImage);
-
                 // Register the runnable and invalidate (so that it will be updated)
                 inflatedView.post(updateSizeAndSetVisible);
             }
@@ -334,11 +314,14 @@ public class GirafUserItemView extends LinearLayout implements Checkable {
         loadPictogramImage.execute();
     }
 
-    public synchronized void setImageModel(final Pictogram pictogram, final Drawable fallback, final boolean useGrayScale) {
+    public synchronized void setImageModel(final User user, final Drawable fallback, final boolean useGrayScale) {
         this.useGrayScale = useGrayScale;
 
-        setImageModel(pictogram, fallback);
+        setImageModel(user, fallback);
     }
+
+
+
 
     /**
      * Will convert any drawable into a bitmap
@@ -440,16 +423,14 @@ public class GirafUserItemView extends LinearLayout implements Checkable {
     }
 
     /**
-     * Set if this GirafUserItemView
-     * should draw a small triangle to indicate that it is editable
+     * Set if this GirafUserItemView should draw a small triangle to indicate that it is editable
      *
      * @param editable true if the view should appear as editable (small triangle)
      */
     public void setEditable(final boolean editable) {
 
         if (editable && this.indicatorOverlayDrawable != null) {
-            throw new UnsupportedOperationException("A GirafUserItemView" +
-                " cannot be Editable and have an indicatorOverlayDrawable at the same time");
+            throw new UnsupportedOperationException("A GirafUserItemView cannot be Editable and have an indicatorOverlayDrawable at the same time");
         }
 
         this.isEditable = editable;
@@ -464,8 +445,7 @@ public class GirafUserItemView extends LinearLayout implements Checkable {
     public void setIndicatorOverlayDrawable(Drawable indicatorOverlayDrawable) {
 
         if (isEditable && indicatorOverlayDrawable != null) {
-            throw new UnsupportedOperationException("A GirafUserItemView" +
-                " cannot have an indicatorOverlayDrawable and be Editable at the same time");
+            throw new UnsupportedOperationException("A GirafUserItemView cannot have an indicatorOverlayDrawable and be Editable at the same time");
         }
 
         this.indicatorOverlayDrawable = indicatorOverlayDrawable;
@@ -480,7 +460,6 @@ public class GirafUserItemView extends LinearLayout implements Checkable {
         super.draw(canvas);
 
         // Get the relative right and bottom coordinate of iconImageView from this GirafUserItemView
-
         final int[] relativeRightAndBottom = getRelativeRightAndBottom(iconImageView);
 
         // Use the relativeRightAndBottom as xEnd and yEnd
@@ -528,7 +507,6 @@ public class GirafUserItemView extends LinearLayout implements Checkable {
     /**
      * Gets the relative bottom right position of @param view relative to this GirafUserItemView
      *
-     *
      * @param view
      * @return the relative bottom right position of @param view
      */
@@ -538,7 +516,6 @@ public class GirafUserItemView extends LinearLayout implements Checkable {
         view.getLocationInWindow(viewLocation);
 
         // Get the global top left position of this GirafUserItemView
-
         this.getLocationInWindow(thisLocation);
 
         // convert to relative bottom right position and return

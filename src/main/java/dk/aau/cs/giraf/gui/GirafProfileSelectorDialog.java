@@ -25,6 +25,7 @@ import dk.aau.cs.giraf.librest.requests.GetRequest;
 import dk.aau.cs.giraf.librest.requests.RequestQueueHandler;
 import dk.aau.cs.giraf.models.core.Department;
 import dk.aau.cs.giraf.models.core.User;
+import dk.aau.cs.giraf.models.core.authentication.PermissionType;
 
 
 public class GirafProfileSelectorDialog extends GirafDialog {
@@ -36,6 +37,8 @@ public class GirafProfileSelectorDialog extends GirafDialog {
     private static final String DESCRIPTION_TAG = "DESCRIPTION_TAG";
     private static final String WARNING_TAG = "WARNING_TAG";
     private static final String PROFILE_CHECK_STATUS_TAG = "PROFILE_CHECK_STATUS_TAG";
+
+    private static List<User> userList;
 
     private RequestQueue queue;
 
@@ -274,51 +277,64 @@ public class GirafProfileSelectorDialog extends GirafDialog {
      * @param dialogIdentifier a unique identifier of the dialog
      * @return a GirafProfileSelector
      */
-    public static GirafProfileSelectorDialog newInstance(Context context, User guardianUser, long selectedCitizenId,
-                                                         boolean includeGuardian, boolean selectMultipleProfiles,
-                                                         String description, String warning, int dialogIdentifier, RequestQueue queue) {
+    public static GirafProfileSelectorDialog newInstance(Context context, final User guardianUser, long selectedCitizenId,
+                                                         final boolean includeGuardian, boolean selectMultipleProfiles,
+                                                         String description, String warning, int dialogIdentifier, RequestQueue queue)
+    {
 
         // Find the guardian
+        List<Pair<User, Boolean>> profileCheckList = new ArrayList<Pair<User, Boolean>>();
+
+        //region asd
+        if(guardianUser.hasPermission(PermissionType.Guardian)){
+            GetArrayRequest<User> userListGetRequest = new GetArrayRequest<User>(User.class, new Response.Listener<ArrayList<User>>() {
+                @Override
+                public void onResponse(ArrayList<User> response) {
+                    // Get the row and column size for the grids in the AppViewPager
+                    ArrayList<User> tmpList = new ArrayList<>();
+                    tmpList.addAll(response);
+
+                    //ToDo Find out if addAll adds both the guardian and all the elements of the list
+                    if (includeGuardian) {
+                        tmpList.remove(0);
+                    }
+                    userList.addAll(tmpList);
 
 
 
-        GetArrayRequest<List<User>> childListRequest = new GetRequest<List<User>>(guardianUser.getId(), User.class, new Response.Listener<User>() {
-            @Override
-            public void onResponse(User response) {
-                // Get the row and column size for the grids in the AppViewPager
-                guardian = response;
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if(error.networkResponse.statusCode == 404){
-                    Log.e("Giraf","User with id: " + profileId + " not found");
                 }
-                else if(error.networkResponse.statusCode == 401){
-                    Log.e("Giraf","Access denied while retrieving user " + profileId);
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if(error.networkResponse.statusCode == 404){
+                        Log.e("Giraf","User with id: " + guardianUser.getUsername() + " not found");
+                    }
+                    else if(error.networkResponse.statusCode == 401){
+                        Log.e("Giraf","Access denied while retrieving user ");
+
+                    }
 
                 }
+            });
 
-            }
-        });
+            queue.add(userListGetRequest);
+        }
+        //
 
-        queue.add(userGetRequest);
 
 
-        User guardian = helper.profilesHelper.getById(guardianID);
+
+        /*User guardian = helper.profilesHelper.getById(guardianID);
         // Find the department of the guardian
         Department guardianDepartment = helper.departmentsHelper.getDepartmentsByProfile(guardian);
 
         // Find the profiles of the citizens of a department and sub departments
-        List<User> profiles = helper.profilesHelper.getChildrenByDepartmentAndSubDepartments(guardianDepartment);
-        List<Pair<User, Boolean>> profileCheckList = new ArrayList<Pair<User, Boolean>>();
+        List<User> profiles = helper.profilesHelper.getChildrenByDepartmentAndSubDepartments(guardianDepartment);*/
 
-        if (includeGuardian) {
-            profiles.add(0, guardian);
-        }
 
-        for (User profile : profiles) {
+
+
+        for (User profile : userList) {
             profileCheckList.add(new Pair<User, Boolean>(profile, false));
         }
 
