@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,8 @@ import android.widget.ImageView;
 
 import java.util.List;
 
-import dk.aau.cs.giraf.dblib.controllers.BaseImageControllerHelper;
-import dk.aau.cs.giraf.dblib.models.Profile;
+import dk.aau.cs.giraf.models.core.User;
+
 
 /**
  * <p></p>
@@ -22,17 +23,15 @@ import dk.aau.cs.giraf.dblib.models.Profile;
 public class GProfileAdapter extends BaseAdapter {
 	
 	private Activity activity;
-    private List<Profile> data;
+    private List<User> data;
     private static LayoutInflater inflater=null;
     protected GradientDrawable stylePressed;
     protected GradientDrawable styleUnPressed;
     protected GradientDrawable picBackground;
-    private BaseImageControllerHelper helper;
 
-    public GProfileAdapter(Activity a, List<Profile> d) {
+    public GProfileAdapter(Activity a, List<User> d) {
         activity = a;
         data=d;
-        helper = new BaseImageControllerHelper(a);
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 	
@@ -55,9 +54,9 @@ public class GProfileAdapter extends BaseAdapter {
 
         ImageView profilePicture = (ImageView)vi.findViewById(R.id.imageview_profilepic);
 
-            if(helper.getImage(data.get(position)) != null)
+            if(data.get(position).getIcon() != null)
             {
-                profilePicture.setImageBitmap(helper.getImage(data.get(position)));
+                profilePicture.setImageBitmap(data.get(position).getIcon());
             }
 
         StateListDrawable stateListDrawable = new StateListDrawable();
@@ -73,7 +72,7 @@ public class GProfileAdapter extends BaseAdapter {
         GTextView name = (GTextView)vi.findViewById(R.id.profile_name); // title
 //        ImageView thumb_image=(ImageView)vi.findViewById(R.id.list_image); // thumb image
 
-        Profile profile = data.get(position);
+        User profile = data.get(position);
 
 
         View profileBackground = vi.findViewById(R.id.profile_pic);
@@ -87,7 +86,7 @@ public class GProfileAdapter extends BaseAdapter {
 
         profileBackground.setBackgroundDrawable(picBackground);
         // Setting all values in listview
-        name.setText(profile.getName());
+        name.setText(profile.getScreenName());
         //make the two gradients
         styleUnPressed = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors);
         stylePressed = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colorsPressed);

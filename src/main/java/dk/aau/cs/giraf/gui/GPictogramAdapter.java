@@ -14,8 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.List;
 
-import dk.aau.cs.giraf.dblib.controllers.BaseImageControllerHelper;
-import dk.aau.cs.giraf.dblib.models.Pictogram;
+import dk.aau.cs.giraf.models.core.Pictogram;
+
 
 /**
  * Created by AndersBender on 28-03-14.
@@ -25,12 +25,10 @@ public class GPictogramAdapter extends BaseAdapter {
 private Activity activity;
 private List<Pictogram> data;
 private static LayoutInflater inflater=null;
-    private BaseImageControllerHelper helper;
 
         public GPictogramAdapter(Activity a, List<Pictogram> d) {
             activity = a;
             data=d;
-            helper = new BaseImageControllerHelper(a);
             inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
@@ -64,15 +62,15 @@ private static LayoutInflater inflater=null;
             Pictogram pictogram = data.get(position);
 
             // Setting all values
-            name.setText(pictogram.getName());
+            name.setText(pictogram.getTitle());
 
             //Attach listener to the pictogramlayout to handle dragging of the pictogram
             pictogramlayout.setOnTouchListener(new ImageDragger(pictogram));
             //THis should set the picture of the ImageView to the Pictogram picture
             //Function is not implemented yet, so a placeholder is used instead
-            if(helper.getImage(pictogram) != null)
+            if(pictogram.getPictogramImage() != null)
             {
-                  thumb_image.setImageBitmap(helper.getImage(pictogram));
+                  thumb_image.setImageBitmap(pictogram.getPictogramImage());
             }
 
             return vi;
