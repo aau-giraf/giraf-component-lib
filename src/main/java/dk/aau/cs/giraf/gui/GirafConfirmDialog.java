@@ -8,6 +8,8 @@ import android.view.View;
 
 /**
  * Created on 25/03/15.
+ * <p></p>
+ * @deprecated Old dialog use {@link dk.aau.cs.giraf.gui.GirafPopupDialog} instead.
  */
 public class GirafConfirmDialog extends GirafDialog {
 

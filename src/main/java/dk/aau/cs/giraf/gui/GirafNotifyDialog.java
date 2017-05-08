@@ -7,6 +7,8 @@ import android.view.View;
 
 /**
  * Created on 26/03/15.
+ * <p></p>
+ * @deprecated Old dialog use {@link dk.aau.cs.giraf.gui.GirafPopupDialog} instead.
  */
 public class GirafNotifyDialog extends GirafDialog {
 

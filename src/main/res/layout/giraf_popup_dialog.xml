@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_weight="0"
+            android:background="@drawable/top_bar_background"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/giraf_dialog_title_text_padding"
+            android:textSize="@dimen/giraf_dialog_title_text_size" />
+
+    <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_weight="0"
+            android:gravity="center_horizontal"
+            android:paddingLeft="@dimen/giraf_dialog_description_text_padding"
+            android:paddingRight="@dimen/giraf_dialog_description_text_padding"
+            android:paddingTop="@dimen/giraf_dialog_description_text_padding"
+            android:paddingBottom="@dimen/giraf_dialog_description_text_paddingBottom"
+            android:textSize="@dimen/giraf_dialog_description_text_size"
+            android:visibility="gone" />
+
+    <TextView
+            android:id="@+id/warning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/description"
+            android:layout_weight="0"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/giraf_dialog_warning_text_padding"
+            android:textSize="@dimen/giraf_dialog_warning_text_size"
+            android:visibility="invisible"
+            android:textColor="@color/giraf_warning_text" />
+
+    <LinearLayout
+            android:id="@+id/button_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/giraf_dialog_button_container_height"
+            android:layout_alignParentBottom="true"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/giraf_dialog_item_spacing"
+            android:visibility="gone" >
+        
+        <dk.aau.cs.giraf.gui.GirafButton
+                android:id="@+id/button_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="25dp" />
+
+        <dk.aau.cs.giraf.gui.GirafButton
+                android:id="@+id/button_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

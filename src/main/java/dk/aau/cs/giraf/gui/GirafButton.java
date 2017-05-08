@@ -3,6 +3,7 @@ package dk.aau.cs.giraf.gui;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.StringRes;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -213,6 +214,15 @@ public class GirafButton extends LinearLayout implements Checkable {
             iconView.setAlpha(0x59);
         }
     }
+
+    public void setText(@StringRes int buttonText){
+        textView.setText(buttonText);
+    }
+
+    public void setText(String buttonText){
+        textView.setText(buttonText);
+    }
+
     public void setIcon(final Drawable icon){
         iconView.setImageDrawable(icon);
     }
