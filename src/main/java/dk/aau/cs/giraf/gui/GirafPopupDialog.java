@@ -3,6 +3,7 @@ package dk.aau.cs.giraf.gui;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.Button;
@@ -143,6 +144,28 @@ public class GirafPopupDialog extends Dialog {
      * Sets up the button with text, icon and listener.
      * Auto shows the button.
      * @param buttonTextId the id for a resource with the text for the button.
+     * @param buttonIconId the id for a resource icon for the button.
+     * @param listener the listener for the button.
+     */
+    public void setButton1(@StringRes int buttonTextId, @DrawableRes int buttonIconId, View.OnClickListener listener) {
+        setButton1(buttonTextId, context.getResources().getDrawable(buttonIconId), listener);
+    }
+
+    /**
+     * Sets up the button with text, icon and listener.
+     * Auto shows the button.
+     * @param buttonText the text for the button.
+     * @param buttonIconId the id for a resource icon for the button.
+     * @param listener the listener for the button.
+     */
+    public void setButton1(String buttonText, @DrawableRes int buttonIconId, View.OnClickListener listener) {
+        setButton1(buttonText, context.getResources().getDrawable(buttonIconId), listener);
+    }
+
+    /**
+     * Sets up the button with text, icon and listener.
+     * Auto shows the button.
+     * @param buttonTextId the id for a resource with the text for the button.
      * @param buttonIcon the icon for the button.
      * @param listener the listener for the button.
      */
@@ -182,6 +205,29 @@ public class GirafPopupDialog extends Dialog {
         button1.setText(buttonText);
         button1.setOnClickListener(listener);
         button1.setVisibility(View.VISIBLE);
+    }
+
+
+    /**
+     * Sets up the button with text, icon and listener.
+     * Auto shows the button.
+     * @param buttonTextId the id for a resource with the text for the button.
+     * @param buttonIconId the id for a resource icon for the button.
+     * @param listener the listener for the button.
+     */
+    public void setButton2(@StringRes int buttonTextId, @DrawableRes int buttonIconId, View.OnClickListener listener) {
+        setButton2(buttonTextId, context.getResources().getDrawable(buttonIconId), listener);
+    }
+
+    /**
+     * Sets up the button with text, icon and listener.
+     * Auto shows the button.
+     * @param buttonText the text for the button.
+     * @param buttonIconId the id for a resource icon for the button.
+     * @param listener the listener for the button.
+     */
+    public void setButton2(String buttonText, @DrawableRes int buttonIconId, View.OnClickListener listener) {
+        setButton2(buttonText, context.getResources().getDrawable(buttonIconId), listener);
     }
 
     /**
