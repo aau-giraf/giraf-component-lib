@@ -146,7 +146,7 @@ public class GirafPopupDialog extends Dialog {
      * @param buttonIcon the icon for the button.
      * @param listener the listener for the button.
      */
-    public void setButton1(@StringRes int buttonTextId, Drawable buttonIcon, Button.OnClickListener listener) {
+    public void setButton1(@StringRes int buttonTextId, Drawable buttonIcon, View.OnClickListener listener) {
         setButton1(context.getText(buttonTextId).toString(),buttonIcon,listener);
     }
 
@@ -157,7 +157,7 @@ public class GirafPopupDialog extends Dialog {
      * @param buttonIcon the icon for the button.
      * @param listener the listener for the button.
      */
-    public void setButton1(String buttonText, Drawable buttonIcon, Button.OnClickListener listener) {
+    public void setButton1(String buttonText, Drawable buttonIcon, View.OnClickListener listener) {
         button1.setIcon(buttonIcon);
         setButton1(buttonText,listener);
     }
@@ -168,7 +168,7 @@ public class GirafPopupDialog extends Dialog {
      * @param buttonTextId the id for a resource with the text for the button.
      * @param listener the listener for the button.
      */
-    public void setButton1(@StringRes int buttonTextId, Button.OnClickListener listener) {
+    public void setButton1(@StringRes int buttonTextId, View.OnClickListener listener) {
         setButton1(context.getText(buttonTextId).toString(),listener);
     }
 
@@ -178,7 +178,7 @@ public class GirafPopupDialog extends Dialog {
      * @param buttonText the text for the button.
      * @param listener the listener for the button.
      */
-    public void setButton1(String buttonText, Button.OnClickListener listener) {
+    public void setButton1(String buttonText, View.OnClickListener listener) {
         button1.setText(buttonText);
         button1.setOnClickListener(listener);
         button1.setVisibility(View.VISIBLE);
@@ -191,7 +191,7 @@ public class GirafPopupDialog extends Dialog {
      * @param buttonIcon the icon for the button.
      * @param listener the listener for the button.
      */
-    public void setButton2(@StringRes int buttonTextId, Drawable buttonIcon, Button.OnClickListener listener) {
+    public void setButton2(@StringRes int buttonTextId, Drawable buttonIcon, View.OnClickListener listener) {
         setButton2(context.getText(buttonTextId).toString(),buttonIcon,listener);
     }
 
@@ -202,7 +202,7 @@ public class GirafPopupDialog extends Dialog {
      * @param buttonIcon the icon for the button.
      * @param listener the listener for the button.
      */
-    public void setButton2(String buttonText, Drawable buttonIcon, Button.OnClickListener listener) {
+    public void setButton2(String buttonText, Drawable buttonIcon, View.OnClickListener listener) {
         button2.setIcon(buttonIcon);
         setButton2(buttonText,listener);
     }
@@ -213,7 +213,7 @@ public class GirafPopupDialog extends Dialog {
      * @param buttonTextId the id for a resource with the text for the button.
      * @param listener the listener for the button.
      */
-    public void setButton2(@StringRes int buttonTextId, Button.OnClickListener listener) {
+    public void setButton2(@StringRes int buttonTextId, View.OnClickListener listener) {
         setButton2(context.getText(buttonTextId).toString(),listener);
     }
 
@@ -223,7 +223,7 @@ public class GirafPopupDialog extends Dialog {
      * @param buttonText the text for the button.
      * @param listener the listener for the button.
      */
-    public void setButton2(String buttonText, Button.OnClickListener listener) {
+    public void setButton2(String buttonText, View.OnClickListener listener) {
         button2.setText(buttonText);
         button2.setOnClickListener(listener);
         button2.setVisibility(View.VISIBLE);
