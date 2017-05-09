@@ -20,6 +20,37 @@ public class GirafPopupDialog extends Dialog {
     private GirafButton button1;
     private GirafButton button2;
 
+
+    /**
+     * Constructor overloading such that we can use resource strings.
+     * @param titleId the id for a resource string with the tile.
+     * @param messageId the id for a resource string with the message.
+     * @param context the context of the parent.
+     */
+    public GirafPopupDialog(@StringRes int titleId, @StringRes int messageId, Context context) {
+        this(context.getString(titleId), context.getString(messageId), context);
+    }
+
+    /**
+     * Constructor overloading such that we can use resource strings.
+     * @param title the title for the dialog.
+     * @param messageId the id for a resource string with the message.
+     * @param context the context of the parent.
+     */
+    public GirafPopupDialog(String title, @StringRes int messageId, Context context) {
+        this(title, context.getString(messageId), context);
+    }
+
+    /**
+     * Constructor overloading such that we can use resource strings.
+     * @param titleId the id for a resource string with the tile.
+     * @param message the message o the dialog.
+     * @param context the context of the parent.
+     */
+    public GirafPopupDialog(@StringRes int titleId, String message, Context context) {
+       this(context.getString(titleId), message, context);
+    }
+
     /**
      * The constructor for the Giraf Popup Dialog.
      * @param title the title of the dialog.
