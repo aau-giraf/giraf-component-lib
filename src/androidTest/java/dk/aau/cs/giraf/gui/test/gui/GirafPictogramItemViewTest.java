@@ -8,17 +8,19 @@ import android.widget.TextView;
 
 import junit.framework.Assert;
 
-import dk.aau.cs.giraf.dblib.controllers.ImageEntity;
-import dk.aau.cs.giraf.dblib.models.Pictogram;
 import dk.aau.cs.giraf.gui.GirafPictogramItemView;
 import dk.aau.cs.giraf.gui.R;
+import dk.aau.cs.giraf.models.core.AccessLevel;
+import dk.aau.cs.giraf.models.core.Department;
+import dk.aau.cs.giraf.models.core.Pictogram;
 
 /**
  * Created on 29/04/2015.
  */
 public class GirafPictogramItemViewTest extends ApplicationTestCase<Application> {
 
-    private ImageEntity imageModel;
+    private Pictogram pictogram;
+    //private ImageEntity imageModel;
     private GirafPictogramItemView view;
 
     private final int loadTimeout = 200;
@@ -31,7 +33,7 @@ public class GirafPictogramItemViewTest extends ApplicationTestCase<Application>
     protected void setUp() throws Exception {
         super.setUp();
 
-        imageModel = new Pictogram();
+        pictogram = new Pictogram("test", AccessLevel.PUBLIC, new Department("testDep"));
     }
 
     public void testSimpleConstructor() {
@@ -39,7 +41,7 @@ public class GirafPictogramItemViewTest extends ApplicationTestCase<Application>
     }
 
     public void testSimpleConstructorNullPictogram() {
-        view = new GirafPictogramItemView(getContext(), imageModel);
+        view = new GirafPictogramItemView(getContext(), pictogram);
 
         Assert.assertNotNull(view);
     }
@@ -64,7 +66,7 @@ public class GirafPictogramItemViewTest extends ApplicationTestCase<Application>
     public void testSimpleConstructorWithTitle() {
         // Instantiate variables used in test
         final String title = "title";
-        view = new GirafPictogramItemView(getContext(), imageModel, title);
+        view = new GirafPictogramItemView(getContext(), pictogram, title);
 
         // Find the views in the inflated layout
         TextView textView = (TextView) view.findViewById(R.id.pictogram_title);
@@ -132,7 +134,7 @@ public class GirafPictogramItemViewTest extends ApplicationTestCase<Application>
     public void testSetCheckedTrue() {
         // Instantiate variables used in test
         final boolean checked = true;
-        view = new GirafPictogramItemView(getContext(), imageModel);
+        view = new GirafPictogramItemView(getContext(), pictogram);
 
         // Set the view to be checked
         view.setChecked(checked);
@@ -144,7 +146,7 @@ public class GirafPictogramItemViewTest extends ApplicationTestCase<Application>
     public void testSetCheckedTrueThenCheckedFalse() {
         // Instantiate variables used in test
         final boolean checked = true;
-        view = new GirafPictogramItemView(getContext(), imageModel);
+        view = new GirafPictogramItemView(getContext(), pictogram);
 
         // Set the view to be checked
         view.setChecked(checked);
@@ -159,7 +161,7 @@ public class GirafPictogramItemViewTest extends ApplicationTestCase<Application>
     public void testCheckedDefaultFalse() {
         // Instantiate variables used in test
         final boolean checked = false;
-        view = new GirafPictogramItemView(getContext(), imageModel);
+        view = new GirafPictogramItemView(getContext(), pictogram);
 
         // Test if the view is checked
         Assert.assertEquals(checked, view.isChecked());
@@ -168,7 +170,7 @@ public class GirafPictogramItemViewTest extends ApplicationTestCase<Application>
     public void testCheckedStateChangeStyle() {
         // Instantiate variables used in test
         final boolean checked = true;
-        view = new GirafPictogramItemView(getContext(), imageModel);
+        view = new GirafPictogramItemView(getContext(), pictogram);
 
         // Find the original color of the background
         Drawable originalBackground = view.getBackground();
