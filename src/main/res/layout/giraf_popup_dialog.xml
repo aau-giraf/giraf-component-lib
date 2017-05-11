@@ -4,7 +4,9 @@
               android:layout_height="wrap_content"
               xmlns:app="http://schemas.android.com/tools"
               android:background="@color/giraf_background"
-              android:gravity="center_vertical|center_horizontal|center"
+              android:layout_gravity="center"
+              android:gravity="center"
+              android:windowNoTitle="true"
               android:orientation="vertical" android:weightSum="1">
 
     <TextView
@@ -38,7 +40,7 @@
             android:gravity="center_horizontal"
             android:padding="@dimen/giraf_dialog_warning_text_padding"
             android:textSize="@dimen/giraf_dialog_warning_text_size"
-            android:textColor="@color/giraf_warning_text" android:text="waringtemp" android:visibility="visible"
+            android:textColor="@color/giraf_warning_text" android:text="waringtemp" android:visibility="invisible"
             android:layout_height="wrap_content"/>
 
     <LinearLayout
@@ -53,17 +55,17 @@
             android:visibility="visible" >
 
         <dk.aau.cs.giraf.gui.GirafButton
-                android:id="@+id/button_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="25dp"
-                app:text="button1" />
-
-        <dk.aau.cs.giraf.gui.GirafButton
                 android:id="@+id/button_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="25dp"
                 app:text="button2" />
+
+        <dk.aau.cs.giraf.gui.GirafButton
+                android:id="@+id/button_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:text="button1" />
 
 
     </LinearLayout>
