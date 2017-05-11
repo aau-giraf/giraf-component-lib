@@ -61,7 +61,7 @@ public class GirafPopupDialog extends Dialog {
     public GirafPopupDialog(String title, String message, Context context) {
         super(context, R.style.GirafTheme);
         this.context = context;
-        super.setContentView(R.layout.giraf_popup_dialog);
+        this.setContentView(R.layout.giraf_popup_dialog);
         this.title = (TextView) findViewById(R.id.title);
         this.message = (TextView) findViewById(R.id.description);
         warning = (TextView) findViewById(R.id.warning);
