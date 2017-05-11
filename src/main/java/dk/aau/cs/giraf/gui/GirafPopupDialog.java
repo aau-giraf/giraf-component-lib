@@ -2,6 +2,8 @@ package dk.aau.cs.giraf.gui;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
@@ -59,9 +61,10 @@ public class GirafPopupDialog extends Dialog {
      * @param context the context of the parent.
      */
     public GirafPopupDialog(String title, String message, Context context) {
-        super(context, R.style.GirafTheme);
+        super(context);
         this.context = context;
         this.setContentView(R.layout.giraf_popup_dialog);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         this.title = (TextView) findViewById(R.id.title);
         this.message = (TextView) findViewById(R.id.description);
         warning = (TextView) findViewById(R.id.warning);
