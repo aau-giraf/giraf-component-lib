@@ -187,9 +187,9 @@ public class GirafButton extends LinearLayout implements Checkable {
             girafButtonAttributes.recycle();
         }
 
-        if(icon == null && buttonText == null) {
+        /*if(icon == null && buttonText == null) {
             throw new IllegalArgumentException("A GirafButton must have an icon or some text");
-        }
+        }*/
 
         // If the icon is null remove the iconView
         if(icon == null)
