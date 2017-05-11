@@ -45,9 +45,15 @@ public class GirafProfileSelectorAdapter extends BaseAdapter {
         return checkedProfileList.get(position).first;
     }
 
+
     @Override
     public long getItemId(int position) {
         return checkedProfileList.get(position).first.getId();
+    }
+
+
+    public String getItemUsername(int position){
+        return checkedProfileList.get(position).first.getUsername();
     }
 
     @Override
