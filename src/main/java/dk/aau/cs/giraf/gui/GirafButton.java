@@ -224,6 +224,11 @@ public class GirafButton extends LinearLayout implements Checkable {
     }
 
     public void setIcon(final Drawable icon){
+        if(icon == null){
+            iconView.setVisibility(View.GONE);
+        }else{
+            iconView.setVisibility(View.VISIBLE);
+        }
         iconView.setImageDrawable(icon);
     }
 
