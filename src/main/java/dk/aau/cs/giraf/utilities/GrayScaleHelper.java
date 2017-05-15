@@ -55,7 +55,9 @@ public class GrayScaleHelper {
         GetRequest<User> userGetRequest = new GetRequest<User>(user.getUsername(), User.class, new Response.Listener<User>() {
             @Override
             public void onResponse(User response) {
-                setGrayScaleForActivity(activity, response.getSettings().getUseGrayScale());
+                if(response.getSettings() != null) {
+                    setGrayScaleForActivity(activity, response.getSettings().getUseGrayScale());
+                }
             }
         }, new Response.ErrorListener() {
             @Override
