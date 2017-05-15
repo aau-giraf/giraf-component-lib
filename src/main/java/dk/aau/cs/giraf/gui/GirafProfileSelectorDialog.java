@@ -79,25 +79,25 @@ public class GirafProfileSelectorDialog extends GirafDialog {
      * it also sets the adapter and builds listeners on the profile grid
      */
     private class LoadUsers extends AsyncTask<Void, Void, List<User>> {
-        private String[] profileUsernames;
+        private String[] profileUserIds;
         private boolean[] profilesCheckedStatus;
         private boolean selectMultipleProfiles;
         private int dialogIdentifier;
         private long selectedCitizenId;
-        private String selectedCitizenUsername;
+        private String selectedCitizenUserId;
 
         /**
          * Creates an async task to load users from the
          *
-         * @param profileUsernames       an array of profile usernames
+         * @param profileUserIds       an array of profile userIds
          * @param profilesCheckedStatus  an array of profile statuses
          * @param selectMultipleProfiles indicates if the dialog should select multiple profiles
          * @param dialogIdentifier       the identifier of the dialog
          */
-        public LoadUsers(String[] profileUsernames, boolean[] profilesCheckedStatus, boolean selectMultipleProfiles, int dialogIdentifier,
-                         String selectedCitizenUsername) {
-            this.selectedCitizenUsername = selectedCitizenUsername;
-            this.profileUsernames = profileUsernames;
+        public LoadUsers(String[] profileUserIds, boolean[] profilesCheckedStatus, boolean selectMultipleProfiles, int dialogIdentifier,
+                         String selectedCitizenUserId) {
+            this.selectedCitizenUserId = selectedCitizenUserId;
+            this.profileUserIds = profileUserIds;
             this.profilesCheckedStatus = profilesCheckedStatus;
             this.selectMultipleProfiles = selectMultipleProfiles;
             this.dialogIdentifier = dialogIdentifier;
@@ -109,9 +109,9 @@ public class GirafProfileSelectorDialog extends GirafDialog {
             final ArrayList<User> profiles = new ArrayList<User>();
 
             // Fill the list of profiles using the helper and the ids
-            for (final String profileUsername : profileUsernames) {
+            for (final String profileUserId : profileUserIds) {
 
-                GetRequest<User> userGetRequest = new GetRequest<User>(profileUsername, User.class, new Response.Listener<User>() {
+                GetRequest<User> userGetRequest = new GetRequest<User>(profileUserId, User.class, new Response.Listener<User>() {
                     @Override
                     public void onResponse(User response) {
                         // Get the row and column size for the grids in the AppViewPager
@@ -122,10 +122,10 @@ public class GirafProfileSelectorDialog extends GirafDialog {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         if(error.networkResponse.statusCode == 404){
-                            Log.e("Giraf","User with id: " + profileUsername + " not found");
+                            Log.e("Giraf","User with id: " + profileUserId + " not found");
                         }
                         else if(error.networkResponse.statusCode == 401){
-                                Log.e("Giraf","Access denied while retrieving user " + profileUsername);
+                                Log.e("Giraf","Access denied while retrieving user " + profileUserId);
                         }
 
                     }
@@ -157,7 +157,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
                     profileAdapter.setItemChecked(i, true);
 
                     // show warning if selectedCitizen is chosen
-                    if (selectedCitizenUsername != "" && selectedCitizenUsername == profileAdapter.getItemUsername(i)) {
+                    if (selectedCitizenUserId != "" && selectedCitizenUserId == profileAdapter.getItemUserId(i)) {
                         if (profileAdapter.getItemChecked(i)) {
                             showWarning();
                         } else {
@@ -178,7 +178,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
                         ((GirafPictogramItemView) view).toggle(); // Enforce an visual update on the profile grid (mark them)
 
                         // show warning if selectedCitizen is chosen
-                        if (selectedCitizenId != -1 && selectedCitizenUsername == profileAdapter.getItemUsername(position)) {
+                        if (selectedCitizenId != -1 && selectedCitizenUserId == profileAdapter.getItemUserId(position)) {
                             if (profileAdapter.getItemChecked(position)) {
                                 showWarning();
                             } else {
@@ -263,7 +263,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
      *
      * @param context          the context of where the dialog appears
      * @param guardianUser       the identifier of the guardian of which citizens should be selectable
-     * @param selectedCitizenUsername        The current selected child, if any (default "" if not set)
+     * @param selectedCitizenUserId        The current selected child, if any (default "" if not set)
      * @param includeGuardian  should the guardian with the given identifier be included in the list of selectable profiles
      * @param selectMultipleProfiles    should it be possible to select multiple profiles
      * @param description      the description on the dialog
@@ -271,7 +271,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
      * @param dialogIdentifier a unique identifier of the dialog
      * @return a GirafProfileSelector
      */
-    public static GirafProfileSelectorDialog newInstance(Context context, final User guardianUser, String selectedCitizenUsername,
+    public static GirafProfileSelectorDialog newInstance(Context context, final User guardianUser, String selectedCitizenUserId,
                                                          final boolean includeGuardian, boolean selectMultipleProfiles,
                                                          String description, String warning, int dialogIdentifier, RequestQueue queue)
     {
@@ -301,7 +301,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     if(error.networkResponse.statusCode == 404){
-                        Log.e("Giraf","User with id: " + guardianUser.getUsername() + " not found");
+                        Log.e("Giraf","User with id: " + guardianUser.getId() + " not found");
                     }
                     else if(error.networkResponse.statusCode == 401){
                         Log.e("Giraf","Access denied while retrieving user ");
@@ -326,7 +326,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
             profileCheckList.add(new Pair<User, Boolean>(profile, false));
         }
 
-        return newInstance(profileCheckList, selectMultipleProfiles, description, warning, dialogIdentifier, selectedCitizenUsername, queue);
+        return newInstance(profileCheckList, selectMultipleProfiles, description, warning, dialogIdentifier, selectedCitizenUserId, queue);
     }
 
     private void setQueue(RequestQueue requestQueue){
@@ -344,17 +344,17 @@ public class GirafProfileSelectorDialog extends GirafDialog {
      */
     public static GirafProfileSelectorDialog newInstance(List<Pair<User, Boolean>> profileCheckList,
                                                          boolean selectMultipleProfiles, String description, String warning,
-                                                         int dialogIdentifier, String selectedCitizenUsername, RequestQueue queue) {
+                                                         int dialogIdentifier, String selectedCitizenUserId, RequestQueue queue) {
         GirafProfileSelectorDialog girafProfileSelectorDialog = new GirafProfileSelectorDialog();
         girafProfileSelectorDialog.setQueue(queue);
 
         // Store the identifier of the profiles to make it parcelable
-        String[] profileUsernames = new String[profileCheckList.size()];
+        String[] profileUserIds = new String[profileCheckList.size()];
         boolean[] profilesCheckedStatus = new boolean[profileCheckList.size()];
 
 
         for (int i = 0; i < profileCheckList.size(); i++) {
-            profileUsernames[i] = profileCheckList.get(i).first.getUsername();
+            profileUserIds[i] = profileCheckList.get(i).first.getId();
             profilesCheckedStatus[i] = profileCheckList.get(i).second;
         }
 
@@ -362,8 +362,8 @@ public class GirafProfileSelectorDialog extends GirafDialog {
         Bundle args = new Bundle();
 
         // Store the arguments into the bundle
-        args.putString(SELECTED_CITIZEN_ID_TAG, selectedCitizenUsername);
-        args.putStringArray(PROFILE_IDS_TAG, profileUsernames);
+        args.putString(SELECTED_CITIZEN_ID_TAG, selectedCitizenUserId);
+        args.putStringArray(PROFILE_IDS_TAG, profileUserIds);
         args.putBooleanArray(PROFILE_CHECK_STATUS_TAG, profilesCheckedStatus);
         args.putBoolean(IS_MULTI_SELECT_TAG, selectMultipleProfiles);
         args.putString(DESCRIPTION_TAG, description);
@@ -396,12 +396,12 @@ public class GirafProfileSelectorDialog extends GirafDialog {
 
         // Fetch the arguments
         final Bundle args = this.getArguments();
-        final String selectedCitizenUsername = args.getString(SELECTED_CITIZEN_ID_TAG);
+        final String selectedCitizenUserId = args.getString(SELECTED_CITIZEN_ID_TAG);
         boolean selectMultipleProfiles = args.getBoolean(IS_MULTI_SELECT_TAG);
         String description = args.getString(DESCRIPTION_TAG);
         String warning = args.getString(WARNING_TAG);
         final int dialogIdentifier = args.getInt(DIALOG_IDENTIFIER_TAG);
-        String[] profileUsernames = args.getStringArray(PROFILE_IDS_TAG);
+        String[] profileUserIds = args.getStringArray(PROFILE_IDS_TAG);
         boolean[] profilesCheckedStatus = args.getBooleanArray(PROFILE_CHECK_STATUS_TAG);
 
 
@@ -435,7 +435,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
 
         addButton(cancelButton);
 
-        new LoadUsers(profileUsernames, profilesCheckedStatus, selectMultipleProfiles, dialogIdentifier, selectedCitizenUsername).execute();
+        new LoadUsers(profileUserIds, profilesCheckedStatus, selectMultipleProfiles, dialogIdentifier, selectedCitizenUserId).execute();
 
         return dialog;
     }
