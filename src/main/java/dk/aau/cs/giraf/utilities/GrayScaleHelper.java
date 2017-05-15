@@ -58,6 +58,7 @@ public class GrayScaleHelper {
                 if(response.getSettings() != null) {
                     setGrayScaleForActivity(activity, response.getSettings().getUseGrayScale());
                 }
+                else{ Log.e("LAUNCHER","Settings nullpointer");}
             }
         }, new Response.ErrorListener() {
             @Override
