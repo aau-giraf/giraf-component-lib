@@ -42,9 +42,16 @@ public class GProfileAdapter extends BaseAdapter {
     public Object getItem(int position) {
         return data.get(position);
     }
- 
+
+    /**
+     * This is a hacky method in a deprecated class don't use it.
+     * it's due to baseAdaptor being extended and ID being a string instead of Long
+     * @param position
+     * @return -1
+     */
+
     public long getItemId(int position) {
-        return data.get(position).getId();
+        return -1;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
