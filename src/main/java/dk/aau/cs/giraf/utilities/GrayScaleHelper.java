@@ -52,7 +52,7 @@ public class GrayScaleHelper {
      */
     public static void setGrayScaleForActivityByUser(final Activity activity, final User user) {
         final RequestQueue queue = RequestQueueHandler.getInstance(activity.getApplicationContext()).getRequestQueue();
-        GetRequest<User> userGetRequest = new GetRequest<User>(user.getId(), User.class, new Response.Listener<User>() {
+        GetRequest<User> userGetRequest = new GetRequest<User>(user.getUsername(), User.class, new Response.Listener<User>() {
             @Override
             public void onResponse(User response) {
                 setGrayScaleForActivity(activity, response.getSettings().getUseGrayScale());
@@ -64,7 +64,7 @@ public class GrayScaleHelper {
                     LoginRequest loginRequest = new LoginRequest(user, new Response.Listener<Integer>() {
                         @Override
                         public void onResponse(Integer response) {
-                            GetRequest<User> userGetRequest = new GetRequest<User>(user.getId(), User.class, new Response.Listener<User>() {
+                            GetRequest<User> userGetRequest = new GetRequest<User>(user.getUsername(), User.class, new Response.Listener<User>() {
                                 @Override
                                 public void onResponse(User response) {
                                     setGrayScaleForActivity(activity, response.getSettings().getUseGrayScale());

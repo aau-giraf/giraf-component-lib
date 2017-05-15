@@ -47,7 +47,7 @@ public class GirafProfileSelectorAdapter extends BaseAdapter {
 
 
     /**
-     * This is hacky method due to override, user getItemUserId instead
+     * This is hacky method due to override, user getItemUsername instead
      * @param position the items position
      * @return -1
      */
@@ -57,8 +57,8 @@ public class GirafProfileSelectorAdapter extends BaseAdapter {
     }
 
 
-    public String getItemUserId(int position){
-        return checkedProfileList.get(position).first.getId();
+    public String getItemUsername(int position){
+        return checkedProfileList.get(position).first.getUsername();
     }
 
     @Override
