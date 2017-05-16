@@ -7,7 +7,6 @@
               android:layout_gravity="center"
               android:gravity="center"
               android:windowBackground="@android:style/Theme.Dialog"
-              android:windowIsFloating="false"
               android:orientation="vertical" android:weightSum="1">
 
     <TextView
@@ -48,13 +47,13 @@
                 android:id="@+id/button_2"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="25dp"
-                app:text="button2" android:layout_width="75dp"/>
+                app:text="button2" android:layout_width="wrap_content" android:minWidth="75dp"/>
 
         <dk.aau.cs.giraf.gui.GirafButton
                 android:id="@+id/button_1"
-                android:layout_width="75dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:text="button1"/>
+                app:text="button1" android:minWidth="75dp"/>
 
 
     </LinearLayout>

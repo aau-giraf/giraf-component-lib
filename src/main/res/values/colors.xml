@@ -4,6 +4,7 @@
     <!-- Background -->
     <color name="giraf_background">#e9e9e9</color>
     <color name="giraf_window_background">#000000</color>
+    <color name="giraf_dialog_title">#fdbb55</color>
 
     <!-- Text color -->
     <color name="giraf_text">#000000</color>
@@ -15,7 +16,7 @@
     <color name="giraf_button_stroke">#8a6e00</color>
 
     <color name="giraf_button_pressed_fill_start">#d4ad2f</color>
-    <color name="giraf_button_pressed_fill_end">#ff9d00</color>
+    <color name="giraf_button_pressed_fill_end">#ff9d00</color>#FFFFBB55
     <color name="giraf_button_pressed_stroke">#493700</color>
 
     <color name="giraf_button_focused_fill_start">#ff9d00</color>

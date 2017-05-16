@@ -60,9 +60,9 @@ public class GirafPopupDialog extends Dialog {
      * @param context the context of the parent.
      */
     public GirafPopupDialog(String title, String message, Context context) {
-        super(context, R.style.GirafTheme);
+        super(context,R.style.GirafDialog);
         this.context = context;
-        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        //getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         this.setContentView(R.layout.giraf_popup_dialog);
         super.setTitle(title);
         this.message = (TextView) findViewById(R.id.description);
