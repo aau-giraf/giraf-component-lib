@@ -1,15 +1,18 @@
 package dk.aau.cs.giraf.gui;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import dk.aau.cs.giraf.utilities.GrayScaleHelper;
 
 /**
  * Created on 05-05-2017.
@@ -62,6 +65,16 @@ public class GirafPopupDialog extends Dialog {
     public GirafPopupDialog(String title, String message, Context context) {
         super(context,R.style.GirafDialog);
         this.context = context;
+        Activity activity = null;
+        if(context instanceof Activity){
+            activity = (Activity) context;
+        }
+        if(activity != null){
+            boolean layerPaint = activity.getWindow().getDecorView().getRootView().getLayerType() == View.LAYER_TYPE_HARDWARE;
+            if(layerPaint){
+                GrayScaleHelper.setGrayScaleForActivity(activity,layerPaint);
+            }
+        }
         //getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         this.setContentView(R.layout.giraf_popup_dialog);
         super.setTitle(title);
@@ -72,6 +85,11 @@ public class GirafPopupDialog extends Dialog {
         this.message.setText(message);
         button1.setVisibility(View.INVISIBLE);
         button2.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     /**
@@ -307,4 +325,5 @@ public class GirafPopupDialog extends Dialog {
     public void showButton2() {
         button2.setVisibility(View.VISIBLE);
     }
+
 }
