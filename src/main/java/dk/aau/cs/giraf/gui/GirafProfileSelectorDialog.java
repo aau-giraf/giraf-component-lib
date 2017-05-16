@@ -301,7 +301,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     if(error.networkResponse.statusCode == 404){
-                        Log.e("Giraf","User with id: " + guardianUser.getUsername() + " not found");
+                        Log.e("Giraf","User with id: " + guardianUser.getId() + " not found");
                     }
                     else if(error.networkResponse.statusCode == 401){
                         Log.e("Giraf","Access denied while retrieving user ");
@@ -354,7 +354,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
 
 
         for (int i = 0; i < profileCheckList.size(); i++) {
-            profileUsernames[i] = profileCheckList.get(i).first.getUsername();
+            profileUsernames[i] = profileCheckList.get(i).first.getId();
             profilesCheckedStatus[i] = profileCheckList.get(i).second;
         }
 
