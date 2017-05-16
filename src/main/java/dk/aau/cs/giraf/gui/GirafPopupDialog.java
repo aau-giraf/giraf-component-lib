@@ -65,17 +65,6 @@ public class GirafPopupDialog extends Dialog {
     public GirafPopupDialog(String title, String message, Context context) {
         super(context,R.style.GirafDialog);
         this.context = context;
-        Activity activity = null;
-        if(context instanceof Activity){
-            activity = (Activity) context;
-        }
-        if(activity != null){
-            boolean layerPaint = activity.getWindow().getDecorView().getRootView().getLayerType() == View.LAYER_TYPE_HARDWARE;
-            if(layerPaint){
-                GrayScaleHelper.setGrayScaleForActivity(activity,layerPaint);
-            }
-        }
-        //getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         this.setContentView(R.layout.giraf_popup_dialog);
         super.setTitle(title);
         this.message = (TextView) findViewById(R.id.description);

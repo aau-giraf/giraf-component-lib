@@ -25,6 +25,7 @@
 
     <style name="GirafDialogTitleStyle" parent="android:Widget.TextView">
         <item name="android:background">@color/giraf_dialog_title</item>
+        <item name="android:textSize">@dimen/giraf_dialog_title_text_size</item>
         <item name="android:padding">10dp</item>
     </style>
 

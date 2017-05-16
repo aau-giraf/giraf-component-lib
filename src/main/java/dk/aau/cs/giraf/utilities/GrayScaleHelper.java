@@ -23,14 +23,9 @@ import static android.view.View.LAYER_TYPE_NONE;
 public class GrayScaleHelper {
 
     public static void setGrayScaleForActivity(Activity activity, boolean shouldBeGray) {
-
-        View view = activity.getWindow().getDecorView().getRootView();//perhaps better
-        //View screen = activity.getWindow().getDecorView();
-        //int barId = activity.getResources().getIdentifier("action_bar_container", "id", "android");
-        //View bar = screen.findViewById(barId);
-        //View view = activity.findViewById(android.R.id.content);
+        //Get the root view
+        View view = activity.getWindow().getDecorView().getRootView();
         setGray(view, shouldBeGray);
-        //setGray(bar, shouldBeGray);
     }
 
     private static void setGray(View view, boolean state) {
