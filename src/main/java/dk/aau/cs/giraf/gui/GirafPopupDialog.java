@@ -17,7 +17,6 @@ import android.widget.TextView;
 public class GirafPopupDialog extends Dialog {
 
     private Context context;
-    private TextView title;
     private TextView message;
     private TextView warning;
     private GirafButton button1;
@@ -61,45 +60,18 @@ public class GirafPopupDialog extends Dialog {
      * @param context the context of the parent.
      */
     public GirafPopupDialog(String title, String message, Context context) {
-        super(context);
+        super(context, R.style.GirafTheme);
         this.context = context;
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         this.setContentView(R.layout.giraf_popup_dialog);
-        this.title = (TextView) findViewById(R.id.title);
+        super.setTitle(title);
         this.message = (TextView) findViewById(R.id.description);
         warning = (TextView) findViewById(R.id.warning);
         button1 = (GirafButton) findViewById(R.id.button_1);
         button2 = (GirafButton) findViewById(R.id.button_2);
-        this.title.setText(title);
         this.message.setText(message);
         button1.setVisibility(View.INVISIBLE);
         button2.setVisibility(View.INVISIBLE);
-    }
-
-    /**
-     * Makes it possible to change the title of the dialog.
-     * @param title the title for the dialog.
-     */
-    public void setTitle(String title) {
-        this.title.setText(title);
-    }
-
-    /**
-     * Makes it possible to change the title of the dialog.
-     * @param title the title for the dialog.
-     */
-    @Override
-    public void setTitle(CharSequence title) {
-        this.title.setText(title);
-    }
-
-    /**
-     * Makes it possible to change the title of the dialog.
-     * @param titleId the resource for the title for the dialog.
-     */
-    @Override
-    public void setTitle(@StringRes int titleId) {
-        this.title.setText(titleId);
     }
 
     /**
