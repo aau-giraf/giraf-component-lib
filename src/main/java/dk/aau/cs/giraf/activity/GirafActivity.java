@@ -170,6 +170,7 @@ public class GirafActivity extends FragmentActivity {
                 //intent.addCategory(Intent.CATEGORY_LAUNCHER);
                 intent.setComponent(new ComponentName("dk.aau.cs.giraf.launcher", "HomeActivity"));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                intent.getExtras().putString(IntentConstants.STARTED_BY,IntentConstants.RESTART);
                 if (intent.resolveActivity(GirafActivity.this.getPackageManager()) != null) {
                         GirafActivity.this.startActivity(intent);
                 }

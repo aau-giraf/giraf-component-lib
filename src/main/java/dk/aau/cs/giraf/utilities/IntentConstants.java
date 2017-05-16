@@ -9,6 +9,9 @@ public final class IntentConstants {
     public static final String CURRENT_GUARDIAN_ID = "currentGuardianID";
     public static final String CURRENT_CHILD_ID = "currentChildID";
     public static final String CURRENT_USER = "currentGirafUser";
+    public static final String STARTED_BY = "StartedBy";
+
+    public static final String RESTART = "restart";
 
 	public static final String APP_PACKAGE_NAME = "appPackageName";
 	public static final String APP_ACTIVITY_NAME = "appActivityName";
