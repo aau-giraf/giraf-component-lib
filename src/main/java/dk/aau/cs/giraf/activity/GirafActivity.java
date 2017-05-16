@@ -1,6 +1,7 @@
 package dk.aau.cs.giraf.activity;
 
 import android.app.ActionBar;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -26,6 +27,7 @@ import com.google.analytics.tracking.android.Tracker;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.gui.R;
 import dk.aau.cs.giraf.utilities.GirafScalingUtilities;
+import dk.aau.cs.giraf.utilities.IntentConstants;
 
 import java.io.Serializable;
 
@@ -164,7 +166,13 @@ public class GirafActivity extends FragmentActivity {
                 sendExceptionToGoogleAnalytics(ex);
 
                 // Restarts the activity Todo find out if it restarts the launcher or at least work
-                recreate();
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                //intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                intent.setComponent(new ComponentName("dk.aau.cs.giraf.launcher", "HomeActivity"));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                if (intent.resolveActivity(GirafActivity.this.getPackageManager()) != null) {
+                        GirafActivity.this.startActivity(intent);
+                }
             }
         });
 
