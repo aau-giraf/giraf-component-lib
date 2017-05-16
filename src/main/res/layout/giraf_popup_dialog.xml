@@ -21,7 +21,8 @@
             android:paddingTop="@dimen/giraf_dialog_description_text_padding"
             android:paddingBottom="@dimen/giraf_dialog_description_text_paddingBottom"
             android:textSize="@dimen/giraf_dialog_description_text_size"
-            android:visibility="visible" android:text="dwadwandjadawd"/>
+            android:textColor="@color/giraf_text"
+            android:visibility="visible" android:text="this is just some test text"/>
     <TextView
             android:id="@+id/warning"
             android:layout_width="wrap_content"
