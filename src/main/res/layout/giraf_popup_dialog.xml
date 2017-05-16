@@ -7,7 +7,7 @@
               android:layout_gravity="center"
               android:gravity="center"
               android:windowBackground="@android:style/Theme.Dialog"
-              android:orientation="vertical" android:weightSum="1">
+              android:orientation="vertical" android:weightSum="1" android:padding="20dp">
 
     <TextView
             android:id="@+id/description"
@@ -42,7 +42,7 @@
             android:gravity="center"
             android:orientation="horizontal"
             android:layout_marginBottom="@dimen/giraf_dialog_item_spacing"
-            android:visibility="visible" >
+            android:visibility="visible">
 
         <dk.aau.cs.giraf.gui.GirafButton
                 android:id="@+id/button_2"
