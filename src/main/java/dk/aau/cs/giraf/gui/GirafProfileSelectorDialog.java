@@ -21,6 +21,7 @@ import java.util.List;
 
 import dk.aau.cs.giraf.librest.requests.GetArrayRequest;
 import dk.aau.cs.giraf.librest.requests.GetRequest;
+import dk.aau.cs.giraf.librest.requests.RequestQueueHandler;
 import dk.aau.cs.giraf.models.core.User;
 import dk.aau.cs.giraf.models.core.authentication.PermissionType;
 
@@ -254,8 +255,8 @@ public class GirafProfileSelectorDialog extends GirafDialog {
      */
     public static GirafProfileSelectorDialog newInstance(Context context, User guardianUser,
                                                          boolean includeGuardian, boolean selectMultipleProfiles,
-                                                         String description, int dialogIdentifier,RequestQueue queue) {
-        return newInstance(context, guardianUser, "", includeGuardian, selectMultipleProfiles, description, "", dialogIdentifier, queue);
+                                                         String description, int dialogIdentifier) {
+        return newInstance(context, guardianUser, "", includeGuardian, selectMultipleProfiles, description, "", dialogIdentifier);
     }
 
     /**
@@ -273,9 +274,9 @@ public class GirafProfileSelectorDialog extends GirafDialog {
      */
     public static GirafProfileSelectorDialog newInstance(Context context, final User guardianUser, String selectedCitizenUsername,
                                                          final boolean includeGuardian, boolean selectMultipleProfiles,
-                                                         String description, String warning, int dialogIdentifier, RequestQueue queue)
+                                                         String description, String warning, int dialogIdentifier)
     {
-
+        RequestQueue queue = RequestQueueHandler.getInstance(context.getApplicationContext()).getRequestQueue();
         // Find the guardian
         List<Pair<User, Boolean>> profileCheckList = new ArrayList<Pair<User, Boolean>>();
 
@@ -326,7 +327,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
             profileCheckList.add(new Pair<User, Boolean>(profile, false));
         }
 
-        return newInstance(profileCheckList, selectMultipleProfiles, description, warning, dialogIdentifier, selectedCitizenUsername, queue);
+        return newInstance(profileCheckList, selectMultipleProfiles, description, warning, dialogIdentifier, selectedCitizenUsername);
     }
 
     private void setQueue(RequestQueue requestQueue){
@@ -344,9 +345,11 @@ public class GirafProfileSelectorDialog extends GirafDialog {
      */
     public static GirafProfileSelectorDialog newInstance(List<Pair<User, Boolean>> profileCheckList,
                                                          boolean selectMultipleProfiles, String description, String warning,
-                                                         int dialogIdentifier, String selectedCitizenUsername, RequestQueue queue) {
+                                                         int dialogIdentifier, String selectedCitizenUsername) {
         GirafProfileSelectorDialog girafProfileSelectorDialog = new GirafProfileSelectorDialog();
-        girafProfileSelectorDialog.setQueue(queue);
+        girafProfileSelectorDialog.setQueue(
+            RequestQueueHandler.getInstance(
+                girafProfileSelectorDialog.getActivity().getApplication().getApplicationContext()).getRequestQueue());
 
         // Store the identifier of the profiles to make it parcelable
         String[] profileUsernames = new String[profileCheckList.size()];
