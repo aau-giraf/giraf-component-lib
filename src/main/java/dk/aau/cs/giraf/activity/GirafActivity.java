@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -158,7 +159,7 @@ public class GirafActivity extends FragmentActivity {
 
                 // Sends the exception to google analytics
                 sendExceptionToGoogleAnalytics(ex);
-
+                Log.e("Giraf-component","Exception, trying to start the launcher");
                 // Restarts the activity Todo find out if it restarts the launcher or at least work
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 //intent.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -168,6 +169,7 @@ public class GirafActivity extends FragmentActivity {
                 if (intent.resolveActivity(GirafActivity.this.getPackageManager()) != null) {
                         GirafActivity.this.startActivity(intent);
                 }
+                GirafActivity.this.finish();
             }
         });
 
