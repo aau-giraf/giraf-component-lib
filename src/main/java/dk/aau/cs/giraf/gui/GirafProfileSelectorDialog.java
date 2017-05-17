@@ -271,6 +271,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
      * @param dialogIdentifier a unique identifier of the dialog
      * @return a GirafProfileSelector
      */
+    //ToDO Fix non-used input
     public static GirafProfileSelectorDialog newInstance(Context context, final User guardianUser, String selectedCitizenUsername,
                                                          final boolean includeGuardian, boolean selectMultipleProfiles,
                                                          String description, String warning, int dialogIdentifier)
@@ -279,39 +280,12 @@ public class GirafProfileSelectorDialog extends GirafDialog {
         // Find the guardian
         List<Pair<User, Boolean>> profileCheckList = new ArrayList<Pair<User, Boolean>>();
 
-        //region asd
         if (guardianUser.isRole(Role.Guardian)){
-            GetArrayRequest<User> userListGetRequest = new GetArrayRequest<User>(User.class, new Response.Listener<ArrayList<User>>() {
-                @Override
-                public void onResponse(ArrayList<User> response) {
-                    // Get the row and column size for the grids in the AppViewPager
-                    ArrayList<User> tmpList = new ArrayList<>();
-                    tmpList.addAll(response);
+            userList.addAll(guardianUser.getGuardianOf());
 
-                    //ToDo Find out if addAll adds both the guardian and all the elements of the list
-                    if (includeGuardian) {
-                        tmpList.remove(0);
-                    }
-                    userList.addAll(tmpList);
-
-
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    if(error.networkResponse.statusCode == 404){
-                        Log.e("Giraf","User with id: " + guardianUser.getId() + " not found");
-                    }
-                    else if(error.networkResponse.statusCode == 401){
-                        Log.e("Giraf","Access denied while retrieving user ");
-
-                    }
-
-                }
-            });
-
-            queue.add(userListGetRequest);
+            for (User profile : userList) {
+                profileCheckList.add(new Pair<User, Boolean>(profile, false));
+            }
         }
 
         /*User guardian = helper.profilesHelper.getById(guardianID);
@@ -320,11 +294,6 @@ public class GirafProfileSelectorDialog extends GirafDialog {
 
         // Find the profiles of the citizens of a department and sub departments
         List<User> profiles = helper.profilesHelper.getChildrenByDepartmentAndSubDepartments(guardianDepartment);*/
-
-
-        for (User profile : userList) {
-            profileCheckList.add(new Pair<User, Boolean>(profile, false));
-        }
 
         return newInstance(profileCheckList, selectMultipleProfiles, description, warning, dialogIdentifier, selectedCitizenUsername);
     }
