@@ -163,10 +163,11 @@ public class GirafActivity extends FragmentActivity {
                 // Restarts the activity Todo find out if it restarts the launcher or at least work
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 //intent.addCategory(Intent.CATEGORY_LAUNCHER);
-                intent.setComponent(new ComponentName("dk.aau.cs.giraf.launcher", "HomeActivity"));
+                intent.setComponent(new ComponentName("dk.aau.cs.giraf.launcher", "LoginActivity"));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
                 intent.getExtras().putString(IntentConstants.STARTED_BY,IntentConstants.RESTART);
                 if (intent.resolveActivity(GirafActivity.this.getPackageManager()) != null) {
+                    Log.e("Giraf-component","Starting the launcher");
                         GirafActivity.this.startActivity(intent);
                 }
                 GirafActivity.this.finish();
