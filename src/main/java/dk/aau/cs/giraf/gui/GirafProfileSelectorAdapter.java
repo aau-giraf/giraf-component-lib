@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import dk.aau.cs.giraf.models.core.User;
-import dk.aau.cs.giraf.models.core.authentication.PermissionType;
+import dk.aau.cs.giraf.models.core.authentication.Role;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +79,7 @@ public class GirafProfileSelectorAdapter extends BaseAdapter {
         }
 
         //if (profile.getRole().ordinal() < Profile.Roles.CHILD.ordinal()) {
-        if (!profile.hasPermission(PermissionType.User)) {
+        if (!profile.isRole(Role.User)) {
 
             itemView.setIndicatorOverlayDrawable(
                     context.getResources().getDrawable(R.drawable.icon_guardian_shield)

@@ -23,7 +23,9 @@ import dk.aau.cs.giraf.librest.requests.GetArrayRequest;
 import dk.aau.cs.giraf.librest.requests.GetRequest;
 import dk.aau.cs.giraf.librest.requests.RequestQueueHandler;
 import dk.aau.cs.giraf.models.core.User;
-import dk.aau.cs.giraf.models.core.authentication.PermissionType;
+
+import dk.aau.cs.giraf.models.core.authentication.Role;
+//import dk.aau.cs.giraf.models.core.authentication.PermissionType;
 
 
 public class GirafProfileSelectorDialog extends GirafDialog {
@@ -281,7 +283,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
         List<Pair<User, Boolean>> profileCheckList = new ArrayList<Pair<User, Boolean>>();
 
         //region asd
-        if(guardianUser.hasPermission(PermissionType.Guardian)){
+        if (guardianUser.isRole(Role.Guardian)){
             GetArrayRequest<User> userListGetRequest = new GetArrayRequest<User>(User.class, new Response.Listener<ArrayList<User>>() {
                 @Override
                 public void onResponse(ArrayList<User> response) {
