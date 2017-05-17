@@ -1,12 +1,11 @@
 package dk.aau.cs.giraf.activity;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.analytics.tracking.android.*;
+import com.google.analytics.tracking.android.GoogleAnalytics;
+import com.google.analytics.tracking.android.MapBuilder;
+import com.google.analytics.tracking.android.StandardExceptionParser;
+import com.google.analytics.tracking.android.Tracker;
 import dk.aau.cs.giraf.gui.R;
 
 

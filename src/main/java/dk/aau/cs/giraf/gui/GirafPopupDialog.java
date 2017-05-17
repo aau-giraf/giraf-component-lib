@@ -1,18 +1,13 @@
 package dk.aau.cs.giraf.gui;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-import dk.aau.cs.giraf.utilities.GrayScaleHelper;
 
 /**
  * Created on 05-05-2017.

@@ -2,11 +2,8 @@ package dk.aau.cs.giraf.gui;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.ImageView;
 
 

@@ -11,20 +11,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
-
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import dk.aau.cs.giraf.librest.requests.GetArrayRequest;
 import dk.aau.cs.giraf.librest.requests.GetRequest;
 import dk.aau.cs.giraf.librest.requests.RequestQueueHandler;
 import dk.aau.cs.giraf.models.core.User;
-
 import dk.aau.cs.giraf.models.core.authentication.Role;
+
+import java.util.ArrayList;
+import java.util.List;
 //import dk.aau.cs.giraf.models.core.authentication.PermissionType;
 
 

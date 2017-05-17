@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import java.io.IOException;
 
 /**
  * This class contains relevant content for network related to giraf

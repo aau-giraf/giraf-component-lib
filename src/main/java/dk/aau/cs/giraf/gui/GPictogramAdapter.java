@@ -12,9 +12,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import java.util.List;
-
 import dk.aau.cs.giraf.models.core.Pictogram;
+
+import java.util.List;
 
 
 /**

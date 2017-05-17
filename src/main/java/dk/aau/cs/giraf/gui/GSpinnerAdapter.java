@@ -3,7 +3,6 @@ package dk.aau.cs.giraf.gui;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
-import java.lang.reflect.GenericArrayType;
 import java.util.List;
 
 /**

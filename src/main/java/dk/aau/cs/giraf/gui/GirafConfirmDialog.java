@@ -2,7 +2,6 @@ package dk.aau.cs.giraf.gui;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 
