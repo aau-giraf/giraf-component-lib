@@ -255,6 +255,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
     public static GirafProfileSelectorDialog newInstance(Context context, User guardianUser,
                                                          boolean includeGuardian, boolean selectMultipleProfiles,
                                                          String description, int dialogIdentifier) {
+        Log.e("TestComponent1", " we are inside line 258");
         return newInstance(context, guardianUser, "", includeGuardian, selectMultipleProfiles, description, "", dialogIdentifier);
     }
 
@@ -276,10 +277,11 @@ public class GirafProfileSelectorDialog extends GirafDialog {
                                                          final boolean includeGuardian, boolean selectMultipleProfiles,
                                                          String description, String warning, int dialogIdentifier)
     {
-        RequestQueue queue = RequestQueueHandler.getInstance(context.getApplicationContext()).getRequestQueue();
+        //RequestQueue queue = RequestQueueHandler.getInstance(context.getApplicationContext()).getRequestQueue();
         // Find the guardian
         List<Pair<User, Boolean>> profileCheckList = new ArrayList<Pair<User, Boolean>>();
 
+        Log.e("TestComponent2", "We are about to addAll on line 285");
         if (guardianUser.isRole(Role.Guardian)){
             userList.addAll(guardianUser.getGuardianOf());
 
