@@ -164,13 +164,14 @@ public class GirafActivity extends FragmentActivity {
                 Intent intent = getPackageManager().getLaunchIntentForPackage("dk.aau.cs.giraf.launcher");
                 if (intent != null) {
                     intent.putExtra(IntentConstants.STARTED_BY,IntentConstants.RESTART);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     Log.e("Giraf-component","Starting the launcher "+ intent.getComponent().getClassName());
-                        GirafActivity.this.finish();
                         GirafActivity.this.startActivity(intent);
                 }
                 else{
                     Log.e("Giraf-component","Could not resolve activity");
                 }
+                GirafActivity.this.finish();
 
             }
         });
