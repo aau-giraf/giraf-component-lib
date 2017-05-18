@@ -67,8 +67,8 @@ public class GirafUserItemView extends LinearLayout implements Checkable {
             initialize(null, null, null, attrs);
             return;
         }
-
-        User sample = new User(new Department("sample"), "sampleName", "samplePassword");
+        
+        User sample = new User(-1L, "sampleName", "samplePassword");
         Bitmap sampleIcon = drawableToBitmap(context.getResources().getDrawable(R.drawable.no_profile_pic));
         sample.setIcon(sampleIcon);
         initialize(sample, null, "Sample", attrs);
