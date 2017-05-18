@@ -76,7 +76,7 @@ public class GirafProfileSelectorAdapter extends BaseAdapter {
         }
 
         //if (profile.getRole().ordinal() < Profile.Roles.CHILD.ordinal()) {
-        if (!profile.isRole(Role.User)) {
+        if (!profile.isRole(Role.Citizen)) {
 
             itemView.setIndicatorOverlayDrawable(
                     context.getResources().getDrawable(R.drawable.icon_guardian_shield)
