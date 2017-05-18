@@ -255,7 +255,7 @@ public class GirafProfileSelectorDialog extends GirafDialog {
     public static GirafProfileSelectorDialog newInstance(Context context, User guardianUser,
                                                          boolean includeGuardian, boolean selectMultipleProfiles,
                                                          String description, int dialogIdentifier) {
-        
+
         return newInstance(context, guardianUser, "", includeGuardian, selectMultipleProfiles, description, "", dialogIdentifier);
     }
 
@@ -282,9 +282,8 @@ public class GirafProfileSelectorDialog extends GirafDialog {
         List<Pair<User, Boolean>> profileCheckList = new ArrayList<Pair<User, Boolean>>();
 
         if (guardianUser.isRole(Role.Guardian)){
-            userList.addAll(guardianUser.getGuardianOf());
-
-            for (User profile : userList) {
+            Log.e("GPSD","I am guardian of: " + guardianUser.getGuardianOf().size());
+            for (User profile : guardianUser.getGuardianOf()) {
                 profileCheckList.add(new Pair<User, Boolean>(profile, false));
             }
         }
@@ -359,8 +358,6 @@ public class GirafProfileSelectorDialog extends GirafDialog {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-
-
         Dialog dialog = super.onCreateDialog(savedInstanceState);
 
         // Fetch the arguments
@@ -372,7 +369,6 @@ public class GirafProfileSelectorDialog extends GirafDialog {
         final int dialogIdentifier = args.getInt(DIALOG_IDENTIFIER_TAG);
         String[] profileUsernames = args.getStringArray(PROFILE_IDS_TAG);
         boolean[] profilesCheckedStatus = args.getBooleanArray(PROFILE_CHECK_STATUS_TAG);
-
 
         // Inflate the grid container
         gridContainer = (RelativeLayout) getActivity().getLayoutInflater().inflate(R.layout.giraf_profile_selector_dialog_gridview, null);
