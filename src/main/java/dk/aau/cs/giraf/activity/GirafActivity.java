@@ -159,8 +159,8 @@ public class GirafActivity extends FragmentActivity {
 
                 // Sends the exception to google analytics
                 sendExceptionToGoogleAnalytics(ex);
-                Log.e("Giraf-component","Exception, trying to start the launcher");
-                // Restarts the activity Todo find out if it restarts the launcher or at least work
+                // Todo Next year students plz make the restarting of the launcher work
+                /*Log.e("Giraf-component","Exception, trying to start the launcher");
                 Intent intent = getPackageManager().getLaunchIntentForPackage("dk.aau.cs.giraf.launcher");
                 if (intent != null) {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -170,7 +170,7 @@ public class GirafActivity extends FragmentActivity {
                 }
                 else{
                     Log.e("Giraf-component","Could not resolve activity");
-                }
+                }*/
                 GirafActivity.this.finish();
 
             }
