@@ -79,12 +79,12 @@ public class GrayScaleHelper {
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.e("Giraf-component", "Network error");
+                            Log.e("Giraf-component", "Network error in Grayscale");
                         }
                     });
                     queue.add(loginRequest);
                 } else {
-                    Log.e("Giraf-component", "Network error");
+                    Log.e("Giraf-component", "Network error in Grayscale");
                 }
             }
         });
