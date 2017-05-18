@@ -5,6 +5,7 @@
         <item name="android:progressBarStyle">@style/GirafProgressBar</item>
         <item name="android:windowBackground">@color/giraf_window_background</item>
         <item name="android:spinnerStyle">@style/GirafSpinner</item>
+        <item name="android:windowDisablePreview">true</item>
     </style>
 
     <style name="GirafTheme.NoTitleBar" parent="GirafTheme">
